@@ -3,6 +3,8 @@
 
 target 'Bubble' do
 
+pod 'Parse'
+
 end
 
 target 'BubbleTests' do

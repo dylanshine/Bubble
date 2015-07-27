@@ -14,6 +14,7 @@
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE371B66D28C009258E5 /* BubbleTests.m */; };
+		EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D80382B0241D03474E1872 /* libPods-Bubble.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7122C18FA6D8C5E220F46E12 /* Pods-Bubble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.debug.xcconfig"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8087EE1C1B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE1D1B66D28C009258E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -40,6 +42,8 @@
 		8087EE311B66D28C009258E5 /* BubbleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubbleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8087EE361B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
+		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
+		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,12 +65,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05B6C015C312892B2B49C2CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C0D80382B0241D03474E1872 /* libPods-Bubble.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		8087EE0F1B66D28B009258E5 = {
 			isa = PBXGroup;
 			children = (
 				8087EE1A1B66D28B009258E5 /* Bubble */,
 				8087EE341B66D28C009258E5 /* BubbleTests */,
 				8087EE191B66D28B009258E5 /* Products */,
+				84159C70AF47F9272B8BCE1C /* Pods */,
+				05B6C015C312892B2B49C2CF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -119,6 +134,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		84159C70AF47F9272B8BCE1C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7122C18FA6D8C5E220F46E12 /* Pods-Bubble.debug.xcconfig */,
+				95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -126,9 +150,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8087EE3B1B66D28C009258E5 /* Build configuration list for PBXNativeTarget "Bubble" */;
 			buildPhases = (
+				2B03B6F4D6C32E9875E54708 /* Check Pods Manifest.lock */,
 				8087EE141B66D28B009258E5 /* Sources */,
 				8087EE151B66D28B009258E5 /* Frameworks */,
 				8087EE161B66D28B009258E5 /* Resources */,
+				359E000CC722E78C5C101B73 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -213,6 +239,39 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2B03B6F4D6C32E9875E54708 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		359E000CC722E78C5C101B73 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Bubble/Pods-Bubble-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8087EE141B66D28B009258E5 /* Sources */ = {
@@ -347,6 +406,7 @@
 		};
 		8087EE3C1B66D28C009258E5 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7122C18FA6D8C5E220F46E12 /* Pods-Bubble.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Bubble/Info.plist;
@@ -357,6 +417,7 @@
 		};
 		8087EE3D1B66D28C009258E5 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Bubble/Info.plist;
@@ -418,6 +479,7 @@
 				8087EE3D1B66D28C009258E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8087EE3E1B66D28C009258E5 /* Build configuration list for PBXNativeTarget "BubbleTests" */ = {
 			isa = XCConfigurationList;
@@ -426,6 +488,7 @@
 				8087EE401B66D28C009258E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
