@@ -4,6 +4,9 @@
 target 'Bubble' do
 
 pod 'Parse'
+pod 'FBSDKCoreKit'
+pod 'FBSDKLoginKit'
+pod 'FBSDKShareKit'
 
 end
 
