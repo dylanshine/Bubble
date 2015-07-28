@@ -10,6 +10,7 @@
 #import <Parse.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import "Constants.h"
 
 
 @interface AppDelegate ()
@@ -24,8 +25,8 @@
     [Parse enableLocalDatastore];
     
 
-    [Parse setApplicationId:@"SMRcPLPk8cnvW5W3AP4j6SBJVmKNxB6S2sk3Ow0z"
-                  clientKey:@"O5tkff3yvzsK6zpnWP2Fp2fX4osyZ3lECkWpdOZ7"];
+    [Parse setApplicationId:PARSE_APP_ID
+                  clientKey:PARSE_CLIENT_KEY];
     [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
     
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
