@@ -3,6 +3,7 @@
 
 target 'Bubble' do
 
+pod "AFNetworking", "~> 2.0"
 pod 'Parse'
 
 end

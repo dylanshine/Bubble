@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Parse.h>
+#import <AFNetworking.h>
 
 @interface AppDelegate ()
 
@@ -18,6 +19,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
+    [self getSeatgeekEvents];
+    
     [Parse enableLocalDatastore];
     
 
@@ -29,6 +32,18 @@
 
     
     return YES;
+}
+
+-(void)getSeatgeekEvents{
+    
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=40.772514&lon=-73.983732&range=10mi&datetime_local.gte=2015-07-28&datetime_local.lt=2015-07-29&per_page=100"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+    }];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
