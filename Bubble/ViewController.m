@@ -7,8 +7,13 @@
 //
 
 #import "ViewController.h"
+#import <MapKit/MapKit.h>
+#import "BBAnnotation.h"
 
-@interface ViewController ()
+
+@interface ViewController () <MKMapViewDelegate>
+
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 @end
 
@@ -16,7 +21,78 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    self.mapView.delegate = self;
+    [self plotEvents];
+}
+
+- (void) plotEvents {
+    
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude = 40.766238;
+    coordinate.longitude = -73.977520;
+    
+    self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(.08, .05));
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    annotation.coordinate = coordinate;
+    annotation.title = @"Central Park";
+    annotation.subtitle = @"430 bubblers";
+    [self.mapView addAnnotation:annotation];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
+    
+    static NSString *const eventAnnotationReuseID = @"eventAnnotation";
+    
+    MKAnnotationView *annotationView = (MKAnnotationView *)[self.mapView dequeueReusableAnnotationViewWithIdentifier:eventAnnotationReuseID];
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
+        return nil;
+    }
+    
+    if (!annotationView) {
+        annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:eventAnnotationReuseID];
+        
+        annotationView.canShowCallout = YES;
+        annotationView.highlighted = YES;
+        
+        //Replace this
+        annotationView.image = [UIImage imageNamed:@"Concert"];
+        
+        UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        detailButton.frame = CGRectMake(0,0,30,30);
+        [detailButton setImage:[UIImage imageNamed:@"Bubble-White"] forState:UIControlStateNormal];
+        detailButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+        detailButton.enabled = YES;
+        [detailButton setTitle:annotation.title forState:UIControlStateNormal];
+        
+        NSArray *imageArray = @[
+                                [UIImage imageNamed:@"Bubble-White"],
+                                [UIImage imageNamed:@"Bubble-Blue"],
+                                [UIImage imageNamed:@"Bubble-Orange"],
+                                [UIImage imageNamed:@"Bubble-Purple"],
+                                [UIImage imageNamed:@"Bubble-Yellow"],
+                                ];
+        
+        [detailButton.imageView setAnimationImages:imageArray];
+        [detailButton.imageView setAnimationDuration:3];
+        [detailButton.imageView startAnimating];
+        
+        annotationView.rightCalloutAccessoryView = detailButton;
+
+    } else {
+        annotationView.annotation = annotation;
+    }
+    
+    return annotationView;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+    
+    //Perform Bubble Segue Here
+    
 }
 
 - (void)didReceiveMemoryWarning {
