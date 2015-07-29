@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class AFDataStore;
 
@@ -23,6 +24,6 @@
 
 + (instancetype)sharedData;
 
-- (void)getSeatgeekEvents;
+- (void)getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
 
 @end

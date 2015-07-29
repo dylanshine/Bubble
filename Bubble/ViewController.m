@@ -15,12 +15,16 @@
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
+#import <INTULocationManager.h>
 
 @interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic, strong) NSArray *eventsArray;
+@property (assign, nonatomic) INTULocationRequestID locationRequestID;
+@property (nonatomic) CLLocation *currentLocation;
+@property (nonatomic) BOOL loaded;
 
 - (void) plotEvents;
 
@@ -37,7 +41,37 @@
 
     self.mapView.delegate = self;
     
-    [self.dataStore getSeatgeekEvents];
+    //[self.dataStore getSeatgeekEvents];
+    [self startLocationUpdateSubscription];
+}
+
+- (void)startLocationUpdateSubscription {
+    __weak __typeof(self) weakSelf = self;
+    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
+    self.locationRequestID = [locMgr subscribeToLocationUpdatesWithBlock:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        __typeof(weakSelf) strongSelf = weakSelf;
+        
+        if (status == INTULocationStatusSuccess) {
+            // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
+            strongSelf.currentLocation = currentLocation;
+            if (!strongSelf.loaded) {
+                //[self centerMapOnLocation:self.currentLocation];
+                //[self getCurrentCity];
+                //[strongSelf setupMap];
+                [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation];
+                strongSelf.loaded = YES;
+                
+                //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
+                
+            }
+            NSLog(@"%@",self.currentLocation);
+        }
+        else {
+            // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
+            strongSelf.locationRequestID = NSNotFound;
+            //NSLog(@"%@", [strongSelf getErrorDescription:status]);
+        }
+    }];
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
@@ -81,15 +115,16 @@
     }
     
     // Move this logic to search functionality
-    for (MKPointAnnotation *annotation in self.mapView.annotations) {
-        
-        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
-            
-            [self.mapView selectAnnotation:annotation animated:YES];
-            
-            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
-        }
-    }
+//    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+//        
+//        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
+//            
+//            [self.mapView selectAnnotation:annotation animated:YES];
+//            
+//            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
+//        }
+//    }
+    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {

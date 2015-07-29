@@ -40,6 +40,7 @@ PODS:
     - FBSDKCoreKit
   - FBSDKShareKit (4.4.0):
     - FBSDKCoreKit
+  - INTULocationManager (3.0.3)
   - Parse (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
   - ParseUI (1.1.4):
@@ -52,6 +53,7 @@ DEPENDENCIES:
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
+  - INTULocationManager
   - Parse
   - ParseUI
   - SCLAlertView-Objective-C
@@ -63,8 +65,9 @@ SPEC CHECKSUMS:
   FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
   FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
+  INTULocationManager: e79327803a163f5fec28eb042bb124ed0c6e4876
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
   SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
 
-COCOAPODS: 0.37.2
+COCOAPODS: 0.36.4

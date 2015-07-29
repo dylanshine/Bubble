@@ -102,6 +102,12 @@
 #define COCOAPODS_VERSION_MINOR_FBSDKShareKit 4
 #define COCOAPODS_VERSION_PATCH_FBSDKShareKit 0
 
+// INTULocationManager
+#define COCOAPODS_POD_AVAILABLE_INTULocationManager
+#define COCOAPODS_VERSION_MAJOR_INTULocationManager 3
+#define COCOAPODS_VERSION_MINOR_INTULocationManager 0
+#define COCOAPODS_VERSION_PATCH_INTULocationManager 3
+
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
 // This library does not follow semantic-versioning,

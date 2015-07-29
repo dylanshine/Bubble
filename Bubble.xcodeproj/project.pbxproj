@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
 		17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A915FB1B67E568000821E2 /* BBAnnotation.m */; };
-		80839AC41B682CA4008BBC7C /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839AC31B682CA4008BBC7C /* Constants.m */; };
 		80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */; };
 		80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */; };
 		80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */; };
@@ -22,6 +21,7 @@
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE371B66D28C009258E5 /* BubbleTests.m */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
+		CC68F4231B69533E00C263B4 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CC68F4221B69533E00C263B4 /* Constants.m */; };
 		CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */; };
 		CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860E1B69125400E6B6B0 /* EventObject.m */; };
 		EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D80382B0241D03474E1872 /* libPods-Bubble.a */; };
@@ -42,7 +42,6 @@
 		17A915FA1B67E568000821E2 /* BBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAnnotation.h; sourceTree = "<group>"; };
 		17A915FB1B67E568000821E2 /* BBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAnnotation.m; sourceTree = "<group>"; };
 		7122C18FA6D8C5E220F46E12 /* Pods-Bubble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.debug.xcconfig"; sourceTree = "<group>"; };
-		80839AC31B682CA4008BBC7C /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBLoginAlertView.h; sourceTree = "<group>"; };
 		80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoginAlertView.m; sourceTree = "<group>"; };
 		80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-white_512.png"; sourceTree = "<group>"; };
@@ -64,6 +63,7 @@
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC68F4221B69533E00C263B4 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDataStore.h; sourceTree = "<group>"; };
 		CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDataStore.m; sourceTree = "<group>"; };
 		CCDD860D1B69125400E6B6B0 /* EventObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventObject.h; sourceTree = "<group>"; };
@@ -154,7 +154,7 @@
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
 				8087EE1D1B66D28C009258E5 /* main.m */,
 				FC4259C11B66D63500011956 /* Constants.h */,
-				80839AC31B682CA4008BBC7C /* Constants.m */,
+				CC68F4221B69533E00C263B4 /* Constants.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -324,9 +324,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */,
-				80839AC41B682CA4008BBC7C /* Constants.m in Sources */,
 				8087EE241B66D28C009258E5 /* ViewController.m in Sources */,
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
+				CC68F4231B69533E00C263B4 /* Constants.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
 				80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
