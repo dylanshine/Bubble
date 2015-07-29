@@ -82,6 +82,16 @@
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
 
     self.eventsArray = eventsArray;
+    if ([self.eventsArray isEqual:@[]]) {
+        [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
+            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
+                self.searchBar.backgroundColor = [UIColor redColor];
+            }];
+            [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
+                self.searchBar.backgroundColor = [UIColor whiteColor];
+            }];
+        } completion:^(BOOL finished) { }];
+    }
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
@@ -195,10 +205,25 @@
         self.searchBar.alpha = 0.8;
     }];
     
+    
+    
+    MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
+    CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
+                                                             longitude:closestAnnotation.coordinate.longitude];
+    
+    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+        if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
+            closestAnnotation = annotation;
+        }
+    }
+    
+    [self.mapView selectAnnotation:closestAnnotation animated:YES];
+    [self.mapView setCenterCoordinate:closestAnnotation.coordinate animated:YES];
+    
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-    
     [self.dataStore searchEvents:searchBar.text];
 }
 
