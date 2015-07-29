@@ -109,3 +109,9 @@
 #define COCOAPODS_VERSION_MINOR_ParseUI 1
 #define COCOAPODS_VERSION_PATCH_ParseUI 4
 
+// SCLAlertView-Objective-C
+#define COCOAPODS_POD_AVAILABLE_SCLAlertView_Objective_C
+#define COCOAPODS_VERSION_MAJOR_SCLAlertView_Objective_C 0
+#define COCOAPODS_VERSION_MINOR_SCLAlertView_Objective_C 7
+#define COCOAPODS_VERSION_PATCH_SCLAlertView_Objective_C 4
+

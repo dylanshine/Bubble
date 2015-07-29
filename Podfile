@@ -9,6 +9,7 @@ pod 'FBSDKLoginKit'
 pod 'FBSDKShareKit'
 pod "AFNetworking", "~> 2.0"
 pod 'ParseUI'
+pod 'SCLAlertView-Objective-C'
 
 end
 

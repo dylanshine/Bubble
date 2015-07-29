@@ -43,6 +43,7 @@ PODS:
     - Bolts/Tasks (>= 1.2.0)
   - ParseUI (1.1.4):
     - Parse (~> 1.7)
+  - SCLAlertView-Objective-C (0.7.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -51,6 +52,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - Parse
   - ParseUI
+  - SCLAlertView-Objective-C
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -60,5 +62,6 @@ SPEC CHECKSUMS:
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
+  SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
 
 COCOAPODS: 0.37.1
