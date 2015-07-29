@@ -47,10 +47,6 @@
     self.searchBar.returnKeyType = UIReturnKeyDone;
     [self.searchBar alwaysEnableReturn];
 
-
-    
-    [self.dataStore getSeatgeekEvents];
-    //[self.dataStore getSeatgeekEvents];
     [self startLocationUpdateSubscription];
 }
 
@@ -214,6 +210,14 @@
         self.searchBar.alpha = 1;
 
     }];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    for (UIView * txt in self.view.subviews){
+        if ([txt isKindOfClass:[UISearchBar class]] && [txt isFirstResponder]) {
+            [self searchBarSearchButtonClicked:(UISearchBar*)txt];
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {

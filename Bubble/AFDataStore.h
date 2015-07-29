@@ -27,7 +27,7 @@
 
 
 - (NSArray *) searchEvents: (NSString *)searchTerm;
-- (void)getSeatgeekEvents;
+
 - (void)getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
 
 @end
