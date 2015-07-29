@@ -13,12 +13,15 @@
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
+#import "BBLoginAlertView.h"
 
 
 @interface ViewController () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
+
+- (void) plotEvents;
 
 @end
 
@@ -31,30 +34,22 @@
     [self.dataStore getSeatgeekEvents];
     
     
-//    NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
-//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
-//        if (!user) {
-//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-//        } else if (user.isNew) {
-//            NSLog(@"User signed up and logged in through Facebook!");
-//        } else {
-//            FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
-//            [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//                if (!error) {
-//                    NSDictionary *userData = (NSDictionary *)result;
-//                    
-//                    PFUser *currentUser = [PFUser currentUser];
-//                    currentUser[@"name"] = userData[@"name"];
-//                    currentUser[@"]
-//                }
-//            }]
-//            NSLog(@"User logged in through Facebook!");
-//        }
-//    }];
-
     
     self.mapView.delegate = self;
     [self plotEvents];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+
+//    uncomment the logOut to test login flow
+    [PFUser logOut];
+    
+    if (![PFUser currentUser]) {
+        BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
+        [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
+            [currentUser saveInBackground];
+        }];
+    }
 }
 
 - (void) plotEvents {

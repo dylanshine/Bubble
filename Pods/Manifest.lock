@@ -26,6 +26,7 @@ PODS:
   - Bolts/AppLinks (1.2.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
+  - CWStatusBarNotification (2.3.1)
   - FBSDKCoreKit (4.4.0):
     - Bolts (~> 1.1)
     - FBSDKCoreKit/arc (= 4.4.0)
@@ -41,20 +42,29 @@ PODS:
     - FBSDKCoreKit
   - Parse (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
+  - ParseUI (1.1.4):
+    - Parse (~> 1.7)
+  - SCLAlertView-Objective-C (0.7.4)
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
+  - CWStatusBarNotification (~> 2.3.1)
   - FBSDKCoreKit
   - FBSDKLoginKit
   - FBSDKShareKit
   - Parse
+  - ParseUI
+  - SCLAlertView-Objective-C
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
+  CWStatusBarNotification: 73d86949d11a2246f1a50532b157c1d313000ccd
   FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
   FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
   FBSDKShareKit: a42865f20ba2d1cc548c4d0f73ad22cff6377ddb
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
+  ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
+  SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.37.1
