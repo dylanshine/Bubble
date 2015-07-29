@@ -16,7 +16,7 @@
 #import "EventObject.h"
 
 
-@interface ViewController () <MKMapViewDelegate>
+@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
@@ -30,40 +30,17 @@
     [super viewDidLoad];
     
     self.dataStore = [AFDataStore sharedData];
-
-//    NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
-//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
-//        if (!user) {
-//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-//        } else if (user.isNew) {
-//            NSLog(@"User signed up and logged in through Facebook!");
-//        } else {
-//            FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
-//            [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//                if (!error) {
-//                    NSDictionary *userData = (NSDictionary *)result;
-//                    
-//                    PFUser *currentUser = [PFUser currentUser];
-//                    currentUser[@"name"] = userData[@"name"];
-//                    currentUser[@"]
-//                }
-//            }]
-//            NSLog(@"User logged in through Facebook!");
-//        }
-//    }];
+    
+    self.dataStore.delegate = self;
 
     self.mapView.delegate = self;
     
-    [self populateEventArray];
+    [self.dataStore getSeatgeekEvents];
 }
 
-
-- (void) populateEventArray {
-
-    [self.dataStore getSeatgeekEvents:^(NSArray *returnArray) {
-        
-        self.eventsArray = returnArray;
-    }];
+- (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
+    
+    self.eventsArray = eventsArray;
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
@@ -88,7 +65,7 @@
             [self.mapView addAnnotation:annotation];
     }
     
-    //Move this logic to search functionality
+    // Move this logic to search functionality
     for (MKPointAnnotation *annotation in self.mapView.annotations) {
         
         if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
@@ -117,7 +94,7 @@
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
-        //Replace this
+        // Replace this
         annotationView.image = [UIImage imageNamed:@"Bubble-Red"];
 
         
@@ -151,8 +128,7 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     
-    //Perform Bubble Segue Here
-    
+    // Perform Bubble Segue Here
 }
 
 - (void)didReceiveMemoryWarning {

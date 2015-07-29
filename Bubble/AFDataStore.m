@@ -18,7 +18,7 @@
 
 @implementation AFDataStore
 
--(instancetype)init{
+- (instancetype)init{
     self = [super init];
     if(self){
         _eventsArray = [[NSMutableArray alloc]init];
@@ -37,7 +37,7 @@
     return _sharedData;
 }
 
--(void)getSeatgeekEvents:(void (^)(NSArray*))completionBlock{
+- (void)getSeatgeekEvents{
     NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=40.772514&lon=-73.983732&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -45,16 +45,17 @@
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
              [self createEventObjects:responseObject];
-             
-             completionBlock(self.eventsArray);
-             
+            
+             // Implemented delegate to account for pagination if needed
+             [self.delegate dataStore:self didLoadEvents:self.eventsArray];
+            
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error: %@", error);
          }];
 }
 
 
--(void)createEventObjects:(NSDictionary *)incomingJSON{
+- (void)createEventObjects:(NSDictionary *)incomingJSON{
     
     for (NSDictionary *event in incomingJSON[@"events"]){
         
