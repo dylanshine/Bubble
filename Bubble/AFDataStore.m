@@ -37,9 +37,10 @@
     return _sharedData;
 }
 
-- (void)getSeatgeekEvents{
-    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=40.772514&lon=-73.983732&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000"];
-    
+- (void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation{
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
+    NSLog(@"%@",currentLocation);
+    NSLog(@"FULL URL: %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:url parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
