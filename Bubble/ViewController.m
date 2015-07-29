@@ -14,13 +14,15 @@
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
-
+#import "BBLoginAlertView.h"
 
 @interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic, strong) NSArray *eventsArray;
+
+- (void) plotEvents;
 
 @end
 
@@ -39,7 +41,7 @@
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
-    
+
     self.eventsArray = eventsArray;
 }
 
@@ -50,6 +52,19 @@
     [self plotEvents];
 }
 
+
+- (void)viewDidAppear:(BOOL)animated {
+
+//    uncomment the logOut to test login flow
+    [PFUser logOut];
+    
+    if (![PFUser currentUser]) {
+        BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
+        [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
+            [currentUser saveInBackground];
+        }];
+    }
+}
 
 - (void) plotEvents {
     

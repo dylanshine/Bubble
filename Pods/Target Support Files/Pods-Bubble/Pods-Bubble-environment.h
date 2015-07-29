@@ -66,6 +66,12 @@
 #define COCOAPODS_VERSION_MINOR_Bolts_Tasks 2
 #define COCOAPODS_VERSION_PATCH_Bolts_Tasks 0
 
+// CWStatusBarNotification
+#define COCOAPODS_POD_AVAILABLE_CWStatusBarNotification
+#define COCOAPODS_VERSION_MAJOR_CWStatusBarNotification 2
+#define COCOAPODS_VERSION_MINOR_CWStatusBarNotification 3
+#define COCOAPODS_VERSION_PATCH_CWStatusBarNotification 1
+
 // FBSDKCoreKit
 #define COCOAPODS_POD_AVAILABLE_FBSDKCoreKit
 #define COCOAPODS_VERSION_MAJOR_FBSDKCoreKit 4
@@ -102,4 +108,16 @@
 // so we were not able to define version macros.
 // Please contact the author.
 // Version: 1.7.5.3.
+
+// ParseUI
+#define COCOAPODS_POD_AVAILABLE_ParseUI
+#define COCOAPODS_VERSION_MAJOR_ParseUI 1
+#define COCOAPODS_VERSION_MINOR_ParseUI 1
+#define COCOAPODS_VERSION_PATCH_ParseUI 4
+
+// SCLAlertView-Objective-C
+#define COCOAPODS_POD_AVAILABLE_SCLAlertView_Objective_C
+#define COCOAPODS_VERSION_MAJOR_SCLAlertView_Objective_C 0
+#define COCOAPODS_VERSION_MINOR_SCLAlertView_Objective_C 7
+#define COCOAPODS_VERSION_PATCH_SCLAlertView_Objective_C 4
 
