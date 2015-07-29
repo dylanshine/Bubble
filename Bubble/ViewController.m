@@ -12,11 +12,13 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
+#import "AFDataStore.h"
 
 
 @interface ViewController () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) AFDataStore *dataStore;
 
 @end
 
@@ -24,6 +26,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataStore = [AFDataStore sharedData];
+    [self.dataStore getSeatgeekEvents];
+    
+    
 //    NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
 //    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
 //        if (!user) {
