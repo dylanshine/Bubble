@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
 
+- (void) plotEvents;
+
 @end
 
 @implementation ViewController
@@ -31,30 +33,64 @@
     [self.dataStore getSeatgeekEvents];
     
     
-//    NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
-//    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
-//        if (!user) {
-//            NSLog(@"Uh oh. The user cancelled the Facebook login.");
-//        } else if (user.isNew) {
-//            NSLog(@"User signed up and logged in through Facebook!");
-//        } else {
-//            FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
-//            [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//                if (!error) {
-//                    NSDictionary *userData = (NSDictionary *)result;
-//                    
-//                    PFUser *currentUser = [PFUser currentUser];
-//                    currentUser[@"name"] = userData[@"name"];
-//                    currentUser[@"]
-//                }
-//            }]
-//            NSLog(@"User logged in through Facebook!");
-//        }
-//    }];
-
     
     self.mapView.delegate = self;
     [self plotEvents];
+}
+
+-(void)viewDidAppear:(BOOL)animated {
+    [PFUser logOut];
+    if (![PFUser currentUser]) {
+        
+        UIAlertController *loginAlert = [UIAlertController alertControllerWithTitle:@"Login with Facebook" message:@"We use Facebook to personalize your Bubble account." preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *login = [UIAlertAction actionWithTitle:@"Login" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+            NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
+            [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+                if (!user) {
+                    NSLog(@"Uh oh. The user cancelled the Facebook login.");
+                } else if (user.isNew) {
+                    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
+                    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                        if (!error) {
+                            NSDictionary *userData = (NSDictionary *)result;
+                            
+                            PFUser *currentUser = [PFUser currentUser];
+                            currentUser[@"name"] = userData[@"name"];
+                            currentUser[@"friends"] = userData[@"user_friends"];
+                            currentUser[@"likes"] = userData[@"user_likes"];
+                            [currentUser saveInBackground];
+                            NSLog(@"User logged in through Facebook!");
+                        }
+                    }];
+                    
+                    NSLog(@"User signed up and logged in through Facebook!");
+                } else {
+                    PFUser *currentUser = [PFUser currentUser];
+                    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
+                    FBSDKGraphRequest *requestFriends = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil];
+                    FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
+                    [connection addRequest:request completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                        NSDictionary *userData = (NSDictionary *)result;
+                        currentUser[@"name"] = userData[@"name"];
+                        [currentUser saveInBackground];
+                    }];
+                    [connection addRequest:requestFriends completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+                        NSDictionary *userData = (NSDictionary *)result;
+                        NSLog(@"Friends: %@", userData);
+                        currentUser[@"friends"] = userData[@"data"];
+                        [currentUser saveInBackground];
+                    }];
+                    
+                    [connection start];
+                }
+            }];
+            
+        }];
+
+               [loginAlert addAction:login];
+        [self presentViewController:loginAlert animated:YES completion:nil];
+    }
 }
 
 - (void) plotEvents {
