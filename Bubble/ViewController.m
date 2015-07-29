@@ -39,6 +39,21 @@
     self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
     self.searchBar.backgroundColor = [UIColor whiteColor];
     self.searchBar.showsScopeBar = NO;
+    
+    for (UIView *searchBarSubview in [self.searchBar subviews]) {
+        if ([searchBarSubview conformsToProtocol:@protocol(UITextInputTraits)]) {
+            @try {
+                // set style of keyboard
+                [(UITextField *)searchBarSubview setKeyboardAppearance:UIKeyboardAppearanceAlert];
+                
+                // always force return key to be enabled
+                [(UITextField *)searchBarSubview setEnablesReturnKeyAutomatically:NO];
+            }
+            @catch (NSException * e) {
+                // ignore exception
+            }
+        }
+    }
 
     
     [self.dataStore getSeatgeekEvents];
@@ -151,8 +166,11 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
     [searchBar resignFirstResponder];
+    
     self.searchBar.showsScopeBar = NO;
+    
     [UIView animateWithDuration:.25 animations:^{
         self.searchBar.alpha = 0.8;
     }];
@@ -160,11 +178,14 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    
     [self.dataStore searchEvents:searchBar.text];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    
     self.searchBar.showsScopeBar = YES;
+
     [UIView animateWithDuration:.25 animations:^{
         self.searchBar.alpha = 1;
     }];
