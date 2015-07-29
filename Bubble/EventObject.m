@@ -11,22 +11,31 @@
 @implementation EventObject
 
 
--(instancetype)initWithEventID:(NSString *)eventID eventTitle:(NSString *)eventTitle eventType:(NSString *)eventType eventTime:(NSDate *)eventTime venueLat:(NSString *)venueLat venueLon:(NSString *)venueLon{
+- (instancetype)initWithDictionary:(NSDictionary *)jsonDict{
     
     self = [super init];
+    
+    NSNumber *eventID = jsonDict[@"id"];
+    NSString *eventTitle = jsonDict[@"title"];
+    NSString *eventType = jsonDict[@"type"];
+    NSDate *eventTime = jsonDict[@"datetime_local"];
+    NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
+    NSNumber *venueLon = jsonDict[@"venue"][@"location"][@"lon"];
+    
+    CLLocationCoordinate2D coordinate;
+    
+    coordinate.latitude = venueLat.floatValue;
+    coordinate.longitude = venueLon.floatValue;
+    
     if (self){
         _eventID = eventID;
         _eventTitle = eventTitle;
         _eventType = eventType;
         _eventTime = eventTime;
-        _venueLat = venueLat;
-        _venueLon = venueLon;
+        _coordinate = coordinate;
     }
     
     return self;
 }
-
-
-
 
 @end

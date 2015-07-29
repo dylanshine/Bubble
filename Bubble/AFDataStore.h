@@ -8,11 +8,21 @@
 
 #import <Foundation/Foundation.h>
 
+@class AFDataStore;
+
+@protocol AFDataStoreDelegate <NSObject>
+
+@required
+- (void) dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray;
+
+@end
+
 @interface AFDataStore : NSObject
 
-@property (nonatomic, strong) NSMutableArray *eventsArray;
+@property (nonatomic, strong) id<AFDataStoreDelegate> delegate;
 
 + (instancetype)sharedData;
 
--(void)getSeatgeekEvents;
+- (void)getSeatgeekEvents;
+
 @end
