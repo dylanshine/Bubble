@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreLocation/CoreLocation.h>
 
 @class AFDataStore;
 
@@ -24,7 +25,9 @@
 
 + (instancetype)sharedData;
 
+
 - (NSArray *) searchEvents: (NSString *)searchTerm;
 - (void)getSeatgeekEvents;
+- (void)getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
 
 @end
