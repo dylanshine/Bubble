@@ -42,7 +42,7 @@
 -(void)viewDidAppear:(BOOL)animated {
 
 //    uncomment the logOut to test login flow
-//    [PFUser logOut];
+    [PFUser logOut];
     
     if (![PFUser currentUser]) {
         BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
