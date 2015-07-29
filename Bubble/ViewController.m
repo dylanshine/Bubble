@@ -115,15 +115,16 @@
     }
     
     // Move this logic to search functionality
-    for (MKPointAnnotation *annotation in self.mapView.annotations) {
-        
-        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
-            
-            [self.mapView selectAnnotation:annotation animated:YES];
-            
-            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
-        }
-    }
+//    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+//        
+//        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
+//            
+//            [self.mapView selectAnnotation:annotation animated:YES];
+//            
+//            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
+//        }
+//    }
+    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
