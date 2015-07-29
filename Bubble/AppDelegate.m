@@ -22,18 +22,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-    [Parse enableLocalDatastore];
-    
-
-    [Parse setApplicationId:PARSE_APP_ID
-                  clientKey:PARSE_CLIENT_KEY];
-    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
-    
-    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
-
-    
-    return [[FBSDKApplicationDelegate sharedInstance] application:application
-                                    didFinishLaunchingWithOptions:launchOptions];
+//    [Parse enableLocalDatastore];
+//    
+//
+//    [Parse setApplicationId:PARSE_APP_ID
+//                  clientKey:PARSE_CLIENT_KEY];
+//    [PFFacebookUtils initializeFacebookWithApplicationLaunchOptions:launchOptions];
+//    
+//    [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+//
+//    
+//    return [[FBSDKApplicationDelegate sharedInstance] application:application
+//                                    didFinishLaunchingWithOptions:launchOptions];
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

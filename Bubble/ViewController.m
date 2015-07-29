@@ -13,12 +13,14 @@
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
+#import "EventObject.h"
 
 
 @interface ViewController () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
+@property (nonatomic, strong) NSArray *eventsArray;
 
 @end
 
@@ -28,9 +30,7 @@
     [super viewDidLoad];
     
     self.dataStore = [AFDataStore sharedData];
-    [self.dataStore getSeatgeekEvents];
-    
-    
+
 //    NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
 //    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
 //        if (!user) {
@@ -52,25 +52,52 @@
 //        }
 //    }];
 
-    
     self.mapView.delegate = self;
+    
+    [self populateEventArray];
+}
+
+
+- (void) populateEventArray {
+
+    [self.dataStore getSeatgeekEvents:^(NSArray *returnArray) {
+        
+        self.eventsArray = returnArray;
+    }];
+}
+
+- (void)setEventsArray:(NSArray *)eventsArray{
+    
+    _eventsArray = eventsArray;
+    
     [self plotEvents];
 }
+
 
 - (void) plotEvents {
     
     [self.mapView removeAnnotations:self.mapView.annotations];
     
-    CLLocationCoordinate2D coordinate;
-    coordinate.latitude = 40.766238;
-    coordinate.longitude = -73.977520;
+    for (EventObject *event in self.eventsArray) {
+
+            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+            
+            annotation.coordinate = event.coordinate;
+            annotation.title = event.eventTitle;
+            
+            [self.mapView addAnnotation:annotation];
+    }
     
-    self.mapView.region = MKCoordinateRegionMake(coordinate, MKCoordinateSpanMake(.08, .05));
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    annotation.coordinate = coordinate;
-    annotation.title = @"Central Park";
-    annotation.subtitle = @"430 bubblers";
-    [self.mapView addAnnotation:annotation];
+    //Move this logic to search functionality
+    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+        
+        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
+            
+            [self.mapView selectAnnotation:annotation animated:YES];
+            
+            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
+        }
+    }
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -84,13 +111,15 @@
     }
     
     if (!annotationView) {
+        
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:eventAnnotationReuseID];
         
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
         //Replace this
-        annotationView.image = [UIImage imageNamed:@"Concert"];
+        annotationView.image = [UIImage imageNamed:@"Bubble-Red"];
+
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
@@ -127,8 +156,8 @@
 }
 
 - (void)didReceiveMemoryWarning {
+    
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 @end

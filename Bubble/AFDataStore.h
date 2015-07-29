@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol AFDataStoreDelegate <NSObject>
+- (void) batchEventArrays;
+@end
+
 @interface AFDataStore : NSObject
 
-@property (nonatomic, strong) NSMutableArray *eventsArray;
+@property (nonatomic, strong) id<AFDataStoreDelegate> delegate;
 
 + (instancetype)sharedData;
 
--(void)getSeatgeekEvents;
+-(void)getSeatgeekEvents:(void (^)(NSArray*))completionBlock;
+
 @end

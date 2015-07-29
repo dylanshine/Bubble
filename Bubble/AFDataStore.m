@@ -11,12 +11,10 @@
 #import "EventObject.h"
 
 @interface AFDataStore()
-@property (nonatomic, strong) NSDictionary *responseData;
+
+@property (nonatomic, strong) NSMutableArray *eventsArray;
 
 @end
-
-
-
 
 @implementation AFDataStore
 
@@ -39,18 +37,16 @@
     return _sharedData;
 }
 
-
--(void)getSeatgeekEvents{
+-(void)getSeatgeekEvents:(void (^)(NSArray*))completionBlock{
     NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=40.772514&lon=-73.983732&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000"];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:url parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
-             self.responseData = responseObject;
+             [self createEventObjects:responseObject];
              
-             [self createEventObjectsTwo];
-             
+             completionBlock(self.eventsArray);
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error: %@", error);
@@ -58,32 +54,14 @@
 }
 
 
--(void)createEventObjectsTwo{
+-(void)createEventObjects:(NSDictionary *)incomingJSON{
     
-    
-    for (NSDictionary *event in self.responseData[@"events"]){
-        NSString *eventID = event[@"id"];
-        NSString *eventTitle = event[@"title"];
-        NSString *eventType = event[@"type"];
-        NSDate *eventTime = event[@"datetime_local"];
-        NSString *venueLat = event[@"venue"][@"location"][@"lat"];
-        NSString *venueLon = event[@"venue"][@"location"][@"lon"];
+    for (NSDictionary *event in incomingJSON[@"events"]){
         
-        EventObject * eventItem = [[EventObject alloc]initWithEventID:eventID eventTitle:eventTitle eventType:eventType eventTime:eventTime venueLat:venueLat venueLon:venueLon];
+        EventObject * eventItem = [[EventObject alloc]initWithDictionary:event];
+        
         [self.eventsArray addObject:eventItem];
-        
     }
-    
-    NSLog(@"Event Count: %lu",(unsigned long)self.eventsArray.count);
-    
-    for(EventObject*event in self.eventsArray){
-        NSLog(@"Event ID:%@",event.eventID);
-    }
-
-    
 }
-
-
-
 
 @end
