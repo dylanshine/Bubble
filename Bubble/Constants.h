@@ -10,4 +10,7 @@
 
 @interface Constants : NSObject
 
+extern NSString *const PARSE_APP_ID;
+extern NSString *const PARSE_CLIENT_KEY;
+
 @end
