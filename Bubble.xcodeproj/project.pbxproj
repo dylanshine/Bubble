@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		17A915F41B67BC34000821E2 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A915F31B67BC34000821E2 /* Constants.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
 		17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A915FB1B67E568000821E2 /* BBAnnotation.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
@@ -17,7 +16,9 @@
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE371B66D28C009258E5 /* BubbleTests.m */; };
-		CCDD85BD1B67D0D700E6B6B0 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD85BC1B67D0D700E6B6B0 /* Constants.m */; };
+		CCDD86041B68F04D00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD86031B68F04D00E6B6B0 /* AFDataStore.m */; };
+		CCDD86071B68F0D300E6B6B0 /* eventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD86061B68F0D300E6B6B0 /* eventObject.m */; };
+		CCDD86091B69073F00E6B6B0 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD86081B69073F00E6B6B0 /* Constants.m */; };
 		EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D80382B0241D03474E1872 /* libPods-Bubble.a */; };
 /* End PBXBuildFile section */
 
@@ -32,7 +33,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		17A915F31B67BC34000821E2 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		17A915F51B67BDD4000821E2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		17A915FA1B67E568000821E2 /* BBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAnnotation.h; sourceTree = "<group>"; };
 		17A915FB1B67E568000821E2 /* BBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAnnotation.m; sourceTree = "<group>"; };
@@ -52,7 +52,11 @@
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CCDD85BC1B67D0D700E6B6B0 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		CCDD86021B68F04D00E6B6B0 /* AFDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDataStore.h; sourceTree = "<group>"; };
+		CCDD86031B68F04D00E6B6B0 /* AFDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDataStore.m; sourceTree = "<group>"; };
+		CCDD86051B68F0D300E6B6B0 /* eventObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eventObject.h; sourceTree = "<group>"; };
+		CCDD86061B68F0D300E6B6B0 /* eventObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eventObject.m; sourceTree = "<group>"; };
+		CCDD86081B69073F00E6B6B0 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		FC4259C11B66D63500011956 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -110,6 +114,10 @@
 			children = (
 				8087EE1F1B66D28C009258E5 /* AppDelegate.h */,
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
+				CCDD86021B68F04D00E6B6B0 /* AFDataStore.h */,
+				CCDD86031B68F04D00E6B6B0 /* AFDataStore.m */,
+				CCDD86051B68F0D300E6B6B0 /* eventObject.h */,
+				CCDD86061B68F0D300E6B6B0 /* eventObject.m */,
 				8087EE221B66D28C009258E5 /* ViewController.h */,
 				8087EE231B66D28C009258E5 /* ViewController.m */,
 				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
@@ -128,7 +136,7 @@
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
 				8087EE1D1B66D28C009258E5 /* main.m */,
 				FC4259C11B66D63500011956 /* Constants.h */,
-				CCDD85BC1B67D0D700E6B6B0 /* Constants.m */,
+				CCDD86081B69073F00E6B6B0 /* Constants.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -297,8 +305,10 @@
 				8087EE241B66D28C009258E5 /* ViewController.m in Sources */,
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
+				CCDD86091B69073F00E6B6B0 /* Constants.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
-				17A915F41B67BC34000821E2 /* Constants.m in Sources */,
+				CCDD86041B68F04D00E6B6B0 /* AFDataStore.m in Sources */,
+				CCDD86071B68F0D300E6B6B0 /* eventObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,7 +438,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Bubble/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -441,7 +451,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Bubble/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;

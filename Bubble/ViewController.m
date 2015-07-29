@@ -9,11 +9,12 @@
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
-
+#import "AFDataStore.h"
 
 @interface ViewController () <MKMapViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (nonatomic) AFDataStore *dataStore;
 
 @end
 
@@ -21,6 +22,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.dataStore = [AFDataStore sharedData];
+    [self.dataStore getSeatgeekEvents];
     
     self.mapView.delegate = self;
     [self plotEvents];
