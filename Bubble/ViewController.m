@@ -110,7 +110,6 @@
             
             annotation.coordinate = event.coordinate;
             annotation.title = event.eventTitle;
-            
             [self.mapView addAnnotation:annotation];
     }
     

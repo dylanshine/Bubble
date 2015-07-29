@@ -15,6 +15,12 @@
 @property (nonatomic, strong) NSString *eventTitle;
 @property (nonatomic, strong) NSString *eventType;
 @property (nonatomic, strong) NSDate *eventTime;
+@property (nonatomic, strong) NSString *venueName;
+@property (nonatomic, strong) NSMutableArray *eventPerformers;
+@property (nonatomic, strong) NSString *addressStreet;
+@property (nonatomic, strong) NSString *addressCity;
+@property (nonatomic, strong) NSString *addressState;
+@property (nonatomic, strong) NSNumber *addressZip;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 

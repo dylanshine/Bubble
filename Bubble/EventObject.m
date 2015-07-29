@@ -21,7 +21,16 @@
     NSDate *eventTime = jsonDict[@"datetime_local"];
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"location"][@"lon"];
+    NSString *venueName = jsonDict[@"venue"][@"name"];
+    NSString *addressStreet = jsonDict[@"venue"][@"address"];
+    NSString *addressCity = jsonDict[@"venue"][@"city"];
+    NSString *addressState = jsonDict[@"venue"][@"state"];
+    NSNumber *addressZip = jsonDict[@"venue"][@"postal_code"];
     
+    NSMutableArray *eventPerformers = [[NSMutableArray alloc]init];;
+    for(NSDictionary* performer in jsonDict[@"performers"]){
+        [eventPerformers addObject:performer[@"name"]];
+    }
     CLLocationCoordinate2D coordinate;
     
     coordinate.latitude = venueLat.floatValue;
@@ -33,6 +42,12 @@
         _eventType = eventType;
         _eventTime = eventTime;
         _coordinate = coordinate;
+        _venueName = venueName;
+        _eventPerformers = eventPerformers;
+        _addressStreet = addressStreet;
+        _addressCity = addressCity;
+        _addressState = addressState;
+        _addressZip = addressZip;
     }
     
     return self;
