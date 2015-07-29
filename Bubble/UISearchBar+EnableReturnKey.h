@@ -10,4 +10,6 @@
 
 @interface UISearchBar (EnableReturnKey)
 
+- (void) alwaysEnableReturn;
+
 @end

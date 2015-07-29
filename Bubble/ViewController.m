@@ -12,6 +12,7 @@
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
+#import "UISearchBar+EnableReturnKey.h"
 
 @interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
 
@@ -39,21 +40,9 @@
     self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
     self.searchBar.backgroundColor = [UIColor whiteColor];
     self.searchBar.showsScopeBar = NO;
-    
-    for (UIView *searchBarSubview in [self.searchBar subviews]) {
-        if ([searchBarSubview conformsToProtocol:@protocol(UITextInputTraits)]) {
-            @try {
-                // set style of keyboard
-                [(UITextField *)searchBarSubview setKeyboardAppearance:UIKeyboardAppearanceAlert];
-                
-                // always force return key to be enabled
-                [(UITextField *)searchBarSubview setEnablesReturnKeyAutomatically:NO];
-            }
-            @catch (NSException * e) {
-                // ignore exception
-            }
-        }
-    }
+    self.searchBar.returnKeyType = UIReturnKeyDone;
+    [self.searchBar alwaysEnableReturn];
+
 
     
     [self.dataStore getSeatgeekEvents];
@@ -188,6 +177,7 @@
 
     [UIView animateWithDuration:.25 animations:^{
         self.searchBar.alpha = 1;
+
     }];
 }
 

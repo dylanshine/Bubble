@@ -14,6 +14,7 @@
 		80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */; };
 		80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */; };
 		80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */; };
+		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
 		8087EE241B66D28C009258E5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE231B66D28C009258E5 /* ViewController.m */; };
@@ -48,6 +49,8 @@
 		80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-white_512.png"; sourceTree = "<group>"; };
 		80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512.png"; sourceTree = "<group>"; };
 		80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512_cropped.png"; sourceTree = "<group>"; };
+		80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+EnableReturnKey.h"; sourceTree = "<group>"; };
+		80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+EnableReturnKey.m"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8087EE1C1B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE1D1B66D28C009258E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -129,6 +132,8 @@
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
 				8087EE221B66D28C009258E5 /* ViewController.h */,
 				8087EE231B66D28C009258E5 /* ViewController.m */,
+				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
+				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
 				80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */,
 				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
 				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
@@ -328,6 +333,7 @@
 				8087EE241B66D28C009258E5 /* ViewController.m in Sources */,
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
+				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
