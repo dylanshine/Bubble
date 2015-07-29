@@ -7,20 +7,18 @@
 //
 
 #import "ViewController.h"
-#import <FBSDKLoginKit.h>
-#import <FBSDKCoreKit.h>
-#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
+@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic, strong) NSArray *eventsArray;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 - (void) plotEvents;
 
@@ -37,6 +35,12 @@
 
     self.mapView.delegate = self;
     
+    self.searchBar.delegate = self;
+    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
+    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.showsScopeBar = NO;
+
+    
     [self.dataStore getSeatgeekEvents];
 }
 
@@ -50,13 +54,13 @@
     _eventsArray = eventsArray;
     
     [self plotEvents];
-}
+} 
 
 
 - (void)viewDidAppear:(BOOL)animated {
 
 //    uncomment the logOut to test login flow
-    [PFUser logOut];
+//    [PFUser logOut];
     
     if (![PFUser currentUser]) {
         BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
@@ -144,6 +148,26 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     
     // Perform Bubble Segue Here
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [searchBar resignFirstResponder];
+    self.searchBar.showsScopeBar = NO;
+    [UIView animateWithDuration:.25 animations:^{
+        self.searchBar.alpha = 0.8;
+    }];
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    [self.dataStore searchEvents:searchBar.text];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    self.searchBar.showsScopeBar = YES;
+    [UIView animateWithDuration:.25 animations:^{
+        self.searchBar.alpha = 1;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

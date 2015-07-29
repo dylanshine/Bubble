@@ -12,7 +12,8 @@
 
 @interface AFDataStore()
 
-@property (nonatomic, strong) NSMutableArray *eventsArray;
+
+@property (nonatomic, strong) NSArray *filteredEventsArray;
 
 @end
 
@@ -64,5 +65,32 @@
         [self.eventsArray addObject:eventItem];
     }
 }
+
+- (NSArray *) searchEvents: (NSString *)searchTerm {
+    
+    if (![searchTerm isEqualToString:@""]) {
+        NSPredicate *titlePredicate = [NSPredicate predicateWithFormat:@"SELF.eventTitle contains[c] %@", searchTerm];
+        self.filteredEventsArray = [self.eventsArray filteredArrayUsingPredicate:titlePredicate];
+        
+        [self.delegate dataStore:self didLoadEvents:self.filteredEventsArray];
+    } else {
+        [self.delegate dataStore:self didLoadEvents:self.eventsArray];
+    }
+    
+    return nil;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end

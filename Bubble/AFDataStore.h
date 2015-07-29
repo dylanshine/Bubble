@@ -20,9 +20,11 @@
 @interface AFDataStore : NSObject
 
 @property (nonatomic, strong) id<AFDataStoreDelegate> delegate;
+@property (nonatomic, strong) NSMutableArray *eventsArray;
 
 + (instancetype)sharedData;
 
+- (NSArray *) searchEvents: (NSString *)searchTerm;
 - (void)getSeatgeekEvents;
 
 @end
