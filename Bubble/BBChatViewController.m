@@ -25,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.messages = [@[]mutableCopy];
+    self.messages = [[NSMutableArray alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
     self.senderId = [PFUser currentUser].objectId;
     self.xmppManager = [XMPPManager sharedManager];
