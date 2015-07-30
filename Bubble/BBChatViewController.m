@@ -49,7 +49,7 @@
     UIButton *backButton = [[UIButton alloc] init];
     backButton.titleLabel.text = @"Back";
     backButton.backgroundColor = [UIColor redColor];
-    [backButton addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton addTarget:self action:@selector(backButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [navBar addSubview:backButton];
     [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(navBar.mas_centerY);
@@ -70,7 +70,7 @@
     self.xmppManager.xmppRoom = nil;
 }
 
-- (IBAction)backButtonTapped:(id)sender {
+- (void)backButtonTapped {
     [self dismissViewControllerAnimated:YES completion:^{ }];
 }
 
