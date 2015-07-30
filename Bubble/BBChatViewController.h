@@ -10,5 +10,6 @@
 
 @interface BBChatViewController : JSQMessagesViewController
 
+@property (nonatomic) NSString *roomID;
 
 @end
