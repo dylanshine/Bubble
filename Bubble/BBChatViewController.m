@@ -12,11 +12,13 @@
 #import <JSQMessagesBubbleImageFactory.h>
 #import <Parse.h>
 #import "XMPPManager.h"
+#import <Masonry.h>
 
 @interface BBChatViewController () <MessageDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) XMPPManager *xmppManager;
+
 
 @end
 
@@ -29,8 +31,39 @@
     self.senderId = [PFUser currentUser].objectId;
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
+    
+    UIView *navBar = [[UINavigationBar alloc] init];
+    [self.view addSubview:navBar];
+    [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.width.equalTo(self.view.mas_width);
+        make.height.equalTo(self.view.mas_height).dividedBy(10);
+    }];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = self.title;
+    [navBar addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(navBar.mas_centerX);
+        make.centerY.equalTo(navBar.mas_centerY).with.offset(10);
+    }];
+    UIButton *backButton = [[UIButton alloc] init];
+    backButton.titleLabel.text = @"Back";
+    backButton.backgroundColor = [UIColor redColor];
+    [backButton addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [navBar addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(navBar.mas_centerY);
+        make.left.equalTo(self.view.mas_leftMargin);
+        make.height.equalTo(titleLabel.mas_height);
+    }];
+    
+    
 
     // Do any additional setup after loading the view.
+}
+
+- (IBAction)backButtonTapped:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:^{ }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -50,6 +50,7 @@ PODS:
   - JSQMessagesViewController (7.1.0):
     - JSQSystemSoundPlayer (~> 2.0.1)
   - JSQSystemSoundPlayer (2.0.1)
+  - Masonry (0.6.2)
   - Parse (1.7.5.3):
     - Bolts/Tasks (>= 1.2.0)
   - ParseUI (1.1.4):
@@ -206,6 +207,7 @@ DEPENDENCIES:
   - FBSDKShareKit
   - INTULocationManager
   - JSQMessagesViewController
+  - Masonry
   - Parse
   - ParseUI
   - SCLAlertView-Objective-C
@@ -223,6 +225,7 @@ SPEC CHECKSUMS:
   INTULocationManager: e79327803a163f5fec28eb042bb124ed0c6e4876
   JSQMessagesViewController: ca11f86fa68ca70835f05e169df9244147c1dc40
   JSQSystemSoundPlayer: c5850e77a4363ffd374cd851154b9af93264ed8d
+  Masonry: 362e8a1cc0beada4a4c4832d5e863da2a51533be
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
   SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37

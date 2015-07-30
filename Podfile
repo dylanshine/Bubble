@@ -14,6 +14,7 @@ pod 'CWStatusBarNotification', '~> 2.3.1'
 pod 'INTULocationManager'
 pod 'XMPPFramework'
 pod 'JSQMessagesViewController'
+pod 'Masonry'
 
 end
 

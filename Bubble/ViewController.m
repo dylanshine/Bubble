@@ -15,6 +15,7 @@
 #import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
 #import "XMPPManager.h"
+#import "BBChatViewController.h"
 
 @interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
 
@@ -196,6 +197,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
         [self.xmppManager joinOrCreateRoom:[self.selectedAnnotation.event.eventID stringValue]];
+        BBChatViewController *destination = [segue destinationViewController];
+        destination.title = self.selectedAnnotation.event.eventTitle;
     }
 }
 
