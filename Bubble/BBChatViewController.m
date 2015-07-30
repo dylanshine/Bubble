@@ -40,7 +40,7 @@
         make.height.equalTo(self.view.mas_height).dividedBy(10);
     }];
     UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = self.title;
+    titleLabel.text = self.eventTitle;
     [navBar addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(navBar.mas_centerX);
@@ -57,9 +57,17 @@
         make.height.equalTo(titleLabel.mas_height);
     }];
     
-    
-
     // Do any additional setup after loading the view.
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.xmppManager joinOrCreateRoom:self.roomID];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    self.xmppManager.xmppRoom = nil;
 }
 
 - (IBAction)backButtonTapped:(id)sender {

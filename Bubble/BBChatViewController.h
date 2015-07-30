@@ -11,5 +11,6 @@
 @interface BBChatViewController : JSQMessagesViewController
 
 @property (nonatomic) NSString *roomID;
+@property (nonatomic) NSString *eventTitle;
 
 @end

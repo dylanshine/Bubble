@@ -217,9 +217,9 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
-        [self.xmppManager joinOrCreateRoom:[self.selectedAnnotation.event.eventID stringValue]];
         BBChatViewController *destination = [segue destinationViewController];
-        destination.title = self.selectedAnnotation.event.eventTitle;
+        destination.eventTitle = self.selectedAnnotation.event.eventTitle;
+        destination.roomID = [self.selectedAnnotation.event.eventID stringValue];
     }
 }
 
