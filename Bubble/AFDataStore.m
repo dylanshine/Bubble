@@ -88,10 +88,10 @@
         self.filteredEventsArray = [self.eventsArray filteredArrayUsingPredicate:venuePredicate];
 
     } else if (index == 2) {
-        NSPredicate *titlePredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchTerm];
+        NSPredicate *performerPredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchTerm];
         NSMutableArray *results = [@[]mutableCopy];
         for (EventObject *event in self.eventsArray) {
-            if ([[event.eventPerformers filteredArrayUsingPredicate:titlePredicate] isEqual:@[]]) {
+            if (![[event.eventPerformers filteredArrayUsingPredicate:performerPredicate] isEqual:@[]] && ![results containsObject:event]) {
                 [results addObject:event];
             }
         }
