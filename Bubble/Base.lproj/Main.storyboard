@@ -20,11 +20,11 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axx-4m-T16">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859">
-                                <rect key="frame" x="0.0" y="270" width="375" height="667"/>
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
+                                <rect key="frame" x="0.0" y="20" width="375" height="667"/>
                                 <subviews>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4C-VX-sVI">
-                                        <rect key="frame" x="0.0" y="300" width="375" height="667"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <connections>
                                             <segue destination="1Bi-iS-RdZ" kind="embed" identifier="DetailEmbedSegue" id="ROe-Sb-ehz"/>
                                         </connections>
@@ -34,7 +34,7 @@
                                     <constraint firstAttribute="trailing" secondItem="Y4C-VX-sVI" secondAttribute="trailing" id="3Go-mA-S1c"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" id="84b-mO-xpM"/>
                                     <constraint firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="bottom" id="8Bt-Pj-MMr"/>
-                                    <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" constant="300" id="cIS-UJ-a9f"/>
+                                    <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="leading" secondItem="TCK-NK-859" secondAttribute="leading" id="cW5-ld-lKL"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
                                 </constraints>
@@ -48,7 +48,7 @@
                             <constraint firstItem="TCK-NK-859" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MFs-hJ-CfO"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="OWG-bJ-3f4"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PbR-RJ-fXp"/>
-                            <constraint firstItem="TCK-NK-859" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="250" id="hxH-yQ-zOr"/>
+                            <constraint firstItem="TCK-NK-859" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="hxH-yQ-zOr"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="sZY-If-kAE"/>
                             <constraint firstAttribute="centerX" secondItem="Axx-4m-T16" secondAttribute="centerX" id="yCz-go-oen"/>
                         </constraints>

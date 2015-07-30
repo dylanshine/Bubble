@@ -35,6 +35,8 @@
 
 @property (nonatomic) BOOL loaded;
 
+@property (nonatomic, assign) CGFloat scrollViewStartingPosition;
+
 @end
 
 @implementation ViewController
@@ -43,19 +45,18 @@
     [super viewDidLoad];
     
     self.dataStore = [AFDataStore sharedData];
-    
     self.dataStore.delegate = self;
-
     self.mapView.delegate = self;
-    
     self.scrollView.delegate = self;
     
-    self.scrollView.clipsToBounds = YES;
+    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
+    
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.alwaysBounceVertical = YES;
     self.scrollView.alwaysBounceHorizontal = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     
     self.eventDetailsVC = self.childViewControllers[0];
     
