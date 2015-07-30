@@ -11,6 +11,7 @@
 #import "Constants.h"
 #import <Parse.h>
 
+
 @implementation XMPPManager
 
 + (instancetype)sharedManager {
@@ -139,14 +140,15 @@
 -(void)xmppRoom:(XMPPRoom *)sender didReceiveMessage:(XMPPMessage *)message fromOccupant:(XMPPJID *)occupantJID {
     NSLog(@"sender: %@ message: %@ occupant: %@",sender,message,occupantJID);
     NSString *msg = [[message elementForName:@"body"] stringValue];
-    NSString *from = [[message attributeForName:@"from"] stringValue];
     
-    NSMutableDictionary *messageDict = [[NSMutableDictionary alloc] init];
+    BBMessage *bbMessage = [[BBMessage alloc] initIncomingWithText:[[message elementForName:@"body"] stringValue]
+                                                          senderId:[[message attributeForName:@"senderId"] stringValue]
+                                                       displayName:[[message attributeForName:@"displayName"] stringValue]
+                                                              date:[NSDate dateWithTimeIntervalSince1970:[[message attributeForName:@"date"] stringValue].floatValue]];
+    
     
     if ([msg length]) {
-        [messageDict setObject:msg forKey:@"msg"];
-        [messageDict setObject:from forKey:@"sender"];
-        [self.messageDelegate newMessageReceived:messageDict];
+        [self.messageDelegate newMessageReceived:bbMessage];
     }
 }
 
@@ -160,6 +162,19 @@
 
 - (void)dealloc {
     [self.xmppStream removeDelegate:self];
+}
+
+- (void) sendMessage: (BBMessage *)message {
+    if([message.text length] > 0) {
+        
+        XMPPMessage *xMessage = [[XMPPMessage alloc] init];
+        [xMessage addAttributeWithName:@"senderId" stringValue:[PFUser currentUser].objectId];
+        [xMessage addAttributeWithName:@"displayName" stringValue:[PFUser currentUser][@"name"]];
+        NSString *dateTimeInterval = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]];
+        [xMessage addAttributeWithName:@"date" stringValue:dateTimeInterval];
+        [xMessage addBody:message.text];
+        [self.xmppRoom sendMessage:xMessage];
+    }
 }
 
 @end

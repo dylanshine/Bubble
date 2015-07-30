@@ -9,6 +9,7 @@
 #import "BBMessage.h"
 #import <Parse.h>
 
+
 @implementation BBMessage
 
 -(instancetype) initWithText: (NSString*)text {
@@ -19,6 +20,7 @@
         _text = text;
         _senderDisplayName = [PFUser currentUser][@"name"];
         _senderId = [PFUser currentUser].objectId;
+        
         NSMutableString *hashString = [text mutableCopy];
         [hashString appendString:[NSDate date].description];
         _messageHash = [hashString hash];
@@ -27,29 +29,21 @@
     return self;
 }
 
-//
-//- (NSString *)senderId {
-//    return [PFUser currentUser].objectId;
-//}
-//
-//- (NSString *)senderDisplayName {
-//    return [PFUser currentUser][@"name"];
-//}
-//
-//- (NSDate *)date {
-//    return [NSDate date];
-//}
-//
-//- (BOOL)isMediaMessage {
-//    return NO;
-//}
-//
-//- (NSUInteger)messageHash {
-//    return [[PFUser currentUser] hash];
-//}
-//
-//- (NSString *)text {
-//    return self.content;
-//}
+-(instancetype) initIncomingWithText: (NSString *)text senderId:(NSString*)Id displayName:(NSString*)displayName date:(NSDate *)date {
+    
+    self = [super init];
+    if (self) {
+        _date = date;
+        _isMediaMessage = NO;
+        _text = text;
+        _senderDisplayName = displayName;
+        _senderId = Id;
+        NSMutableString *hashString = [text mutableCopy];
+        [hashString appendString:date.description];
+        _messageHash = [hashString hash];
+    }
+    return self;
+}
+
 
 @end

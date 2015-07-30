@@ -19,6 +19,7 @@
 @property (strong, nonatomic) NSString *senderDisplayName;
 
 -(instancetype) initWithText: (NSString*)text;
+-(instancetype) initIncomingWithText: (NSString *)text senderId:(NSString*)Id displayName:(NSString*)displayName date:(NSDate *)date;
 
 
 @end

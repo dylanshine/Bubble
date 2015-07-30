@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="n0Y-rO-7M6">
-
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -41,7 +39,7 @@
                     <connections>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
-                        <segue destination="1mS-ve-xFp" kind="presentation" identifier="chatSegue" id="jAX-3h-eN9"/>
+                        <segue destination="n0Y-rO-7M6" kind="presentation" identifier="chatSegue" id="jx9-Ic-65m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

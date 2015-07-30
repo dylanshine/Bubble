@@ -10,10 +10,13 @@
 #import "BBMessage.h"
 #import <JSQMessages.h>
 #import <JSQMessagesBubbleImageFactory.h>
+#import <Parse.h>
+#import "XMPPManager.h"
 
-@interface BBChatViewController ()
+@interface BBChatViewController () <MessageDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) XMPPManager *xmppManager;
 
 @end
 
@@ -22,8 +25,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.messages = [@[]mutableCopy];
-    self.senderDisplayName = @"Lukas";
-    self.senderId = @"lukasthoms";
+    self.senderDisplayName = [PFUser currentUser][@"name"];
+    self.senderId = [PFUser currentUser].objectId;
+    self.xmppManager = [XMPPManager sharedManager];
+    self.xmppManager.messageDelegate = self;
+
     // Do any additional setup after loading the view.
 }
 
@@ -35,7 +41,8 @@
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     
     BBMessage *message =[[BBMessage alloc] initWithText:text];
-    [self.messages addObject:message];
+//    [self.messages addObject:message];
+    [self.xmppManager sendMessage:message];
     [self finishSendingMessageAnimated:YES];
     
 }
@@ -192,6 +199,11 @@
     }
     
     return cell;
+}
+
+- (void)newMessageReceived:(BBMessage *)messageContent {
+    [self.messages addObject:messageContent];
+    [self finishReceivingMessageAnimated:YES];
 }
 
 

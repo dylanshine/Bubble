@@ -8,6 +8,7 @@
 
 #import "BasicChatViewController.h"
 #import "XMPPManager.h"
+#import <Parse.h>
 
 @interface BasicChatViewController () <UITableViewDelegate,UITableViewDataSource,MessageDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *messageField;
@@ -22,7 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.xmppManager = [XMPPManager sharedManager];
-    self.xmppManager.messageDelegate = self;
+//    self.xmppManager.messageDelegate = self;
+    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.messages = [[NSMutableArray alloc] init];
@@ -38,7 +40,12 @@
     NSString *messageString = self.messageField.text;
     
     if([messageString length] > 0) {
-        [self.xmppManager.xmppRoom sendMessageWithBody:messageString];
+        
+        XMPPMessage *message = [[XMPPMessage alloc] init];
+        [message addAttributeWithName:@"senderId" stringValue:[PFUser currentUser].objectId];
+        [message addAttributeWithName:@"displayName" stringValue:[PFUser currentUser][@"name"]];
+        [message addBody:messageString];
+        [self.xmppManager.xmppRoom sendMessage:message];
         self.messageField.text = @"";
     }
     
@@ -79,6 +86,8 @@
 - (IBAction)back:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
 
 
 @end
