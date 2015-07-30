@@ -48,8 +48,6 @@
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // create API URL and make the call
     NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:today], [formatter stringFromDate:tomorrow]];
-    NSLog(@"%@",currentLocation);
-    NSLog(@"FULL URL: %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     [manager GET:url parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
