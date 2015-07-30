@@ -38,10 +38,29 @@
                     <connections>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
+                        <segue destination="1mS-ve-xFp" kind="presentation" identifier="chatSegue" id="jAX-3h-eN9"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+        </scene>
+        <!--Basic Chat View Controller-->
+        <scene sceneID="whv-VA-H67">
+            <objects>
+                <viewController id="1mS-ve-xFp" customClass="BasicChatViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ifN-3y-FUP"/>
+                        <viewControllerLayoutGuide type="bottom" id="ZAo-fx-hcx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Hlp-za-U3X">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gfN-uh-Zy4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1177" y="390"/>
         </scene>
     </scenes>
 </document>
