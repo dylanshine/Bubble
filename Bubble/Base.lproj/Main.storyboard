@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
-
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -15,13 +14,23 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axx-4m-T16">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859">
+                                <rect key="frame" x="0.0" y="169" width="375" height="499"/>
+                                <subviews>
+                                    <containerView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Y4C-VX-sVI">
+                                        <rect key="frame" x="0.0" y="405" width="375" height="94"/>
+                                        <connections>
+                                            <segue destination="1Bi-iS-RdZ" kind="embed" id="ROe-Sb-ehz"/>
+                                        </connections>
+                                    </containerView>
+                                </subviews>
+                            </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -31,12 +40,59 @@
                             <constraint firstAttribute="centerX" secondItem="Axx-4m-T16" secondAttribute="centerX" id="yCz-go-oen"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="containerView" destination="Y4C-VX-sVI" id="7Uo-Xn-2zZ"/>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
+                        <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="564.5" y="388.5"/>
+        </scene>
+        <!--Event Details View Controller-->
+        <scene sceneID="099-PD-xaw">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="1Bi-iS-RdZ" customClass="EventDetailsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X6j-qO-wKY"/>
+                        <viewControllerLayoutGuide type="bottom" id="LYP-2D-z7r"/>
+                    </layoutGuides>
+                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bDp-pf-5OZ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx">
+                                <rect key="frame" x="140" y="8" width="97" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="8" id="1OF-Et-UlT"/>
+                            <constraint firstAttribute="trailing" secondItem="ThR-hw-vhn" secondAttribute="trailing" id="Brr-lh-xyn"/>
+                            <constraint firstAttribute="centerX" secondItem="52e-vu-Pwx" secondAttribute="centerX" id="e7P-ch-0Z7"/>
+                            <constraint firstItem="ThR-hw-vhn" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="f78-ya-RYI"/>
+                            <constraint firstItem="ThR-hw-vhn" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="mLS-tu-LQa"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="ThR-hw-vhn" secondAttribute="bottom" id="vZc-bn-bKS"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6hd-w8-2QO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="564.5" y="1194.5"/>
         </scene>
     </scenes>
 </document>

@@ -11,22 +11,29 @@
 #import <FBSDKCoreKit.h>
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <MapKit/MapKit.h>
+#import <Masonry/Masonry.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
 #import <INTULocationManager.h>
+#import "EventDetailsViewController.h"
+#import "BBAnnotation.h"
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
+@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (nonatomic) AFDataStore *dataStore;
-@property (nonatomic, strong) NSArray *eventsArray;
-@property (assign, nonatomic) INTULocationRequestID locationRequestID;
-@property (nonatomic) CLLocation *currentLocation;
-@property (nonatomic) BOOL loaded;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 
-- (void) plotEvents;
+@property (nonatomic, strong) NSArray *eventsArray;
+@property (nonatomic) AFDataStore *dataStore;
+
+@property (nonatomic) CLLocation *currentLocation;
+@property (assign, nonatomic) INTULocationRequestID locationRequestID;
+
+@property (nonatomic) BOOL loaded;
 
 @end
 
@@ -41,7 +48,28 @@
 
     self.mapView.delegate = self;
     
-    //[self.dataStore getSeatgeekEvents];
+    self.scrollView.delegate = self;
+    self.scrollView.clipsToBounds = YES;
+    self.scrollView.pagingEnabled = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    CGSize scrollableSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
+    [self.scrollView setContentSize:scrollableSize];
+    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.and.bottom.and.right.equalTo(@0);
+        make.top.equalTo(self.view.mas_centerY);
+    }];
+    
+    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.bottom.right.equalTo(@0);
+        make.height.width.equalTo(self.view);
+    }];
+    
+    self.eventDetailsVC = self.childViewControllers[0];
+    
+        //[self.dataStore getSeatgeekEvents];
     [self startLocationUpdateSubscription];
 }
 
@@ -64,7 +92,6 @@
                 //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
                 
             }
-            NSLog(@"%@",self.currentLocation);
         }
         else {
             // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
@@ -90,7 +117,7 @@
 - (void)viewDidAppear:(BOOL)animated {
 
 //    uncomment the logOut to test login flow
-    [PFUser logOut];
+//    [PFUser logOut];
     
     if (![PFUser currentUser]) {
         BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
@@ -106,23 +133,16 @@
     
     for (EventObject *event in self.eventsArray) {
 
-            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-            
-            annotation.coordinate = event.coordinate;
-            annotation.title = event.eventTitle;
+        BBAnnotation *annotation = [[BBAnnotation alloc] init];
+
+        annotation.coordinate = event.coordinate;
+        annotation.event = event;
+        annotation.title = event.eventTitle;
+        
+        
             [self.mapView addAnnotation:annotation];
     }
     
-    // Move this logic to search functionality
-//    for (MKPointAnnotation *annotation in self.mapView.annotations) {
-//        
-//        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
-//            
-//            [self.mapView selectAnnotation:annotation animated:YES];
-//            
-//            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
-//        }
-//    }
     self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
@@ -175,11 +195,23 @@
     return annotationView;
 }
 
-- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+
+    BBAnnotation *annotation = view.annotation;
     
-    // Perform Bubble Segue Here
+//    self.eventDetailsVC.eventTitle.text = annotation.event.eventTitle;
+    
+    NSLog(@"%@",annotation.event.eventType);
 }
 
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    
+    if ([segue.identifier isEqualToString:@"detailSegue"]) {
+//        self.eventDetailsVC = segue.destinationViewController;
+    }
+}
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];

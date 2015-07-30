@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650691B697CAD00A68FF9 /* EventDetailsViewController.m */; };
+		1786506D1B6A5A4F00A68FF9 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1786506C1B6A5A4F00A68FF9 /* ILTranslucentView.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
 		17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A915FB1B67E568000821E2 /* BBAnnotation.m */; };
 		80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		178650681B697CAD00A68FF9 /* EventDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
+		178650691B697CAD00A68FF9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
+		1786506B1B6A5A4F00A68FF9 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTranslucentView.h; path = Pods/ILTranslucentView/Source/ILTranslucentView.h; sourceTree = SOURCE_ROOT; };
+		1786506C1B6A5A4F00A68FF9 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILTranslucentView.m; path = Pods/ILTranslucentView/Source/ILTranslucentView.m; sourceTree = SOURCE_ROOT; };
 		17A915F51B67BDD4000821E2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		17A915FA1B67E568000821E2 /* BBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAnnotation.h; sourceTree = "<group>"; };
 		17A915FB1B67E568000821E2 /* BBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAnnotation.m; sourceTree = "<group>"; };
@@ -102,6 +108,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		1786506E1B6A5A5600A68FF9 /* ILTranslucentView */ = {
+			isa = PBXGroup;
+			children = (
+				1786506B1B6A5A4F00A68FF9 /* ILTranslucentView.h */,
+				1786506C1B6A5A4F00A68FF9 /* ILTranslucentView.m */,
+			);
+			name = ILTranslucentView;
+			sourceTree = "<group>";
+		};
 		8087EE0F1B66D28B009258E5 = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +144,8 @@
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
 				8087EE221B66D28C009258E5 /* ViewController.h */,
 				8087EE231B66D28C009258E5 /* ViewController.m */,
+				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
+				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
 				80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */,
 				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
 				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
@@ -140,6 +157,7 @@
 				8087EE251B66D28C009258E5 /* Main.storyboard */,
 				8087EE281B66D28C009258E5 /* Images.xcassets */,
 				8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */,
+				1786506E1B6A5A5600A68FF9 /* ILTranslucentView */,
 				8087EE1B1B66D28C009258E5 /* Supporting Files */,
 			);
 			path = Bubble;
@@ -329,6 +347,8 @@
 				CC68F4231B69533E00C263B4 /* Constants.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
 				80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */,
+				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
+				1786506D1B6A5A4F00A68FF9 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
 			);

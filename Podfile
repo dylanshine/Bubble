@@ -12,6 +12,7 @@ pod 'ParseUI'
 pod 'SCLAlertView-Objective-C'
 pod 'CWStatusBarNotification', '~> 2.3.1'
 pod 'INTULocationManager'
+pod 'Masonry'
 end
 
 target 'BubbleTests' do

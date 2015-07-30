@@ -8,12 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import "EventObject.h"
 
-@interface BBAnnotation : NSObject <MKAnnotation>
+@interface BBAnnotation : MKPointAnnotation
 
-@property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
-
-//- (instancetype) initWithEventObject:(BBEventModel *) model;
-
+@property (nonatomic, strong) EventObject *event;
 
 @end

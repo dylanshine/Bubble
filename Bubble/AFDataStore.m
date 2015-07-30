@@ -38,7 +38,7 @@
 }
 
 - (void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation{
-    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=2015-07-30&datetime_local.lt=2015-07-31&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
     NSLog(@"%@",currentLocation);
     NSLog(@"FULL URL: %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
