@@ -10,8 +10,13 @@
 #import "XMPP.h"
 #import "XMPPRoomMemoryStorage.h"
 
+@protocol MessageDelegate <NSObject>
+- (void)newMessageReceived:(NSMutableDictionary *)messageContent;
+@end
+
 @interface XMPPManager : NSObject
 
+@property (nonatomic, weak) id<MessageDelegate>messageDelegate;
 @property (nonatomic) XMPPStream *xmppStream;
 @property (nonatomic) XMPPRoom *xmppRoom;
 @property (nonatomic) NSString *password;
