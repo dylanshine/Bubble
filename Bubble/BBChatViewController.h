@@ -10,7 +10,5 @@
 
 @interface BBChatViewController : JSQMessagesViewController
 
-@property (weak, nonatomic) IBOutlet UINavigationBar *navigationBar;
-@property (weak, nonatomic) IBOutlet UINavigationItem *navigationBarTitle;
 
 @end
