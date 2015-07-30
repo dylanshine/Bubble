@@ -56,14 +56,17 @@
     CGSize scrollableSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
     [self.scrollView setContentSize:scrollableSize];
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+    self.view.translatesAutoresizingMaskIntoConstraints = NO;
     [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.and.bottom.and.right.equalTo(@0);
+        make.bottom.right.left.equalTo(self.view);
         make.top.equalTo(self.view.mas_centerY);
+        make.width.equalTo(self.view);
     }];
     
+    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
+    [self.containerView removeConstraints:self.containerView.constraints];
     [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(@0);
+        make.edges.equalTo(@0);
         make.height.width.equalTo(self.view);
     }];
     
@@ -196,7 +199,11 @@
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-
+    
+    if ([view.annotation isKindOfClass:[MKUserLocation class]]) {
+        return;
+    }
+    
     BBAnnotation *annotation = view.annotation;
     
 //    self.eventDetailsVC.eventTitle.text = annotation.event.eventTitle;

@@ -69,7 +69,7 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
+                            <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
@@ -83,6 +83,14 @@
                             <constraint firstItem="ThR-hw-vhn" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="mLS-tu-LQa"/>
                             <constraint firstAttribute="bottomMargin" secondItem="ThR-hw-vhn" secondAttribute="bottom" id="vZc-bn-bKS"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="Brr-lh-xyn"/>
+                                <exclude reference="f78-ya-RYI"/>
+                                <exclude reference="mLS-tu-LQa"/>
+                                <exclude reference="vZc-bn-bKS"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
