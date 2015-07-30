@@ -36,6 +36,7 @@
 @property (nonatomic) BOOL loaded;
 
 @property (nonatomic, assign) CGFloat scrollViewStartingPosition;
+@property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
 
 @end
 
@@ -50,7 +51,7 @@
     self.scrollView.delegate = self;
     
     self.scrollViewStartingPosition = self.view.frame.size.height * .9;
-    
+    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -62,6 +63,29 @@
     
     [self startLocationUpdateSubscription];
 }
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+//    CGFloat targetY = targetContentOffset->y;
+    
+    if (velocity.y >= 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+            }];
+        });
+        
+    } else if (velocity.y < 0) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+            }];
+        });
+    }
+//    NSLog(@"targetY: %.3f   /   yv: %.3f", targetY, velocity.y);
+}
+
 
 - (void)startLocationUpdateSubscription {
     __weak __typeof(self) weakSelf = self;
