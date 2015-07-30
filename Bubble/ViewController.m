@@ -7,26 +7,26 @@
 //
 
 #import "ViewController.h"
-#import <FBSDKLoginKit.h>
-#import <FBSDKCoreKit.h>
-#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <MapKit/MapKit.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
+#import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate>
+@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic, strong) NSArray *eventsArray;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL loaded;
 
 - (void) plotEvents;
+- (void) moveMapToClosestAnnotation;
 
 @end
 
@@ -41,7 +41,13 @@
 
     self.mapView.delegate = self;
     
-    //[self.dataStore getSeatgeekEvents];
+    self.searchBar.delegate = self;
+    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
+    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.showsScopeBar = NO;
+    self.searchBar.returnKeyType = UIReturnKeyGo;
+    [self.searchBar alwaysEnableReturn];
+
     [self startLocationUpdateSubscription];
 }
 
@@ -60,7 +66,7 @@
                 //[strongSelf setupMap];
                 [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation];
                 strongSelf.loaded = YES;
-                
+                [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
                 //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
                 
             }
@@ -77,6 +83,16 @@
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
 
     self.eventsArray = eventsArray;
+    if ([self.eventsArray isEqual:@[]]) {
+        [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
+            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
+                self.searchBar.backgroundColor = [UIColor redColor];
+            }];
+            [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
+                self.searchBar.backgroundColor = [UIColor whiteColor];
+            }];
+        } completion:^(BOOL finished) { }];
+    }
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
@@ -84,13 +100,13 @@
     _eventsArray = eventsArray;
     
     [self plotEvents];
-}
+} 
 
 
 - (void)viewDidAppear:(BOOL)animated {
 
 //    uncomment the logOut to test login flow
-    [PFUser logOut];
+//    [PFUser logOut];
     
     if (![PFUser currentUser]) {
         BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
@@ -101,29 +117,24 @@
 }
 
 - (void) plotEvents {
-    
+
+    NSString *currentTitle = [self.mapView.selectedAnnotations[0] title];
+
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (EventObject *event in self.eventsArray) {
 
             MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-            
+        
             annotation.coordinate = event.coordinate;
             annotation.title = event.eventTitle;
             [self.mapView addAnnotation:annotation];
+        if ([annotation.title isEqualToString:currentTitle]) {
+            [self.mapView selectAnnotation:annotation animated:NO];
+        }
     }
     
-    // Move this logic to search functionality
-//    for (MKPointAnnotation *annotation in self.mapView.annotations) {
-//        
-//        if ([annotation.title isEqualToString:@"Amateur Night At The Apollo"]) {
-//            
-//            [self.mapView selectAnnotation:annotation animated:YES];
-//            
-//            self.mapView.region = MKCoordinateRegionMake(annotation.coordinate, MKCoordinateSpanMake(.05, .05));
-//        }
-//    }
-    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
+//    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -178,6 +189,73 @@
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
     
     // Perform Bubble Segue Here
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+    [self moveMapToClosestAnnotation];
+    
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    if ([self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
+        [self.mapView deselectAnnotation:self.mapView.selectedAnnotations[0] animated:YES];
+    }
+    [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    [self searchBar:searchBar textDidChange:self.searchBar.text];
+}
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
+    
+    self.searchBar.showsScopeBar = YES;
+
+    [UIView animateWithDuration:.25 animations:^{
+        self.searchBar.alpha = 1;
+
+    }];
+}
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+    MKUserLocation *annotation = [[MKUserLocation alloc] init];
+    if ([self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
+        annotation = self.mapView.selectedAnnotations[0];
+    }
+    for (UIView * txt in self.view.subviews){
+        if ([txt isKindOfClass:[UISearchBar class]] && [txt isFirstResponder]) {
+            [self.searchBar resignFirstResponder];
+            self.searchBar.showsScopeBar = NO;
+            [UIView animateWithDuration:.25 animations:^{
+            self.searchBar.alpha = 0.8;
+            
+            }];
+        }
+    }
+    annotation.title = @"Current Location";
+}
+
+- (void) moveMapToClosestAnnotation {
+    
+    MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
+    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+        closestAnnotation = self.mapView.annotations.lastObject;
+    }
+    
+    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+        CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
+                                                                 longitude:closestAnnotation.coordinate.longitude];
+        if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
+            closestAnnotation = annotation;
+        }
+    }
+    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+        closestAnnotation.title = @"😱 No Events Found 😱";
+    }
+    [self.mapView selectAnnotation:closestAnnotation animated:YES];
+    [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

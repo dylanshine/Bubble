@@ -12,7 +12,8 @@
 
 @interface AFDataStore()
 
-@property (nonatomic, strong) NSMutableArray *eventsArray;
+
+@property (nonatomic, strong) NSArray *filteredEventsArray;
 
 @end
 
@@ -65,5 +66,49 @@
         [self.eventsArray addObject:eventItem];
     }
 }
+
+- (void) searchEvents: (NSString *)searchTerm withScope:(NSInteger)index {
+    
+    if ([searchTerm isEqualToString:@""]) {
+        self.filteredEventsArray = self.eventsArray;
+    } else if (index == 0) {
+        NSPredicate *titlePredicate = [NSPredicate predicateWithFormat:@"SELF.eventTitle contains[c] %@", searchTerm];
+        self.filteredEventsArray = [self.eventsArray filteredArrayUsingPredicate:titlePredicate];
+
+    } else if (index == 1) {
+        NSPredicate *venuePredicate = [NSPredicate predicateWithFormat:@"SELF.venueName contains[c] %@", searchTerm];
+        self.filteredEventsArray = [self.eventsArray filteredArrayUsingPredicate:venuePredicate];
+
+    } else if (index == 2) {
+        NSPredicate *titlePredicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@", searchTerm];
+        NSMutableArray *results = [@[]mutableCopy];
+        for (EventObject *event in self.eventsArray) {
+            if ([[event.eventPerformers filteredArrayUsingPredicate:titlePredicate] isEqual:@[]]) {
+                [results addObject:event];
+            }
+        }
+        self.filteredEventsArray = results;
+
+    } else {
+        self.filteredEventsArray = @[];
+
+    }
+    
+    [self.delegate dataStore:self didLoadEvents:self.filteredEventsArray];
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @end
