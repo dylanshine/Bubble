@@ -26,7 +26,7 @@
 + (instancetype)sharedData;
 
 
-- (NSArray *) searchEvents: (NSString *)searchTerm;
+- (void) searchEvents: (NSString *)searchTerm withScope:(NSInteger)index;
 
 - (void)getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
 
