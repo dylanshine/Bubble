@@ -39,7 +39,15 @@
 }
 
 - (void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation{
-    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=2015-07-29&datetime_local.lt=2015-07-30&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
+    // get today and tomorrow, then format them for the API
+    NSDate *today = [NSDate date];
+    NSDateComponents *tomorrowSetter = [[NSDateComponents alloc] init];
+    tomorrowSetter.day = 1;
+    NSDate *tomorrow = [today dateByAddingTimeInterval:60*60*24];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    // create API URL and make the call
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=10mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:today], [formatter stringFromDate:tomorrow]];
     NSLog(@"%@",currentLocation);
     NSLog(@"FULL URL: %@", url);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
