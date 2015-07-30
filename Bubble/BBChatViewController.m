@@ -41,7 +41,7 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    self.xmppManager.xmppRoom = nil;
+    [self.xmppManager.xmppRoom deactivate];
 }
 
 - (void)backButtonTapped {
