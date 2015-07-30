@@ -15,3 +15,4 @@
 @property (nonatomic, strong) EventObject *event;
 
 @end
+

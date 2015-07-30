@@ -12,5 +12,6 @@
 
 extern NSString *const PARSE_APP_ID;
 extern NSString *const PARSE_CLIENT_KEY;
+extern NSString *const kJABBER_HOSTNAME;
 
 @end

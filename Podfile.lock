@@ -26,6 +26,12 @@ PODS:
   - Bolts/AppLinks (1.2.0):
     - Bolts/Tasks
   - Bolts/Tasks (1.2.0)
+  - CocoaAsyncSocket (7.4.1)
+  - CocoaLumberjack (1.9.2):
+    - CocoaLumberjack/Extensions (= 1.9.2)
+  - CocoaLumberjack/Core (1.9.2)
+  - CocoaLumberjack/Extensions (1.9.2):
+    - CocoaLumberjack/Core
   - CWStatusBarNotification (2.3.1)
   - FBSDKCoreKit (4.4.0):
     - Bolts (~> 1.1)
@@ -47,6 +53,148 @@ PODS:
   - ParseUI (1.1.4):
     - Parse (~> 1.7)
   - SCLAlertView-Objective-C (0.7.4)
+  - XMPPFramework (3.6.5):
+    - XMPPFramework/Authentication (= 3.6.5)
+    - XMPPFramework/BandwidthMonitor (= 3.6.5)
+    - XMPPFramework/Categories (= 3.6.5)
+    - XMPPFramework/Core (= 3.6.5)
+    - XMPPFramework/CoreDataStorage (= 3.6.5)
+    - XMPPFramework/GoogleSharedStatus (= 3.6.5)
+    - XMPPFramework/KissXML (= 3.6.5)
+    - XMPPFramework/ProcessOne (= 3.6.5)
+    - XMPPFramework/Reconnect (= 3.6.5)
+    - XMPPFramework/Roster (= 3.6.5)
+    - XMPPFramework/SystemInputActivityMonitor (= 3.6.5)
+    - XMPPFramework/Utilities (= 3.6.5)
+    - XMPPFramework/XEP-0009 (= 3.6.5)
+    - XMPPFramework/XEP-0012 (= 3.6.5)
+    - XMPPFramework/XEP-0016 (= 3.6.5)
+    - XMPPFramework/XEP-0045 (= 3.6.5)
+    - XMPPFramework/XEP-0054 (= 3.6.5)
+    - XMPPFramework/XEP-0059 (= 3.6.5)
+    - XMPPFramework/XEP-0060 (= 3.6.5)
+    - XMPPFramework/XEP-0065 (= 3.6.5)
+    - XMPPFramework/XEP-0066 (= 3.6.5)
+    - XMPPFramework/XEP-0082 (= 3.6.5)
+    - XMPPFramework/XEP-0085 (= 3.6.5)
+    - XMPPFramework/XEP-0092 (= 3.6.5)
+    - XMPPFramework/XEP-0100 (= 3.6.5)
+    - XMPPFramework/XEP-0106 (= 3.6.5)
+    - XMPPFramework/XEP-0115 (= 3.6.5)
+    - XMPPFramework/XEP-0136 (= 3.6.5)
+    - XMPPFramework/XEP-0153 (= 3.6.5)
+    - XMPPFramework/XEP-0172 (= 3.6.5)
+    - XMPPFramework/XEP-0184 (= 3.6.5)
+    - XMPPFramework/XEP-0191 (= 3.6.5)
+    - XMPPFramework/XEP-0198 (= 3.6.5)
+    - XMPPFramework/XEP-0199 (= 3.6.5)
+    - XMPPFramework/XEP-0202 (= 3.6.5)
+    - XMPPFramework/XEP-0203 (= 3.6.5)
+    - XMPPFramework/XEP-0223 (= 3.6.5)
+    - XMPPFramework/XEP-0224 (= 3.6.5)
+    - XMPPFramework/XEP-0280 (= 3.6.5)
+    - XMPPFramework/XEP-0297 (= 3.6.5)
+    - XMPPFramework/XEP-0308 (= 3.6.5)
+    - XMPPFramework/XEP-0333 (= 3.6.5)
+    - XMPPFramework/XEP-0335 (= 3.6.5)
+  - XMPPFramework/Authentication (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/BandwidthMonitor (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/Categories (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/Core (3.6.5):
+    - CocoaAsyncSocket (~> 7.4.1)
+    - CocoaLumberjack (~> 1.9)
+    - XMPPFramework/KissXML
+  - XMPPFramework/CoreDataStorage (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/GoogleSharedStatus (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/KissXML (3.6.5)
+  - XMPPFramework/ProcessOne (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/Reconnect (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/Roster (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+  - XMPPFramework/SystemInputActivityMonitor (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/Utilities (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0009 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0012 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0016 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0045 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0054 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/Roster
+  - XMPPFramework/XEP-0059 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0060 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0065 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0066 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0082 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0085 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0092 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0100 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0106 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0115 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/CoreDataStorage
+  - XMPPFramework/XEP-0136 (3.6.5):
+    - XMPPFramework/CoreDataStorage
+    - XMPPFramework/XEP-0085
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0153 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0054
+  - XMPPFramework/XEP-0172 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0184 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0191 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0198 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0199 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0202 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0203 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0082
+  - XMPPFramework/XEP-0223 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0224 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0280 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0297 (3.6.5):
+    - XMPPFramework/Core
+    - XMPPFramework/XEP-0203
+  - XMPPFramework/XEP-0308 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0333 (3.6.5):
+    - XMPPFramework/Core
+  - XMPPFramework/XEP-0335 (3.6.5):
+    - XMPPFramework/Core
 
 DEPENDENCIES:
   - AFNetworking (~> 2.0)
@@ -59,10 +207,13 @@ DEPENDENCIES:
   - Parse
   - ParseUI
   - SCLAlertView-Objective-C
+  - XMPPFramework
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
+  CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
+  CocoaLumberjack: 628fca2e88ef06f7cf6817309aa405f325d9a6fa
   CWStatusBarNotification: 73d86949d11a2246f1a50532b157c1d313000ccd
   FBSDKCoreKit: 75bdd75c980e811db218488d99dd93b7740f4474
   FBSDKLoginKit: 02a9254a4c132412fa03577b0d53e936d068a7fb
@@ -72,5 +223,6 @@ SPEC CHECKSUMS:
   Parse: 373adbb1ad2e34d383542c3b28f678c49ebe4881
   ParseUI: d1228541b02a36a7354c8f47747f5f7a89cf1ff0
   SCLAlertView-Objective-C: 15ebfdac06ca289ba1f29fe34b5a03da6bd3fe37
+  XMPPFramework: 7ae77710dd86f1826f5451dc5f3cf9f4d2a62072
 
 COCOAPODS: 0.37.2
