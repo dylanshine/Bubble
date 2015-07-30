@@ -21,7 +21,7 @@
 		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
-		8087EE241B66D28C009258E5 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE231B66D28C009258E5 /* ViewController.m */; };
+		8087EE241B66D28C009258E5 /* EventMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE231B66D28C009258E5 /* EventMapViewController.m */; };
 		8087EE271B66D28C009258E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE251B66D28C009258E5 /* Main.storyboard */; };
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
@@ -80,8 +80,8 @@
 		8087EE1D1B66D28C009258E5 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8087EE1F1B66D28C009258E5 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8087EE201B66D28C009258E5 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8087EE221B66D28C009258E5 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8087EE231B66D28C009258E5 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		8087EE221B66D28C009258E5 /* EventMapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EventMapViewController.h; sourceTree = "<group>"; };
+		8087EE231B66D28C009258E5 /* EventMapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EventMapViewController.m; sourceTree = "<group>"; };
 		8087EE261B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8087EE281B66D28C009258E5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8087EE2B1B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -187,8 +187,8 @@
 			children = (
 				8087EE1F1B66D28C009258E5 /* AppDelegate.h */,
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
-				8087EE221B66D28C009258E5 /* ViewController.h */,
-				8087EE231B66D28C009258E5 /* ViewController.m */,
+				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
+				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
 				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
 				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
 				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
@@ -401,7 +401,7 @@
 				802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */,
 				802273861B6A805A00C62E50 /* BBMessage.m in Sources */,
 				CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */,
-				8087EE241B66D28C009258E5 /* ViewController.m in Sources */,
+				8087EE241B66D28C009258E5 /* EventMapViewController.m in Sources */,
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
 				CC68F4231B69533E00C263B4 /* Constants.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,

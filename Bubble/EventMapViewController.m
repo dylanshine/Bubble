@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Bubble. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "EventMapViewController.h"
 #import <MapKit/MapKit.h>
 #import <Masonry/Masonry.h>
 #import "BBAnnotation.h"
@@ -21,7 +21,7 @@
 #import "BBChatViewController.h"
 
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
+@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -48,7 +48,7 @@
 
 @end
 
-@implementation ViewController
+@implementation EventMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
