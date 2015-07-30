@@ -205,14 +205,15 @@
         self.searchBar.alpha = 0.8;
     }];
     
-    
-    
     MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
-    CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
-                                                             longitude:closestAnnotation.coordinate.longitude];
-    
+    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+        closestAnnotation = self.mapView.annotations.lastObject;
+    }
+
     for (MKPointAnnotation *annotation in self.mapView.annotations) {
         CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+        CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
+                                                                 longitude:closestAnnotation.coordinate.longitude];
         if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
             closestAnnotation = annotation;
         }
