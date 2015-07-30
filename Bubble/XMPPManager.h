@@ -9,9 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "XMPP.h"
 #import "XMPPRoomMemoryStorage.h"
+#import "BBMessage.h"
 
 @protocol MessageDelegate <NSObject>
-- (void)newMessageReceived:(NSMutableDictionary *)messageContent;
+@required
+- (void)newMessageReceived:(BBMessage *)messageContent;
 @end
 
 @interface XMPPManager : NSObject
@@ -26,5 +28,6 @@
 -(BOOL)connect;
 -(void)disconnect;
 -(void)joinOrCreateRoom:(NSString *)room;
+- (void) sendMessage: (BBMessage *)message;
 
 @end

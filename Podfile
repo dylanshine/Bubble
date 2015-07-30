@@ -14,6 +14,8 @@ pod 'CWStatusBarNotification', '~> 2.3.1'
 pod 'INTULocationManager'
 pod 'Masonry'
 pod 'XMPPFramework'
+pod 'JSQMessagesViewController'
+
 end
 
 target 'BubbleTests' do
