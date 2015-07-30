@@ -23,10 +23,10 @@
     [self addButton:@"Login" actionBlock:^{
         NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
         [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
+            PFUser *currentUser = [PFUser currentUser];
             if (!user) {
                 // put code here if you want to execute something if the user cancels login
             } else if (user.isNew) {
-                PFUser *currentUser = [PFUser currentUser];
                 FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
                 FBSDKGraphRequest *requestFriends = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil];
                 FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
@@ -38,23 +38,25 @@
                     NSDictionary *userData = (NSDictionary *)result;
                     currentUser[@"friends"] = userData[@"data"];
                     [notification displayNotificationWithMessage:@"Successfully signed up with Facebook" forDuration:3.0f];
+                    block(currentUser);
                 }];
-                
+
                 [connection start];
 
                 NSLog(@"User signed up and logged in through Facebook!");
             } else {
-                PFUser *currentUser = [PFUser currentUser];
                 FBSDKGraphRequest *requestFriends = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil];
                 FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
                 [connection addRequest:requestFriends completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
                     NSDictionary *userData = (NSDictionary *)result;
                     currentUser[@"friends"] = userData[@"data"];
                     [notification displayNotificationWithMessage:@"Successfully signed in" forDuration:3.0f];
+                    block(currentUser);
                 }];
 
                 [connection start];
             }
+            
 
         }];
     }];
