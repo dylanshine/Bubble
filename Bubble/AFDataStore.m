@@ -43,8 +43,7 @@
     NSDate *today = [NSDate date];
     NSDateComponents *tomorrowSetter = [[NSDateComponents alloc] init];
     tomorrowSetter.day = 1;
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSDate *tomorrow = [calendar dateByAddingComponents:tomorrowSetter toDate:today options:0];
+    NSDate *tomorrow = [today dateByAddingTimeInterval:60*60*24];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // create API URL and make the call
