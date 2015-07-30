@@ -14,16 +14,19 @@
 #import "BBLoginAlertView.h"
 #import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
+#import "XMPPManager.h"
 
 @interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (nonatomic) AFDataStore *dataStore;
+@property (nonatomic) XMPPManager *xmppManager;
 @property (nonatomic, strong) NSArray *eventsArray;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (nonatomic) CLLocation *currentLocation;
 @property (nonatomic) BOOL loaded;
+@property (nonatomic) BBAnnotation *selectedAnnotation;
 
 - (void) plotEvents;
 - (void) moveMapToClosestAnnotation;
@@ -36,8 +39,9 @@
     [super viewDidLoad];
     
     self.dataStore = [AFDataStore sharedData];
-    
     self.dataStore.delegate = self;
+    
+    self.xmppManager = [XMPPManager sharedManager];
 
     self.mapView.delegate = self;
     
@@ -70,7 +74,6 @@
                 //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
                 
             }
-            NSLog(@"%@",self.currentLocation);
         }
         else {
             // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
@@ -112,29 +115,28 @@
         BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
         [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
             [currentUser saveInBackground];
+            [self.xmppManager connect];
         }];
     }
 }
 
 - (void) plotEvents {
-
-    NSString *currentTitle = [self.mapView.selectedAnnotations[0] title];
-
+    
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (EventObject *event in self.eventsArray) {
-
-            MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
         
-            annotation.coordinate = event.coordinate;
-            annotation.title = event.eventTitle;
-            [self.mapView addAnnotation:annotation];
-        if ([annotation.title isEqualToString:currentTitle]) {
-            [self.mapView selectAnnotation:annotation animated:NO];
-        }
+        BBAnnotation *annotation = [[BBAnnotation alloc] init];
+        
+        annotation.coordinate = event.coordinate;
+        annotation.event = event;
+        annotation.title = event.eventTitle;
+        
+        
+        [self.mapView addAnnotation:annotation];
     }
     
-//    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
+    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -187,8 +189,14 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-    
-    // Perform Bubble Segue Here
+    self.selectedAnnotation = (BBAnnotation *)view.annotation;
+    [self performSegueWithIdentifier:@"chatSegue" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"chatSegue"]) {
+        [self.xmppManager joinOrCreateRoom:[self.selectedAnnotation.event.eventID stringValue]];
+    }
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

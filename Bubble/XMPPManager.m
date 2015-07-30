@@ -30,7 +30,6 @@
 }
 
 - (BOOL)connect {
-    
     [self setupStream];
     
     if (![self.xmppStream isDisconnected]) {
@@ -41,13 +40,12 @@
         return NO;
     }
     
-    NSString *currentUserId = [PFUser currentUser][@"objectId"];
+    NSString *currentUserId = [NSString stringWithFormat:@"%@@bubble",[PFUser currentUser].objectId];
     
     [self.xmppStream setMyJID:[XMPPJID jidWithString:currentUserId]];
     self.xmppStream.hostName = kJABBER_HOSTNAME;
     
     NSError *error = nil;
-    
     
     if (![self.xmppStream connectWithTimeout:10 error:&error]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -102,7 +100,14 @@
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
     self.isOpen = YES;
     NSError *error = nil;
-    [self.xmppStream authenticateAnonymously:&error];
+    if(![self.xmppStream authenticateAnonymously:&error]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[NSString stringWithFormat:@"Can't connect to server %@", [error localizedDescription]]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
 }
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
@@ -126,7 +131,7 @@
                                             dispatchQueue:dispatch_get_main_queue()];
     [self.xmppRoom activate:self.xmppStream];
     [self.xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [self.xmppRoom joinRoomUsingNickname:self.password
+    [self.xmppRoom joinRoomUsingNickname:[PFUser currentUser][@"name"]
                                  history:nil
                                 password:nil];
 }

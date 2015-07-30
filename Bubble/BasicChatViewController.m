@@ -7,16 +7,26 @@
 //
 
 #import "BasicChatViewController.h"
+#import "XMPPManager.h"
 
-@interface BasicChatViewController ()
+@interface BasicChatViewController () <UITableViewDelegate,UITableViewDataSource,MessageDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *messageField;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+@property (nonatomic) XMPPManager *xmppManager;
+@property (nonatomic) NSMutableArray *messages;
 @end
 
 @implementation BasicChatViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.xmppManager = [XMPPManager sharedManager];
+    self.xmppManager.messageDelegate = self;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.messages = [[NSMutableArray alloc] init];
+    [self.messageField becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -24,14 +34,51 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (IBAction)sendMessage:(id)sender {
+    NSString *messageString = self.messageField.text;
+    
+    if([messageString length] > 0) {
+        [self.xmppManager.xmppRoom sendMessageWithBody:messageString];
+        self.messageField.text = @"";
+    }
+    
+    [self.messageField resignFirstResponder];
 }
-*/
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [self.messages count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    NSDictionary *messagesDict = (NSDictionary *)self.messages[indexPath.row];
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+    
+    cell.textLabel.text = [messagesDict objectForKey:@"msg"];
+    cell.detailTextLabel.text = [messagesDict objectForKey:@"sender"];
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    cell.userInteractionEnabled = NO;
+    
+    return cell;
+    
+}
+
+-(void)newMessageReceived:(NSMutableDictionary *)messageContent {
+    [self.messages addObject:messageContent];
+    [self.tableView reloadData];
+    
+    NSIndexPath *topIndexPath = [NSIndexPath indexPathForRow:self.messages.count-1
+                                                   inSection:0];
+    
+    [self.tableView scrollToRowAtIndexPath:topIndexPath
+                          atScrollPosition:UITableViewScrollPositionMiddle
+                                  animated:YES];
+}
+
+- (IBAction)back:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end
