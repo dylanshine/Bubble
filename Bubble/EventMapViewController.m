@@ -59,19 +59,8 @@
     self.xmppManager = [XMPPManager sharedManager];
 
     self.mapView.delegate = self;
-    self.scrollView.delegate = self;
     
-    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
-    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
-    self.scrollView.pagingEnabled = NO;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.alwaysBounceVertical = YES;
-    self.scrollView.alwaysBounceHorizontal = NO;
-    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
-    
-    self.eventDetailsVC = self.childViewControllers[0];
-    
+    [self setupMenuScrollView];
     [self setupSearchBar];
     
     [self startLocationUpdateSubscription];
@@ -316,6 +305,20 @@
     self.searchBar.showsScopeBar = NO;
     self.searchBar.returnKeyType = UIReturnKeyGo;
     [self.searchBar alwaysEnableReturn];
+}
+
+-(void)setupMenuScrollView {
+    self.scrollView.delegate = self;
+    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
+    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
+    self.scrollView.pagingEnabled = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.alwaysBounceVertical = YES;
+    self.scrollView.alwaysBounceHorizontal = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
+    self.eventDetailsVC = self.childViewControllers[0];
+
 }
 
 - (void)didReceiveMemoryWarning {
