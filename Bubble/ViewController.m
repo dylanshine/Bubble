@@ -8,25 +8,39 @@
 
 #import "ViewController.h"
 #import <MapKit/MapKit.h>
+#import <Masonry/Masonry.h>
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
 #import "BBLoginAlertView.h"
 #import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
+#import "EventDetailsViewController.h"
+#import "BBAnnotation.h"
 #import "XMPPManager.h"
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UISearchBarDelegate>
+
+@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
+@property (nonatomic, strong) NSArray *eventsArray;
+
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
-@property (nonatomic, strong) NSArray *eventsArray;
-@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
-@property (assign, nonatomic) INTULocationRequestID locationRequestID;
+
 @property (nonatomic) CLLocation *currentLocation;
+@property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (nonatomic) BOOL loaded;
 @property (nonatomic) BBAnnotation *selectedAnnotation;
+
+
+@property (nonatomic, assign) CGFloat scrollViewStartingPosition;
+@property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
 
 - (void) plotEvents;
 - (void) moveMapToClosestAnnotation;
@@ -44,6 +58,18 @@
     self.xmppManager = [XMPPManager sharedManager];
 
     self.mapView.delegate = self;
+    self.scrollView.delegate = self;
+    
+    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
+    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
+    self.scrollView.pagingEnabled = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.alwaysBounceVertical = YES;
+    self.scrollView.alwaysBounceHorizontal = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
+    
+    self.eventDetailsVC = self.childViewControllers[0];
     
     self.searchBar.delegate = self;
     self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
@@ -54,6 +80,29 @@
 
     [self startLocationUpdateSubscription];
 }
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+//    CGFloat targetY = targetContentOffset->y;
+    
+    if (velocity.y >= 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+            }];
+        });
+        
+    } else if (velocity.y < 0) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+            }];
+        });
+    }
+//    NSLog(@"targetY: %.3f   /   yv: %.3f", targetY, velocity.y);
+}
+
 
 - (void)startLocationUpdateSubscription {
     __weak __typeof(self) weakSelf = self;
@@ -127,12 +176,11 @@
     for (EventObject *event in self.eventsArray) {
         
         BBAnnotation *annotation = [[BBAnnotation alloc] init];
-        
+
         annotation.coordinate = event.coordinate;
         annotation.event = event;
         annotation.title = event.eventTitle;
-        
-        
+
         [self.mapView addAnnotation:annotation];
     }
     
