@@ -22,14 +22,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
     [self.view insertSubview:translucentView atIndex:0];
     translucentView.translucentAlpha = 0.98;
     translucentView.translucentStyle = UIBarStyleDefault;
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(@0);
-        make.height.and.width.equalTo(self.view);
     }];
     
 }

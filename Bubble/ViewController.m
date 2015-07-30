@@ -49,30 +49,16 @@
     self.mapView.delegate = self;
     
     self.scrollView.delegate = self;
+    
     self.scrollView.clipsToBounds = YES;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
-    CGSize scrollableSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
-    [self.scrollView setContentSize:scrollableSize];
-    self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    self.view.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.scrollView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.left.equalTo(self.view);
-        make.top.equalTo(self.view.mas_centerY);
-        make.width.equalTo(self.view);
-    }];
-    
-    self.containerView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self.containerView removeConstraints:self.containerView.constraints];
-    [self.containerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(@0);
-        make.height.width.equalTo(self.view);
-    }];
+    self.scrollView.alwaysBounceVertical = YES;
+    self.scrollView.alwaysBounceHorizontal = NO;
     
     self.eventDetailsVC = self.childViewControllers[0];
     
-        //[self.dataStore getSeatgeekEvents];
     [self startLocationUpdateSubscription];
 }
 
@@ -215,8 +201,15 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     
-    if ([segue.identifier isEqualToString:@"detailSegue"]) {
+    if ([segue.identifier isEqualToString:@"DetailEmbedSegue"]) {
 //        self.eventDetailsVC = segue.destinationViewController;
+//        
+//        self.eventDetailsVC.view.backgroundColor = [UIColor purpleColor];
+//        [self.eventDetailsVC.view removeConstraints:self.eventDetailsVC.view.constraints];
+//        
+//        [self.eventDetailsVC.view mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.equalTo(@0);
+//        }];
     }
 }
 - (void)didReceiveMemoryWarning {
