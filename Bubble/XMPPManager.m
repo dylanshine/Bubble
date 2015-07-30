@@ -162,6 +162,7 @@
 
 - (void)dealloc {
     [self.xmppStream removeDelegate:self];
+    [self.xmppRoom removeDelegate:self];
 }
 
 - (void) sendMessage: (BBMessage *)message {

@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Bubble. All rights reserved.
 //
 
-#import "ViewController.h"
+#import "EventMapViewController.h"
 #import <MapKit/MapKit.h>
 #import <Masonry/Masonry.h>
 #import "BBAnnotation.h"
@@ -21,7 +21,7 @@
 #import "BBChatViewController.h"
 
 
-@interface ViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
+@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -48,7 +48,7 @@
 
 @end
 
-@implementation ViewController
+@implementation EventMapViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -59,32 +59,14 @@
     self.xmppManager = [XMPPManager sharedManager];
 
     self.mapView.delegate = self;
-    self.scrollView.delegate = self;
     
-    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
-    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
-    self.scrollView.pagingEnabled = NO;
-    self.scrollView.showsHorizontalScrollIndicator = NO;
-    self.scrollView.showsVerticalScrollIndicator = NO;
-    self.scrollView.alwaysBounceVertical = YES;
-    self.scrollView.alwaysBounceHorizontal = NO;
-    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
+    [self setupMenuScrollView];
+    [self setupSearchBar];
     
-    self.eventDetailsVC = self.childViewControllers[0];
-    
-    self.searchBar.delegate = self;
-    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
-    self.searchBar.backgroundColor = [UIColor whiteColor];
-    self.searchBar.showsScopeBar = NO;
-    self.searchBar.returnKeyType = UIReturnKeyGo;
-    [self.searchBar alwaysEnableReturn];
-
     [self startLocationUpdateSubscription];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    
-//    CGFloat targetY = targetContentOffset->y;
     
     if (velocity.y >= 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
@@ -101,7 +83,6 @@
             }];
         });
     }
-//    NSLog(@"targetY: %.3f   /   yv: %.3f", targetY, velocity.y);
 }
 
 
@@ -112,23 +93,15 @@
         __typeof(weakSelf) strongSelf = weakSelf;
         
         if (status == INTULocationStatusSuccess) {
-            // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
             strongSelf.currentLocation = currentLocation;
             if (!strongSelf.loaded) {
-                //[self centerMapOnLocation:self.currentLocation];
-                //[self getCurrentCity];
-                //[strongSelf setupMap];
                 [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation];
                 strongSelf.loaded = YES;
                 [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
-                //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
-                
             }
         }
         else {
-            // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
             strongSelf.locationRequestID = NSNotFound;
-            //NSLog(@"%@", [strongSelf getErrorDescription:status]);
         }
     }];
 }
@@ -244,9 +217,9 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
-        [self.xmppManager joinOrCreateRoom:[self.selectedAnnotation.event.eventID stringValue]];
         BBChatViewController *destination = [segue destinationViewController];
-        destination.title = self.selectedAnnotation.event.eventTitle;
+        destination.eventTitle = self.selectedAnnotation.event.eventTitle;
+        destination.roomID = [self.selectedAnnotation.event.eventID stringValue];
     }
 }
 
@@ -315,6 +288,28 @@
     }
     [self.mapView selectAnnotation:closestAnnotation animated:YES];
     [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
+}
+
+-(void)setupSearchBar {
+    self.searchBar.delegate = self;
+    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
+    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.showsScopeBar = NO;
+    self.searchBar.returnKeyType = UIReturnKeyGo;
+    [self.searchBar alwaysEnableReturn];
+}
+
+-(void)setupMenuScrollView {
+    self.scrollView.delegate = self;
+    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
+    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
+    self.scrollView.pagingEnabled = NO;
+    self.scrollView.showsHorizontalScrollIndicator = NO;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    self.scrollView.alwaysBounceVertical = YES;
+    self.scrollView.alwaysBounceHorizontal = NO;
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
+    self.eventDetailsVC = self.childViewControllers[0];
 }
 
 - (void)didReceiveMemoryWarning {

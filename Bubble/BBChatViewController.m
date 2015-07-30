@@ -19,50 +19,32 @@
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 
-
 @end
 
 @implementation BBChatViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.messages = [@[]mutableCopy];
+    self.messages = [[NSMutableArray alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
     self.senderId = [PFUser currentUser].objectId;
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
-    
-    UIView *navBar = [[UINavigationBar alloc] init];
-    [self.view addSubview:navBar];
-    [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
-        make.width.equalTo(self.view.mas_width);
-        make.height.equalTo(self.view.mas_height).dividedBy(10);
-    }];
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = self.title;
-    [navBar addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(navBar.mas_centerX);
-        make.centerY.equalTo(navBar.mas_centerY).with.offset(10);
-    }];
-    UIButton *backButton = [[UIButton alloc] init];
-    backButton.titleLabel.text = @"Back";
-    backButton.backgroundColor = [UIColor redColor];
-    [backButton addTarget:self action:@selector(backButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    [navBar addSubview:backButton];
-    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(navBar.mas_centerY);
-        make.left.equalTo(self.view.mas_leftMargin);
-        make.height.equalTo(titleLabel.mas_height);
-    }];
-    
-    
-
+    [self setupNavBar];
     // Do any additional setup after loading the view.
 }
 
-- (IBAction)backButtonTapped:(id)sender {
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.xmppManager joinOrCreateRoom:self.roomID];
+}
+
+-(void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [self.xmppManager.xmppRoom deactivate];
+}
+
+- (void)backButtonTapped {
     [self dismissViewControllerAnimated:YES completion:^{ }];
 }
 
@@ -237,6 +219,33 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
+}
+
+-(void)setupNavBar {
+    UIView *navBar = [[UINavigationBar alloc] init];
+    [self.view addSubview:navBar];
+    [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.view.mas_top);
+        make.width.equalTo(self.view.mas_width);
+        make.height.equalTo(self.view.mas_height).dividedBy(10);
+    }];
+    UILabel *titleLabel = [[UILabel alloc] init];
+    titleLabel.text = self.eventTitle;
+    [navBar addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(navBar.mas_centerX);
+        make.centerY.equalTo(navBar.mas_centerY).with.offset(10);
+    }];
+    UIButton *backButton = [[UIButton alloc] init];
+    backButton.titleLabel.text = @"Back";
+    backButton.backgroundColor = [UIColor redColor];
+    [backButton addTarget:self action:@selector(backButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [navBar addSubview:backButton];
+    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(navBar.mas_centerY);
+        make.left.equalTo(self.view.mas_leftMargin);
+        make.height.equalTo(titleLabel.mas_height);
+    }];
 }
 
 
