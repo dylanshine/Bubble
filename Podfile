@@ -13,6 +13,8 @@ pod 'SCLAlertView-Objective-C'
 pod 'CWStatusBarNotification', '~> 2.3.1'
 pod 'INTULocationManager'
 pod 'XMPPFramework'
+pod 'JSQMessagesViewController'
+
 end
 
 target 'BubbleTests' do
