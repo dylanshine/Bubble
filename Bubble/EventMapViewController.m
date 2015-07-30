@@ -93,23 +93,15 @@
         __typeof(weakSelf) strongSelf = weakSelf;
         
         if (status == INTULocationStatusSuccess) {
-            // A new updated location is available in currentLocation, and achievedAccuracy indicates how accurate this particular location is
             strongSelf.currentLocation = currentLocation;
             if (!strongSelf.loaded) {
-                //[self centerMapOnLocation:self.currentLocation];
-                //[self getCurrentCity];
-                //[strongSelf setupMap];
                 [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation];
                 strongSelf.loaded = YES;
                 [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
-                //[SVProgressHUD showWithStatus:@"Loading Nearby Restaurants..." maskType:SVProgressHUDMaskTypeBlack];
-                
             }
         }
         else {
-            // An error occurred, which causes the subscription to cancel automatically (this block will not execute again unless it is used to start a new subscription).
             strongSelf.locationRequestID = NSNotFound;
-            //NSLog(@"%@", [strongSelf getErrorDescription:status]);
         }
     }];
 }
@@ -318,7 +310,6 @@
     self.scrollView.alwaysBounceHorizontal = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
-
 }
 
 - (void)didReceiveMemoryWarning {
