@@ -72,19 +72,12 @@
     
     self.eventDetailsVC = self.childViewControllers[0];
     
-    self.searchBar.delegate = self;
-    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
-    self.searchBar.backgroundColor = [UIColor whiteColor];
-    self.searchBar.showsScopeBar = NO;
-    self.searchBar.returnKeyType = UIReturnKeyGo;
-    [self.searchBar alwaysEnableReturn];
-
+    [self setupSearchBar];
+    
     [self startLocationUpdateSubscription];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    
-//    CGFloat targetY = targetContentOffset->y;
     
     if (velocity.y >= 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
@@ -101,7 +94,6 @@
             }];
         });
     }
-//    NSLog(@"targetY: %.3f   /   yv: %.3f", targetY, velocity.y);
 }
 
 
@@ -315,6 +307,15 @@
     }
     [self.mapView selectAnnotation:closestAnnotation animated:YES];
     [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
+}
+
+-(void)setupSearchBar {
+    self.searchBar.delegate = self;
+    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
+    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.showsScopeBar = NO;
+    self.searchBar.returnKeyType = UIReturnKeyGo;
+    [self.searchBar alwaysEnableReturn];
 }
 
 - (void)didReceiveMemoryWarning {
