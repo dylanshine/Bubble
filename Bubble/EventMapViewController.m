@@ -58,6 +58,7 @@
     
     self.xmppManager = [XMPPManager sharedManager];
 
+
     self.mapView.delegate = self;
     
     [self setupMenuScrollView];
@@ -132,16 +133,9 @@
 - (void)viewDidAppear:(BOOL)animated {
 
 ////    uncomment the logOut to test login flow
-    [PFUser logOut];
-////
-//    if (![PFUser currentUser]) {
-//        BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
-//        [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
-//            [currentUser saveInBackground];
-//            [self.xmppManager connect];
-//        }];
-//    }
-
+//    [PFUser logOut];
+    
+    [self.xmppManager connect];
 
     if (![PFUser currentUser]) {
 
