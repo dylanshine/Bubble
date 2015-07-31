@@ -68,7 +68,7 @@
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
-                        <segue destination="n0Y-rO-7M6" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
+                        <segue destination="oRG-IA-6WU" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -135,7 +135,7 @@
             </objects>
             <point key="canvasLocation" x="564.5" y="1194.5"/>
         </scene>
-        <!--Chat View Controller-->
+        <!--Title-->
         <scene sceneID="jVK-NW-Gbo">
             <objects>
                 <viewController id="n0Y-rO-7M6" customClass="BBChatViewController" sceneMemberID="viewController">
@@ -146,16 +146,35 @@
                     <view key="view" contentMode="scaleToFill" id="Hlp-za-U3X">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="7vk-oz-AwR">
-                                <rect key="frame" x="0.0" y="130" width="375" height="537"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <navigationItem key="navigationItem" title="Title" id="5ZV-Mz-MH7">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="WdB-1K-sKl">
+                            <connections>
+                                <action selector="doneButtonPressed:" destination="n0Y-rO-7M6" id="4vG-6U-9QO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J58-0w-UN3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1903.5" y="388.5"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nGz-mh-N7Z">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oRG-IA-6WU" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Zdz-M4-arC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="n0Y-rO-7M6" kind="relationship" relationship="rootViewController" id="kda-CA-Awq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rp0-ps-Yn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1316.5" y="388.5"/>
         </scene>
