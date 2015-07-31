@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */; };
+		175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 175E54DA1B6BBEC8002A7CAA /* Login.storyboard */; };
+		175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54DD1B6BDADF002A7CAA /* LoginViewController.m */; };
+		175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */; };
 		1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650691B697CAD00A68FF9 /* EventDetailsViewController.m */; };
 		178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
@@ -52,6 +56,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationViewController.h; sourceTree = "<group>"; };
+		175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationViewController.m; sourceTree = "<group>"; };
+		175E54DA1B6BBEC8002A7CAA /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		175E54DC1B6BDADF002A7CAA /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		175E54DD1B6BDADF002A7CAA /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginManager.h; sourceTree = "<group>"; };
+		175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginManager.m; sourceTree = "<group>"; };
 		178650681B697CAD00A68FF9 /* EventDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		178650691B697CAD00A68FF9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 		1786506B1B6A5A4F00A68FF9 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTranslucentView.h; path = Pods/ILTranslucentView/Source/ILTranslucentView.h; sourceTree = SOURCE_ROOT; };
@@ -187,6 +198,10 @@
 			children = (
 				8087EE1F1B66D28C009258E5 /* AppDelegate.h */,
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
+				175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */,
+				175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */,
+				175E54DC1B6BDADF002A7CAA /* LoginViewController.h */,
+				175E54DD1B6BDADF002A7CAA /* LoginViewController.m */,
 				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
 				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
 				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
@@ -197,6 +212,8 @@
 				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
 				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
 				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
+				175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */,
+				175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */,
 				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
 				CCDD860E1B69125400E6B6B0 /* EventObject.m */,
 				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
@@ -208,6 +225,7 @@
 				802273841B6A805A00C62E50 /* BBMessage.h */,
 				802273851B6A805A00C62E50 /* BBMessage.m */,
 				8087EE251B66D28C009258E5 /* Main.storyboard */,
+				175E54DA1B6BBEC8002A7CAA /* Login.storyboard */,
 				8087EE281B66D28C009258E5 /* Images.xcassets */,
 				8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */,
 				1786506E1B6A5A5600A68FF9 /* ILTranslucentView */,
@@ -344,6 +362,7 @@
 			files = (
 				8087EE271B66D28C009258E5 /* Main.storyboard in Resources */,
 				80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */,
+				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
 				80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */,
 				80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */,
 				8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */,
@@ -405,8 +424,11 @@
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
 				CC68F4671B6B0CB200C263B4 /* Constants.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
+				175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */,
 				178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */,
+				175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */,
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
+				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
 				80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
