@@ -30,8 +30,7 @@
     self.senderId = [PFUser currentUser].objectId;
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
-    [self setupNavBar];
-    // Do any additional setup after loading the view.
+    self.title = self.eventTitle;
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -43,9 +42,8 @@
     [super viewDidDisappear:animated];
     [self.xmppManager.xmppRoom deactivate];
 }
-
-- (void)backButtonTapped {
-    [self dismissViewControllerAnimated:YES completion:^{ }];
+- (IBAction)doneButtonPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,15 +60,9 @@
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)didPressAccessoryButton:(UIButton *)sender {
+    NSLog(@"Paperclip clicked");
 }
-*/
 
 #pragma mark - JSQMessages CollectionView DataSource
 
@@ -219,33 +211,6 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
-}
-
--(void)setupNavBar {
-    UIView *navBar = [[UINavigationBar alloc] init];
-    [self.view addSubview:navBar];
-    [navBar mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view.mas_top);
-        make.width.equalTo(self.view.mas_width);
-        make.height.equalTo(self.view.mas_height).dividedBy(10);
-    }];
-    UILabel *titleLabel = [[UILabel alloc] init];
-    titleLabel.text = self.eventTitle;
-    [navBar addSubview:titleLabel];
-    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(navBar.mas_centerX);
-        make.centerY.equalTo(navBar.mas_centerY).with.offset(10);
-    }];
-    UIButton *backButton = [[UIButton alloc] init];
-    backButton.titleLabel.text = @"Back";
-    backButton.backgroundColor = [UIColor redColor];
-    [backButton addTarget:self action:@selector(backButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [navBar addSubview:backButton];
-    [backButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(navBar.mas_centerY);
-        make.left.equalTo(self.view.mas_leftMargin);
-        make.height.equalTo(titleLabel.mas_height);
-    }];
 }
 
 
