@@ -13,7 +13,7 @@
 @interface EventDetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
-
+@property (weak, nonatomic) IBOutlet UILabel *eventSubtitle;
 
 @end
 
@@ -22,20 +22,41 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self makeTranslucentBackground];
+    
+    [self adjustFontForDeviceSize];
+}
+
+- (void) makeTranslucentBackground {
+    
     ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
-    [self.view insertSubview:translucentView atIndex:0];
-    translucentView.translucentAlpha = 0.98;
+    
+    translucentView.translucentAlpha = .99;
     translucentView.translucentStyle = UIBarStyleDefault;
+    
+    [self.view insertSubview:translucentView atIndex:0];
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(@0);
     }];
-    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) adjustFontForDeviceSize {
+
+    if (self.view.frame.size.width == 320) {
+        self.eventTitle.font = [self.eventTitle.font fontWithSize:28];
+        
+    } else if (self.view.frame.size.width == 375) {
+        self.eventTitle.font = [self.eventTitle.font fontWithSize:34];
+        
+    }
+}
+
+- (void)setEvent:(EventObject *)event{
+    
+    _event = event;
+    self.eventTitle.text = event.eventTitle;
+    self.eventSubtitle.text = event.eventType;
 }
 
 /*
@@ -47,5 +68,9 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+}
 
 @end

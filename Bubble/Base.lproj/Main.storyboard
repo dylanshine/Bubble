@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Event Map View Controller-->
@@ -86,23 +87,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a test" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx">
-                                <rect key="frame" x="140" y="8" width="97" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
+                                <rect key="frame" x="19" y="0.0" width="338" height="45"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="38"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="2sI-Lh-ROv" userLabel="Event Subtitle">
+                                <rect key="frame" x="-21" y="13" width="417" height="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="26"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="-96" y="-45" width="3" height="90"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="8" id="1OF-Et-UlT"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="8HB-TE-CAY"/>
                             <constraint firstAttribute="trailing" secondItem="ThR-hw-vhn" secondAttribute="trailing" id="Brr-lh-xyn"/>
-                            <constraint firstAttribute="centerX" secondItem="52e-vu-Pwx" secondAttribute="centerX" id="e7P-ch-0Z7"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.9" id="PPN-sK-fwt"/>
+                            <constraint firstAttribute="centerX" secondItem="2sI-Lh-ROv" secondAttribute="centerX" id="Ueb-wl-czV"/>
+                            <constraint firstAttribute="width" secondItem="2sI-Lh-ROv" secondAttribute="width" multiplier="0.9" id="bxq-v8-Exy"/>
+                            <constraint firstItem="2sI-Lh-ROv" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" constant="13" id="eMk-XL-nz4"/>
                             <constraint firstItem="ThR-hw-vhn" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="f78-ya-RYI"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="gVA-WE-MQI"/>
                             <constraint firstItem="ThR-hw-vhn" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="mLS-tu-LQa"/>
                             <constraint firstAttribute="bottomMargin" secondItem="ThR-hw-vhn" secondAttribute="bottom" id="vZc-bn-bKS"/>
                         </constraints>
@@ -118,6 +127,7 @@
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="eventSubtitle" destination="2sI-Lh-ROv" id="291-VF-ECM"/>
                         <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
                     </connections>
                 </viewController>
