@@ -62,6 +62,10 @@
     
 }
 
+- (void)didPressAccessoryButton:(UIButton *)sender {
+    NSLog(@"Paperclip clicked");
+}
+
 #pragma mark - JSQMessages CollectionView DataSource
 
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
