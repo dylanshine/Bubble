@@ -233,9 +233,10 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
-        BBChatViewController *destination = [segue destinationViewController];
-        destination.eventTitle = self.selectedAnnotation.event.eventTitle;
-        destination.roomID = [self.selectedAnnotation.event.eventID stringValue];
+        UINavigationController *destination = [segue destinationViewController];
+        BBChatViewController *chatVC = destination.viewControllers.firstObject;
+        chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
+        chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
     }
 }
 
