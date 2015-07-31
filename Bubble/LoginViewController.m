@@ -106,7 +106,6 @@
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"loginComplete" object:nil];
         
-        NSLog(@"Succesfully logged into Facebook");
     }];
 }
 

@@ -35,6 +35,8 @@
             
         } else {
             
+            // Add NSOperation Queue to eliminate possible race condition.
+            
             FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
             FBSDKGraphRequest *requestFriends = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil];
             FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];

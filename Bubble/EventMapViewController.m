@@ -58,7 +58,6 @@
     
     self.xmppManager = [XMPPManager sharedManager];
 
-
     self.mapView.delegate = self;
     
     [self setupMenuScrollView];
@@ -184,14 +183,10 @@
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
-        // Replace this
-        //annotationView.image = [UIImage imageNamed:@"Bubble-Red"];
 
-        //Val
-        BBAnnotation *annotation2 = annotation;
-        annotationView.image = [UIImage imageNamed:[annotation2 getEventImageName:annotation2.event]];
-        annotationView.frame =CGRectMake(0,0,30,30);
-        //Val END
+        BBAnnotation *eventAnnotation = annotation;
+        annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
+        annotationView.frame = CGRectMake(0,0,30,30);
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
