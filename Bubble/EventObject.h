@@ -14,7 +14,7 @@
 @property (nonatomic, strong) NSNumber *eventID;
 @property (nonatomic, strong) NSString *eventTitle;
 @property (nonatomic, strong) NSString *eventType;
-@property (nonatomic, strong) NSDate *eventTime;
+@property (nonatomic, strong) NSString *eventTime;
 @property (nonatomic, strong) NSString *venueName;
 @property (nonatomic, strong) NSMutableArray *eventPerformers;
 @property (nonatomic, strong) NSString *addressStreet;

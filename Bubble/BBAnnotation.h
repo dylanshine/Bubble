@@ -13,6 +13,9 @@
 @interface BBAnnotation : MKPointAnnotation
 
 @property (nonatomic, strong) EventObject *event;
+@property (nonatomic, strong) NSString *eventImageName;
+
+-(NSString*)getEventImageName:(EventObject*)eventName;
 
 @end
 

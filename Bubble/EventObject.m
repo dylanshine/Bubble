@@ -18,7 +18,7 @@
     NSNumber *eventID = jsonDict[@"id"];
     NSString *eventTitle = jsonDict[@"title"];
     NSString *eventType = jsonDict[@"type"];
-    NSDate *eventTime = jsonDict[@"datetime_local"];
+    NSString *eventTime = jsonDict[@"datetime_local"];
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"location"][@"lon"];
     NSString *venueName = jsonDict[@"venue"][@"name"];
