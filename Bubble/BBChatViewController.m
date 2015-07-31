@@ -211,7 +211,6 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
-    [self scrollToBottomAnimated:YES];
 }
 
 
