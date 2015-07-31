@@ -196,6 +196,7 @@
         //Val
         BBAnnotation *annotation2 = annotation;
         annotationView.image = [UIImage imageNamed:[annotation2 getEventImageName:annotation2.event]];
+        annotationView.frame =CGRectMake(0,0,30,30);
         //Val END
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
