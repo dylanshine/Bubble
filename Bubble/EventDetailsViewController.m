@@ -56,7 +56,7 @@
     
     _event = event;
     self.eventTitle.text = event.eventTitle;
-    self.eventSubtitle.text = event.eventType;
+    self.eventSubtitle.text = [[event.eventType stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
 }
 
 /*

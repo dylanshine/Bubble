@@ -26,5 +26,6 @@
 
 - (instancetype) initWithDictionary:(NSDictionary *)jsonDict;
 
+- (NSString*) stripEventTitleText:(NSString*)title;
 
 @end
