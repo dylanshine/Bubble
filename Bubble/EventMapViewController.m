@@ -19,13 +19,14 @@
 #import "BBAnnotation.h"
 #import "XMPPManager.h"
 #import "BBChatViewController.h"
+#import "LoginViewController.h"
 
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, nonatomic) IBOutlet UIView *containerView;
+@property (weak, nonatomic) IBOutlet UIView *eventDetailContainer;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
@@ -38,7 +39,6 @@
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (nonatomic) BOOL loaded;
 @property (nonatomic) BBAnnotation *selectedAnnotation;
-
 
 @property (nonatomic, assign) CGFloat scrollViewStartingPosition;
 @property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
@@ -131,15 +131,20 @@
 
 - (void)viewDidAppear:(BOOL)animated {
 
-//    uncomment the logOut to test login flow
-//    [PFUser logOut];
-    
+////    uncomment the logOut to test login flow
+    [PFUser logOut];
+////
+//    if (![PFUser currentUser]) {
+//        BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
+//        [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
+//            [currentUser saveInBackground];
+//            [self.xmppManager connect];
+//        }];
+//    }
+
+
     if (![PFUser currentUser]) {
-        BBLoginAlertView *login = [[BBLoginAlertView alloc] init];
-        [login showLoginAlertViewOn:self withCompletion:^(PFUser *currentUser) {
-            [currentUser saveInBackground];
-            [self.xmppManager connect];
-        }];
+
     }
 }
 

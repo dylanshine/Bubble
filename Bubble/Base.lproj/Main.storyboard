@@ -1,15 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
+        <!--Application View Controller-->
+        <scene sceneID="qKz-PC-Z5f">
+            <objects>
+                <viewController id="cni-Eh-A46" customClass="ApplicationViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="aPh-y9-X6M"/>
+                        <viewControllerLayoutGuide type="bottom" id="iC6-pi-52U"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="yic-ud-Spm">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5pi-kE-iTK">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5pi-kE-iTK" secondAttribute="trailing" id="3Wn-7n-ILx"/>
+                            <constraint firstItem="5pi-kE-iTK" firstAttribute="width" secondItem="yic-ud-Spm" secondAttribute="width" id="Owq-ZM-Ipq"/>
+                            <constraint firstItem="5pi-kE-iTK" firstAttribute="top" secondItem="yic-ud-Spm" secondAttribute="top" id="SWp-FL-1SN"/>
+                            <constraint firstItem="5pi-kE-iTK" firstAttribute="height" secondItem="yic-ud-Spm" secondAttribute="height" id="hri-hh-WIv"/>
+                            <constraint firstItem="5pi-kE-iTK" firstAttribute="leading" secondItem="yic-ud-Spm" secondAttribute="leading" id="kKe-vy-FYd"/>
+                            <constraint firstItem="iC6-pi-52U" firstAttribute="top" secondItem="5pi-kE-iTK" secondAttribute="bottom" id="wfQ-lx-CZ8"/>
+                        </constraints>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <connections>
+                        <outlet property="containerView" destination="5pi-kE-iTK" id="G6v-My-5jP"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kP8-RU-P6C" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="25.5" y="388.5"/>
+        </scene>
         <!--Event Map View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="EventMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="eventVC" id="BYZ-38-t0r" customClass="EventMapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -64,7 +99,7 @@
                     <navigationItem key="navigationItem" id="PQa-4J-qEK"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="containerView" destination="Y4C-VX-sVI" id="7Uo-Xn-2zZ"/>
+                        <outlet property="eventDetailContainer" destination="Y4C-VX-sVI" id="3eI-8h-M36"/>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>

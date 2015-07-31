@@ -15,6 +15,7 @@ pod 'INTULocationManager'
 pod 'Masonry'
 pod 'JSQMessagesViewController'
 pod 'XMPPFramework'
+pod 'SVProgressHUD'
 end
 
 target 'BubbleTests' do
