@@ -154,6 +154,7 @@
         annotation.coordinate = event.coordinate;
         annotation.event = event;
         annotation.title = event.eventTitle;
+        annotation.eventImageName = [annotation getEventImageName:annotation.event];
 
         [self.mapView addAnnotation:annotation];
     }
@@ -179,8 +180,12 @@
         annotationView.highlighted = YES;
         
         // Replace this
-        annotationView.image = [UIImage imageNamed:@"Bubble-Red"];
+        //annotationView.image = [UIImage imageNamed:@"Bubble-Red"];
 
+        //Val
+        BBAnnotation *annotation2 = annotation;
+        annotationView.image = [UIImage imageNamed:[annotation2 getEventImageName:annotation2.event]];
+        //Val END
         
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
