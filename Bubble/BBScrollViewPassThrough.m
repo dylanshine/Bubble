@@ -11,7 +11,6 @@
 @implementation BBScrollViewPassThrough
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-
     
     for (UIView *view in self.subviews) {
         CGPoint relativePoint = [view convertPoint:point fromView:self];

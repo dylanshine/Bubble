@@ -162,6 +162,12 @@
     self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    BBAnnotation *annotation = view.annotation;
+    
+    self.eventDetailsVC.event = annotation.event;
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
     static NSString *const eventAnnotationReuseID = @"eventAnnotation";
@@ -299,6 +305,7 @@
     self.searchBar.delegate = self;
     self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
     self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.alpha = .8;
     self.searchBar.showsScopeBar = NO;
     self.searchBar.returnKeyType = UIReturnKeyGo;
     [self.searchBar alwaysEnableReturn];
@@ -306,7 +313,7 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height * .9;
+    self.scrollViewStartingPosition = self.view.frame.size.height * .91;
     self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
