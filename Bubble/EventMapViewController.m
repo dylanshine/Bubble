@@ -66,6 +66,11 @@
     [self startLocationUpdateSubscription];
 }
 
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self connectToServer];
+}
+
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     
     if (velocity.y >= 0) {
@@ -127,19 +132,6 @@
     
     [self plotEvents];
 } 
-
-
-- (void)viewDidAppear:(BOOL)animated {
-
-////    uncomment the logOut to test login flow
-//    [PFUser logOut];
-    
-    [self.xmppManager connect];
-
-    if (![PFUser currentUser]) {
-
-    }
-}
 
 - (void) plotEvents {
     
@@ -318,6 +310,12 @@
     self.scrollView.alwaysBounceHorizontal = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
+}
+
+-(void)connectToServer {
+    if (![self.xmppManager.xmppStream isAuthenticated] && [PFUser currentUser]) {
+        [self.xmppManager connect];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

@@ -26,7 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-//    [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:~0];
+    [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:~0];
     self.xmppManager = [XMPPManager sharedManager];
     
     [Parse enableLocalDatastore];
@@ -60,9 +60,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
     [FBSDKAppEvents activateApp];
-    if ([PFUser currentUser].objectId) {
-       [self.xmppManager connect];
-    }
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
