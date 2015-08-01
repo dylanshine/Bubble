@@ -148,7 +148,7 @@
 
         [self.mapView addAnnotation:annotation];
     }
-    
+    NSUInteger count = self.mapView.annotations.count;
     self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
@@ -168,7 +168,7 @@
         return nil;
     }
     
-    annotationView = nil;  //annotations are reused and the below code is never entered to change the event type image.  Need to clear annotations or change bellow code
+    //annotationView = nil;  //annotations are reused and the below code is never entered to change the event type image.  Need to clear annotations or change bellow code
 
     if (!annotationView) {
         
@@ -205,6 +205,9 @@
 
     } else {
         annotationView.annotation = annotation;
+        BBAnnotation *eventAnnotation = annotation;
+        annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
+        annotationView.frame = CGRectMake(0,0,30,30);
     }
     
     return annotationView;
@@ -225,16 +228,32 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    
-    [self moveMapToClosestAnnotation];
+    if (self.mapView.annotations.count > 1){
+        [self moveMapToClosestAnnotation];
+    }
     
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+
     if ([self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
         [self.mapView deselectAnnotation:self.mapView.selectedAnnotations[0] animated:YES];
     }
     [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
+    if(self.mapView.annotations.count == 1){
+        UIAlertController *alertController = [UIAlertController
+                                              alertControllerWithTitle:@"No matches found"
+                                              message:@"Please try again!"
+                                              preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction
+                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+                                   style:UIAlertActionStyleDefault
+                                   handler:^(UIAlertAction *action)
+                                   {
+                                   }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
@@ -244,7 +263,6 @@
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
-    
     self.searchBar.showsScopeBar = YES;
 
     [UIView animateWithDuration:.25 animations:^{
@@ -272,25 +290,25 @@
 }
 
 - (void) moveMapToClosestAnnotation {
-    
-    MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
-    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
-        closestAnnotation = self.mapView.annotations.lastObject;
-    }
-    
-    for (MKPointAnnotation *annotation in self.mapView.annotations) {
-        CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
-        CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
-                                                                 longitude:closestAnnotation.coordinate.longitude];
-        if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
-            closestAnnotation = annotation;
+
+        MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
+        if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+            closestAnnotation = self.mapView.annotations.lastObject;
         }
-    }
-    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
-        closestAnnotation.title = @"😱 No Events Found 😱";
-    }
-    [self.mapView selectAnnotation:closestAnnotation animated:YES];
-    [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
+        
+        for (MKPointAnnotation *annotation in self.mapView.annotations) {
+            CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+            CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
+                                                                     longitude:closestAnnotation.coordinate.longitude];
+            if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
+                closestAnnotation = annotation;
+            }
+        }
+        if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+            closestAnnotation.title = @"😱 No Events Found 😱";
+        }
+        [self.mapView selectAnnotation:closestAnnotation animated:YES];
+        [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
 }
 
 -(void)setupSearchBar {
