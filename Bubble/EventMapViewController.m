@@ -238,7 +238,9 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    [self searchBar:searchBar textDidChange:self.searchBar.text];
+    if(self.searchBar.text.length > 0){
+        [self searchBar:searchBar textDidChange:self.searchBar.text];
+    }
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
