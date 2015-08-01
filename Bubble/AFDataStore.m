@@ -100,7 +100,7 @@
         self.filteredEventsArray = @[];
 
     }
-    
+    NSLog(@"Location Count: %lu",(unsigned long)self.filteredEventsArray.count);
     [self.delegate dataStore:self didLoadEvents:self.filteredEventsArray];
 
 }
