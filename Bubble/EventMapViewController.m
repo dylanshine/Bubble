@@ -168,6 +168,8 @@
         return nil;
     }
     
+    annotationView = nil;  //annotations are reused and the below code is never entered to change the event type image.  Need to clear annotations or change bellow code
+
     if (!annotationView) {
         
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:eventAnnotationReuseID];
