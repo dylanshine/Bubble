@@ -60,7 +60,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
     [FBSDKAppEvents activateApp];
-    if ([PFUser currentUser].objectId) {
+    if ([self.xmppManager.xmppStream isDisconnected]) {
        [self.xmppManager connect];
     }
 }
