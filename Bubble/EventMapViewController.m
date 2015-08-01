@@ -313,7 +313,7 @@
 }
 
 -(void)connectToServer {
-    if ([self.xmppManager.xmppStream isDisconnected] && [PFUser currentUser]) {
+    if (![self.xmppManager.xmppStream isAuthenticated] && [PFUser currentUser]) {
         [self.xmppManager connect];
     }
 }
