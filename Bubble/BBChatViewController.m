@@ -13,6 +13,7 @@
 #import <Parse.h>
 #import "XMPPManager.h"
 #import <Masonry.h>
+#include "SKPolygraph.h"
 
 @interface BBChatViewController () <MessageDelegate>
 
@@ -74,12 +75,32 @@
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     BBMessage *message = [self.messages objectAtIndex:indexPath.item];
+    
+    UIColor *messageBubbleColor = [self getMessageContentColor:message];
+    
     JSQMessagesBubbleImageFactory *bubbleFactory = [[JSQMessagesBubbleImageFactory alloc] init];
     if ([message.senderId isEqualToString:self.senderId]) {
-        return [bubbleFactory outgoingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleLightGrayColor]];;
+
+        
+        return [bubbleFactory outgoingMessagesBubbleImageWithColor:messageBubbleColor];;
     }
     
-    return [bubbleFactory incomingMessagesBubbleImageWithColor:[UIColor jsq_messageBubbleGreenColor]];
+    return [bubbleFactory incomingMessagesBubbleImageWithColor:messageBubbleColor];
+}
+
+-(UIColor*)getMessageContentColor:(BBMessage*)message{
+    float score = [[SKPolygraph sharedInstance] analyseSentiment:message.text];
+    UIColor *color;
+    if (score > 0){
+        color = [UIColor jsq_messageBubbleGreenColor];
+    }
+    else if (score == 0){
+        color = [UIColor jsq_messageBubbleLightGrayColor];
+    }
+    else {
+        color = [UIColor jsq_messageBubbleRedColor];
+    }
+    return color;
 }
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -195,6 +216,7 @@
     if (!msg.isMediaMessage) {
         
         if ([msg.senderId isEqualToString:self.senderId]) {
+
             cell.textView.textColor = [UIColor blackColor];
         }
         else {

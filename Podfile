@@ -16,6 +16,7 @@ pod 'Masonry'
 pod 'JSQMessagesViewController'
 pod 'XMPPFramework'
 pod 'SVProgressHUD'
+pod 'SKPolygraph'
 end
 
 target 'BubbleTests' do
