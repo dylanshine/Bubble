@@ -148,7 +148,6 @@
 
         [self.mapView addAnnotation:annotation];
     }
-    NSUInteger count = self.mapView.annotations.count;
     self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
 }
 
