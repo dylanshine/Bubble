@@ -257,12 +257,12 @@
     [self grabAvatarsForUsersInChat];
 }
 
--(void)userJoinedChat {
+-(void)newUserJoinedChatroom {
     [self grabAvatarsForUsersInChat];
 }
 
--(void)userLeftChat {
-    NSLog(@"user left...deal with it!");
+-(void)userLeftChatroom {
+    
 }
 
 -(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatar))block{
