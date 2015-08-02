@@ -103,7 +103,6 @@
 }
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
-    self.isOpen = YES;
     self.xmppReconnect = [[XMPPReconnect alloc] init];
     [self.xmppReconnect activate:self.xmppStream];
     [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
