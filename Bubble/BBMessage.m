@@ -19,7 +19,7 @@
         _isMediaMessage = NO;
         _text = text;
         _senderDisplayName = [PFUser currentUser][@"name"];
-        _senderId = [PFUser currentUser].objectId;
+        _senderId = [PFUser currentUser][@"facebookId"];
         
         NSMutableString *hashString = [text mutableCopy];
         [hashString appendString:[NSDate date].description];

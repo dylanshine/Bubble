@@ -18,7 +18,9 @@
 @interface BBChatViewController () <MessageDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
+@property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
 
 @end
 
@@ -27,11 +29,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.messages = [[NSMutableArray alloc] init];
+    self.avatars = [[NSMutableDictionary alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
-    self.senderId = [PFUser currentUser].objectId;
+    self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
     self.title = self.eventTitle;
+    [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(JSQMessagesAvatarImage *avatar) {
+        self.avatars[[PFUser currentUser][@"facebookId"]] = avatar;
+    }];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -123,8 +129,8 @@
      *
      *  Override the defaults in `viewDidLoad`
 //     */
-//    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-//    
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+//
 //    if ([message.senderId isEqualToString:self.senderId]) {
 //        if (![NSUserDefaults outgoingAvatarSetting]) {
 //            return nil;
@@ -136,9 +142,12 @@
 //        }
 //    }
 //    
-//    
-//    return [self.demoData.avatars objectForKey:message.senderId];
+//
+    if ([self.avatars objectForKey:message.senderId]) {
+        return [self.avatars objectForKey:message.senderId];
+    }
     return nil;
+    
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -230,6 +239,23 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
+}
+
+-(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatar))block{
+    if (![fbID isEqualToString:@""]) {
+        NSString *imageURLString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
+        NSURL *imageURL = [NSURL URLWithString:imageURLString];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            
+            UIImage *profilePic = [UIImage imageWithData:imageData];
+            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                                       avatarImageWithImage:profilePic
+                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+            block(avatarImage);
+        });
+    }
 }
 
 

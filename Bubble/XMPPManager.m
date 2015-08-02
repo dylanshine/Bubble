@@ -175,7 +175,7 @@
     if([message.text length] > 0) {
         
         XMPPMessage *xMessage = [[XMPPMessage alloc] init];
-        [xMessage addAttributeWithName:@"senderId" stringValue:[PFUser currentUser].objectId];
+        [xMessage addAttributeWithName:@"senderId" stringValue:[PFUser currentUser][@"facebookId"]];
         [xMessage addAttributeWithName:@"displayName" stringValue:[PFUser currentUser][@"name"]];
         NSString *dateTimeInterval = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]];
         [xMessage addAttributeWithName:@"date" stringValue:dateTimeInterval];
