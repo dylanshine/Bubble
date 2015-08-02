@@ -21,6 +21,9 @@
 @property (nonatomic, strong) NSString *addressCity;
 @property (nonatomic, strong) NSString *addressState;
 @property (nonatomic, strong) NSNumber *addressZip;
+@property (nonatomic, strong) NSURL *ticketURL;
+@property (nonatomic, strong) NSNumber *eventScore;
+@property (nonatomic, strong) NSNumber *venueScore;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
