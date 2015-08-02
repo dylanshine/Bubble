@@ -16,9 +16,17 @@
 - (void)newMessageReceived:(BBMessage *)messageContent;
 @end
 
+@protocol ChatOccupantDelegate <NSObject>
+@required
+- (void)connectToChatroom;
+- (void)newUserJoinedChatroom;
+- (void)userLeftChatroom;
+@end
+
 @interface XMPPManager : NSObject
 
 @property (nonatomic, weak) id<MessageDelegate>messageDelegate;
+@property (nonatomic, weak) id<ChatOccupantDelegate>chatOccupantDelegate;
 @property (nonatomic) XMPPStream *xmppStream;
 @property (nonatomic) XMPPRoom *xmppRoom;
 

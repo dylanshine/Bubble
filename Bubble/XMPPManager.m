@@ -158,12 +158,20 @@
     }
 }
 
+- (void)xmppRoom:(XMPPRoom *)sender occupantDidJoin:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence {
+    [self.chatOccupantDelegate newUserJoinedChatroom];
+}
+
+- (void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence {
+    [self.chatOccupantDelegate userLeftChatroom];
+}
+
 - (void)xmppRoomDidCreate:(XMPPRoom *)sender{
     NSLog(@"%@: %@", @"xmppRoomDidCreate", sender);
 }
 
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
-    NSLog(@"%@: %@", @"xmppRoomDidJoin", sender);
+    [self.chatOccupantDelegate connectToChatroom];
 }
 
 - (void)dealloc {

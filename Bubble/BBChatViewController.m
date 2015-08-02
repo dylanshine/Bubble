@@ -15,7 +15,7 @@
 #import <Masonry.h>
 #include "SKPolygraph.h"
 
-@interface BBChatViewController () <MessageDelegate>
+@interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
 @property (strong, nonatomic) NSMutableDictionary *avatars;
@@ -239,6 +239,30 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
+}
+
+-(void)grabAvatarsForUsersInChat {
+    NSArray *currentOccupants =  [(XMPPRoomMemoryStorage *)self.xmppManager.xmppRoom.xmppRoomStorage occupants];
+    
+    for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
+        if (![[self.avatars allKeys] containsObject:occupant.nickname]) {
+            [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(JSQMessagesAvatarImage *avatar) {
+                self.avatars[occupant.nickname] = avatar;
+            }];
+        }
+    }
+}
+
+-(void)connectToChatroom {
+    [self grabAvatarsForUsersInChat];
+}
+
+-(void)userJoinedChat {
+    [self grabAvatarsForUsersInChat];
+}
+
+-(void)userLeftChat {
+    NSLog(@"user left...deal with it!");
 }
 
 -(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatar))block{
