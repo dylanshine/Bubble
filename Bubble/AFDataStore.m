@@ -100,7 +100,6 @@
         self.filteredEventsArray = @[];
 
     }
-    
     [self.delegate dataStore:self didLoadEvents:self.filteredEventsArray];
 
 }

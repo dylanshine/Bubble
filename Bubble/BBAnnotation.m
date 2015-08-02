@@ -14,7 +14,7 @@
     
     NSSet *sportsSet = [NSSet setWithObjects:@"animal_sports", @"baseball", @"basketball", @"boxing", @"european_soccer", @"extreme_sports", @"fighting", @"football", @"golf", @"hockey", @"horse_racing", @"international_soccer", @"lpga", @"minor_league",@"minor_league_baseball", @"mlb", @"mls", @"mma", @"nba", @"nba_dleague", @"ncaa_baseball", @"ncaa_basketball", @"ncaa_football", @"ncaa_hockey", @"ncaa_soccer", @"ncaa_womens_basketball", @"nfl", @"nhl", @"olympic_sports", @"pga", @"rodeo", @"soccer", @"sports", @"tennis", @"world_cup", @"wrestling", @"wwe", nil];
     
-    NSSet *performingArtsSet = [NSSet setWithObjects:@"broadway_tickets_national",@"cirque_du_soleil",@"classical",@"classical_opera",@"    classical_orchestral_instrumental",@"comedy",@"dance_performance_tour",@"film",@"literary",@"theater", nil];
+    NSSet *performingArtsSet = [NSSet setWithObjects:@"broadway_tickets_national",@"cirque_du_soleil",@"classical",@"classical_opera",@"    classical_orchestral_instrumental",@"comedy",@"dance_performance_tour", @"family", @"film",@"literary",@"theater", nil];
     
     NSSet *concertSet = [NSSet setWithObjects:@"concert",@"music_festival", nil];
     
