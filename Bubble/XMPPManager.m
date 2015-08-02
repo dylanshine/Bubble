@@ -10,7 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import <Parse.h>
+#import <XMPPReconnect.h>
 
+@interface XMPPManager()
+@property (nonatomic) XMPPReconnect *xmppReconnect;
+@end
 
 @implementation XMPPManager
 
@@ -100,6 +104,9 @@
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
     self.isOpen = YES;
+    self.xmppReconnect = [[XMPPReconnect alloc] init];
+    [self.xmppReconnect activate:self.xmppStream];
+    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     NSError *error = nil;
     if(![self.xmppStream authenticateAnonymously:&error]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
