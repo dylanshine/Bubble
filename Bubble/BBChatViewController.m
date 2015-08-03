@@ -14,6 +14,8 @@
 #import "XMPPManager.h"
 #import <Masonry.h>
 #import <SKPolygraph.h>
+#import <AFNetworking.h>
+
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
@@ -270,20 +272,28 @@
 
 -(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatarImage))block{
     if (![fbID isEqualToString:@""]) {
-        NSString *imageURLString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
-        NSURL *imageURL = [NSURL URLWithString:imageURLString];
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
-            
-            UIImage *profilePic = [UIImage imageWithData:imageData];
-            
-            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
-                                                   avatarImageWithImage:profilePic
-                                                   diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-
-            block(avatarImage);
-        });
+        NSString *url = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        manager.responseSerializer = [AFImageResponseSerializer serializer];
+        [manager GET:url parameters:nil
+         
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 
+                 JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                                        avatarImageWithImage:responseObject
+                                                                    diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+                 block(avatarImage);
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 
+                 // Need to add placeholder image on failure
+                 
+                 NSLog(@"Error: %@", error);
+                 
+        }];
+        
     }
 }
 
