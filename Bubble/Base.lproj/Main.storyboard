@@ -75,8 +75,8 @@
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
                                 </constraints>
                             </scrollView>
-                            <searchBar alpha="0.79999999999999982" contentMode="redraw" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5LK-mr-ibY">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                            <searchBar alpha="0.79999999999999982" contentMode="redraw" searchBarStyle="minimal" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5LK-mr-ibY">
+                                <rect key="frame" x="38" y="20" width="300" height="44"/>
                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
                             </searchBar>
                         </subviews>
@@ -87,7 +87,7 @@
                             <constraint firstAttribute="centerY" secondItem="Axx-4m-T16" secondAttribute="centerY" id="CUz-35-5UA"/>
                             <constraint firstItem="5LK-mr-ibY" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G0e-YO-SRa"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MFs-hJ-CfO"/>
-                            <constraint firstItem="Axx-4m-T16" firstAttribute="width" secondItem="5LK-mr-ibY" secondAttribute="width" id="MKr-ue-wLJ"/>
+                            <constraint firstItem="5LK-mr-ibY" firstAttribute="width" secondItem="Axx-4m-T16" secondAttribute="width" multiplier="0.8" id="MKr-ue-wLJ"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="OWG-bJ-3f4"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PbR-RJ-fXp"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="centerX" secondItem="5LK-mr-ibY" secondAttribute="centerX" id="XTE-gS-YEx"/>

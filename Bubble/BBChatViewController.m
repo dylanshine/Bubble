@@ -16,6 +16,7 @@
 #import <SKPolygraph.h>
 #import <AFNetworking.h>
 
+
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;

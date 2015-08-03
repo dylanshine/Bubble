@@ -117,10 +117,10 @@
     if ([self.eventsArray isEqual:@[]]) {
         [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
             [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
-                self.searchBar.backgroundColor = [UIColor redColor];
+                self.searchBar.barStyle = UIBarStyleBlack;
             }];
             [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
-                self.searchBar.backgroundColor = [UIColor whiteColor];
+                self.searchBar.barTintColor = [UIColor whiteColor];
             }];
         } completion:^(BOOL finished) { }];
     }
@@ -280,7 +280,7 @@
             [self.searchBar resignFirstResponder];
             self.searchBar.showsScopeBar = NO;
             [UIView animateWithDuration:.25 animations:^{
-            self.searchBar.alpha = 0.8;
+            self.searchBar.alpha = 0.9;
             
             }];
         }
@@ -312,10 +312,10 @@
 
 -(void)setupSearchBar {
     self.searchBar.delegate = self;
-    self.searchBar.scopeButtonTitles = @[ @"Name", @"Venue", @"Performer" ];
     self.searchBar.backgroundColor = [UIColor whiteColor];
-    self.searchBar.alpha = .8;
-    self.searchBar.showsScopeBar = NO;
+    self.searchBar.layer.cornerRadius = 10;
+    self.searchBar.clipsToBounds = YES;
+    self.searchBar.alpha = .9;
     self.searchBar.returnKeyType = UIReturnKeyGo;
     [self.searchBar alwaysEnableReturn];
 }
