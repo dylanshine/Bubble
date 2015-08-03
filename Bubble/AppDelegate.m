@@ -26,7 +26,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    [DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:~0];
+    //[DDLog addLogger:[DDTTYLogger sharedInstance] withLogLevel:~0];
     self.xmppManager = [XMPPManager sharedManager];
     
     UIUserNotificationType userNotificationTypes = (UIUserNotificationTypeAlert |
@@ -34,7 +34,7 @@
                                                     UIUserNotificationTypeSound);
     UIUserNotificationSettings *settings = [UIUserNotificationSettings settingsForTypes:userNotificationTypes
                                                                              categories:nil];
-    [application registerUserNotificationSettings:settings];
+    [application registerUserNotificationSettings:settings];    
     [application registerForRemoteNotifications];
     
     [Parse enableLocalDatastore];
@@ -86,8 +86,14 @@
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    currentInstallation.channels = @[ @"global" ];
+    currentInstallation.channels = @[[PFUser currentUser].objectId];
+    NSLog(@"Channel running");
     [currentInstallation saveInBackground];
+}
+
+- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error{
+    NSLog(@"Failing %@", error.description);
+    
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
