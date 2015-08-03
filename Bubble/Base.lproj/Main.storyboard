@@ -184,7 +184,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="5ZV-Mz-MH7">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="WdB-1K-sKl">
+                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="WdB-1K-sKl">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="n0Y-rO-7M6" id="4vG-6U-9QO"/>
                             </connections>

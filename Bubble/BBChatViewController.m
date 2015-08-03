@@ -15,10 +15,12 @@
 #import <Masonry.h>
 #include "SKPolygraph.h"
 
-@interface BBChatViewController () <MessageDelegate>
+@interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
 @property (strong, nonatomic) NSMutableArray *messages;
+@property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
+@property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
 
 @end
 
@@ -27,16 +29,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.messages = [[NSMutableArray alloc] init];
+    self.avatars = [[NSMutableDictionary alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
-    self.senderId = [PFUser currentUser].objectId;
+    self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
+    self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
+    self.inputToolbar.contentView.leftBarButtonItem = nil;
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.xmppManager joinOrCreateRoom:self.roomID];
+    if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
+        [self grabCurrentUserAvatar];
+    }
 }
 
 -(void)viewDidDisappear:(BOOL)animated {
@@ -55,14 +64,9 @@
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     
     BBMessage *message =[[BBMessage alloc] initWithText:text];
-//    [self.messages addObject:message];
     [self.xmppManager sendMessage:message];
     [self finishSendingMessageAnimated:YES];
     
-}
-
-- (void)didPressAccessoryButton:(UIButton *)sender {
-    NSLog(@"Paperclip clicked");
 }
 
 #pragma mark - JSQMessages CollectionView DataSource
@@ -123,8 +127,8 @@
      *
      *  Override the defaults in `viewDidLoad`
 //     */
-//    JSQMessage *message = [self.demoData.messages objectAtIndex:indexPath.item];
-//    
+    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+//
 //    if ([message.senderId isEqualToString:self.senderId]) {
 //        if (![NSUserDefaults outgoingAvatarSetting]) {
 //            return nil;
@@ -136,9 +140,12 @@
 //        }
 //    }
 //    
-//    
-//    return [self.demoData.avatars objectForKey:message.senderId];
+//
+    if ([self.avatars objectForKey:message.senderId]) {
+        return [self.avatars objectForKey:message.senderId];
+    }
     return nil;
+    
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -230,6 +237,54 @@
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
+}
+
+-(void)grabCurrentUserAvatar {
+    [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(JSQMessagesAvatarImage *avatarImage) {
+        self.avatars[[PFUser currentUser][@"facebookId"]] = avatarImage;
+    }];
+}
+
+-(void)grabAvatarsForUsersInChat {
+    NSArray *currentOccupants =  [(XMPPRoomMemoryStorage *)self.xmppManager.xmppRoom.xmppRoomStorage occupants];
+    
+    for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
+        if (![self.avatars objectForKey:occupant.nickname]) {
+            [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(JSQMessagesAvatarImage *avatarImage) {
+                self.avatars[occupant.nickname] = avatarImage;
+            }];
+        }
+    }
+}
+
+-(void)currentUserConnectedToChatroom {
+    NSLog(@"You have successfully connected to chat room: %@",self.roomID);
+    [self grabAvatarsForUsersInChat];
+}
+
+-(void)newUserJoinedChatroom {
+    NSLog(@"New user joined the chat room");
+    [self grabAvatarsForUsersInChat];
+}
+
+
+-(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatarImage))block{
+    if (![fbID isEqualToString:@""]) {
+        NSString *imageURLString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
+        NSURL *imageURL = [NSURL URLWithString:imageURLString];
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
+            
+            UIImage *profilePic = [UIImage imageWithData:imageData];
+            
+            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                                   avatarImageWithImage:profilePic
+                                                   diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+
+            block(avatarImage);
+        });
+    }
 }
 
 

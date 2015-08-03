@@ -7,7 +7,7 @@
 //
 
 #import "FacebookLoginManager.h"
-
+#import <Parse.h>
 
 
 @implementation FacebookLoginManager
@@ -35,15 +35,15 @@
             
         } else {
             
-            // Add NSOperation Queue to eliminate possible race condition.
+            FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
             
             FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil];
             FBSDKGraphRequest *requestFriends = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me/friends" parameters:nil];
-            FBSDKGraphRequestConnection *connection = [[FBSDKGraphRequestConnection alloc] init];
             
             [connection addRequest:request completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
                 NSDictionary *userData = (NSDictionary *)result;
                 currentUser[@"name"] = userData[@"name"];
+                currentUser[@"facebookId"] = userData[@"id"];
             }];
             
             [connection addRequest:requestFriends completionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
@@ -51,10 +51,11 @@
                 currentUser[@"friends"] = userData[@"data"];
                 block(currentUser);
             }];
-            
+
             [connection start];
             
         }
     }];
 }
+
 @end

@@ -10,7 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import <Parse.h>
+#import <XMPPReconnect.h>
 
+@interface XMPPManager()
+@property (nonatomic) XMPPReconnect *xmppReconnect;
+@end
 
 @implementation XMPPManager
 
@@ -99,7 +103,6 @@
 }
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
-    self.isOpen = YES;
     NSError *error = nil;
     if(![self.xmppStream authenticateAnonymously:&error]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -113,6 +116,9 @@
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
     NSLog(@"User Authenticated.");
+    self.xmppReconnect = [[XMPPReconnect alloc] init];
+    [self.xmppReconnect activate:self.xmppStream];
+    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self goOnline];
 }
 
@@ -132,7 +138,7 @@
                                             dispatchQueue:dispatch_get_main_queue()];
     [self.xmppRoom activate:self.xmppStream];
     [self.xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [self.xmppRoom joinRoomUsingNickname:[PFUser currentUser][@"name"]
+    [self.xmppRoom joinRoomUsingNickname:[PFUser currentUser][@"facebookId"]
                                  history:nil
                                 password:nil];
 }
@@ -152,12 +158,16 @@
     }
 }
 
+- (void)xmppRoom:(XMPPRoom *)sender occupantDidJoin:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence {
+    [self.chatOccupantDelegate newUserJoinedChatroom];
+}
+
 - (void)xmppRoomDidCreate:(XMPPRoom *)sender{
     NSLog(@"%@: %@", @"xmppRoomDidCreate", sender);
 }
 
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
-    NSLog(@"%@: %@", @"xmppRoomDidJoin", sender);
+    [self.chatOccupantDelegate currentUserConnectedToChatroom];
 }
 
 - (void)dealloc {
@@ -169,7 +179,7 @@
     if([message.text length] > 0) {
         
         XMPPMessage *xMessage = [[XMPPMessage alloc] init];
-        [xMessage addAttributeWithName:@"senderId" stringValue:[PFUser currentUser].objectId];
+        [xMessage addAttributeWithName:@"senderId" stringValue:[PFUser currentUser][@"facebookId"]];
         [xMessage addAttributeWithName:@"displayName" stringValue:[PFUser currentUser][@"name"]];
         NSString *dateTimeInterval = [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]];
         [xMessage addAttributeWithName:@"date" stringValue:dateTimeInterval];
