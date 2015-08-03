@@ -45,7 +45,7 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    [self.xmppManager disconnect];
+//    [self.xmppManager disconnect];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {

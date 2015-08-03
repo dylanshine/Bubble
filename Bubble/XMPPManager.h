@@ -16,12 +16,18 @@
 - (void)newMessageReceived:(BBMessage *)messageContent;
 @end
 
+@protocol ChatOccupantDelegate <NSObject>
+@required
+- (void)currentUserConnectedToChatroom;
+- (void)newUserJoinedChatroom;
+@end
+
 @interface XMPPManager : NSObject
 
 @property (nonatomic, weak) id<MessageDelegate>messageDelegate;
+@property (nonatomic, weak) id<ChatOccupantDelegate>chatOccupantDelegate;
 @property (nonatomic) XMPPStream *xmppStream;
 @property (nonatomic) XMPPRoom *xmppRoom;
-@property (nonatomic) BOOL isOpen;
 
 +(instancetype)sharedManager;
 -(BOOL)connect;
