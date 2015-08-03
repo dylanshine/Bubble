@@ -39,6 +39,7 @@
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
+
     
 }
 
@@ -109,40 +110,8 @@
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want avatars.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-     *
-     *  It is possible to have only outgoing avatars or only incoming avatars, too.
-     */
-    
-    /**
-     *  Return your previously created avatar image data objects.
-     *
-     *  Note: these the avatars will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-//     */
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-//
-//    if ([message.senderId isEqualToString:self.senderId]) {
-//        if (![NSUserDefaults outgoingAvatarSetting]) {
-//            return nil;
-//        }
-//    }
-//    else {
-//        if (![NSUserDefaults incomingAvatarSetting]) {
-//            return nil;
-//        }
-//    }
-//    
-//
+
     if ([self.avatars objectForKey:message.senderId]) {
         return [self.avatars objectForKey:message.senderId];
     }
@@ -161,13 +130,10 @@
     return nil;
 }
 
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPathgit
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-    
-    /**
-     *  iOS7-style sender name labels
-     */
+
     if ([message.senderId isEqualToString:self.senderId]) {
         return nil;
     }
@@ -179,10 +145,12 @@
         }
     }
     
-    /**
-     *  Don't specify attributes to use the defaults.
-     */
-    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+    NSArray *splitName = [message.senderDisplayName componentsSeparatedByString:@" "];
+    NSString *formattedName = [NSString stringWithFormat:@"%@ %@.", splitName[0], [(NSString*)[splitName lastObject] substringToIndex:1]];
+    
+    NSAttributedString *attributedName = [[NSAttributedString alloc] initWithString:formattedName];
+    NSLog(@"Formatted name: %@", formattedName);
+    return attributedName;
 }
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
@@ -227,8 +195,12 @@
         }
         else {
             cell.textView.textColor = [UIColor whiteColor];
+
         }
         
+
+        cell.messageBubbleTopLabel.textAlignment = NSTextAlignmentLeft;
+
         cell.textView.linkTextAttributes = @{ NSForegroundColorAttributeName : cell.textView.textColor,
                                               NSUnderlineStyleAttributeName : @(NSUnderlineStyleSingle | NSUnderlinePatternSolid) };
     }
@@ -295,6 +267,39 @@
         }];
         
     }
+}
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    if (indexPath.item % 3 == 0) {
+        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+    }
+    
+    return 0.0f;
+}
+
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    /**
+     *  iOS7-style sender name labels
+     */
+    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    if ([[currentMessage senderId] isEqualToString:self.senderId]) {
+        return 0.0f;
+    }
+    
+    if (indexPath.item - 1 > 0) {
+        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
+            return 0.0f;
+        }
+    }
+    
+    return kJSQMessagesCollectionViewCellLabelHeightDefault;
 }
 
 
