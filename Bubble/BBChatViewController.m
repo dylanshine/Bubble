@@ -275,7 +275,7 @@
             
             [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
                 if (!error) {
-                    NSLog(@"%@",objects);
+                    [self sendPushNotificationToEventFriends:objects];
                 } else {
                     NSLog(@"Error fetching users in event");
                 }
@@ -284,6 +284,19 @@
             [self grabAvatarsForUsersInChat];
         }
     }];
+}
+
+- (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
+
+    NSSet *currentUserFriends = [NSSet setWithArray:[[[PFUser currentUser] valueForKeyPath:@"friends"] valueForKeyPath:@"id"]];
+    
+    for (PFUser *user in eventUsers) {
+        if ([currentUserFriends containsObject: user[@"facebookId"]]) {
+            NSLog(@"Your friend %@ is in the chat",user[@"name"]);
+            NSString *pushNotification = [NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up?", [PFUser currentUser][@"name"]];
+            [PFPush sendPushMessageToChannelInBackground:user.objectId withMessage:pushNotification];
+        }
+    }
 }
 
 -(void)newUserJoinedChatroom {
