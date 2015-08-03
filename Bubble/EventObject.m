@@ -26,6 +26,9 @@
     NSString *addressCity = jsonDict[@"venue"][@"city"];
     NSString *addressState = jsonDict[@"venue"][@"state"];
     NSNumber *addressZip = jsonDict[@"venue"][@"postal_code"];
+    NSURL *ticketURL = jsonDict[@"url"];
+    NSNumber *eventScore = jsonDict[@"score"];
+    NSNumber *venueScore = jsonDict[@"venue"][@"score"];
     
     NSMutableArray *eventPerformers = [[NSMutableArray alloc]init];;
     for(NSDictionary* performer in jsonDict[@"performers"]){
@@ -48,6 +51,9 @@
         _addressCity = addressCity;
         _addressState = addressState;
         _addressZip = addressZip;
+        _ticketURL = ticketURL;
+        _eventScore = eventScore;
+        _venueScore = venueScore;
     }
     
     return self;
