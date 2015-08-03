@@ -128,21 +128,21 @@
      *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize
      *
      *  Override the defaults in `viewDidLoad`
-//     */
+     //     */
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-//
-//    if ([message.senderId isEqualToString:self.senderId]) {
-//        if (![NSUserDefaults outgoingAvatarSetting]) {
-//            return nil;
-//        }
-//    }
-//    else {
-//        if (![NSUserDefaults incomingAvatarSetting]) {
-//            return nil;
-//        }
-//    }
-//    
-//
+    //
+    //    if ([message.senderId isEqualToString:self.senderId]) {
+    //        if (![NSUserDefaults outgoingAvatarSetting]) {
+    //            return nil;
+    //        }
+    //    }
+    //    else {
+    //        if (![NSUserDefaults incomingAvatarSetting]) {
+    //            return nil;
+    //        }
+    //    }
+    //
+    //
     if ([self.avatars objectForKey:message.senderId]) {
         return [self.avatars objectForKey:message.senderId];
     }
@@ -152,7 +152,7 @@
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
@@ -261,7 +261,29 @@
 
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    [self grabAvatarsForUsersInChat];
+    
+    PFUser *currentUser = [PFUser currentUser];
+    
+    currentUser[@"eventID"] = self.roomID;
+    
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        
+        if (succeeded) {
+            PFQuery *query = [PFUser query];
+            
+            [query whereKey:@"eventID" equalTo:self.roomID];
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error) {
+                    NSLog(@"%@",objects);
+                } else {
+                    NSLog(@"Error fetching users in event");
+                }
+            }];
+            
+            [self grabAvatarsForUsersInChat];
+        }
+    }];
 }
 
 -(void)newUserJoinedChatroom {
@@ -283,7 +305,7 @@
                  
                  JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
                                                         avatarImageWithImage:responseObject
-                                                                    diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+                                                        diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
                  block(avatarImage);
                  
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -292,7 +314,7 @@
                  
                  NSLog(@"Error: %@", error);
                  
-        }];
+             }];
         
     }
 }
