@@ -13,7 +13,7 @@
 #import <Parse.h>
 #import "XMPPManager.h"
 #import <Masonry.h>
-#include "SKPolygraph.h"
+#import <SKPolygraph.h>
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
