@@ -64,6 +64,9 @@
     [self setupSearchBar];
     
     [self startLocationUpdateSubscription];
+    
+    [PFPush sendPushMessageToChannelInBackground:@"global" withMessage:@"Hello Bitches!"];
+
 }
 
 -(void)viewWillAppear:(BOOL)animated {

@@ -121,7 +121,7 @@
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
@@ -231,7 +231,42 @@
 
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    [self grabAvatarsForUsersInChat];
+    
+    PFUser *currentUser = [PFUser currentUser];
+    
+    currentUser[@"eventID"] = self.roomID;
+    
+    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        
+        if (succeeded) {
+            PFQuery *query = [PFUser query];
+            
+            [query whereKey:@"eventID" equalTo:self.roomID];
+            
+            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                if (!error) {
+                    [self sendPushNotificationToEventFriends:objects];
+                } else {
+                    NSLog(@"Error fetching users in event");
+                }
+            }];
+            
+            [self grabAvatarsForUsersInChat];
+        }
+    }];
+}
+
+- (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
+
+    NSSet *currentUserFriends = [NSSet setWithArray:[[[PFUser currentUser] valueForKeyPath:@"friends"] valueForKeyPath:@"id"]];
+    
+    for (PFUser *user in eventUsers) {
+        if ([currentUserFriends containsObject: user[@"facebookId"]]) {
+            NSLog(@"Your friend %@ is in the chat",user[@"name"]);
+            NSString *pushNotification = [NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up?", [PFUser currentUser][@"name"]];
+            [PFPush sendPushMessageToChannelInBackground:user.objectId withMessage:pushNotification];
+        }
+    }
 }
 
 -(void)newUserJoinedChatroom {
@@ -253,7 +288,7 @@
                  
                  JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
                                                         avatarImageWithImage:responseObject
-                                                                    diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+                                                        diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
                  block(avatarImage);
                  
              } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -262,7 +297,7 @@
                  
                  NSLog(@"Error: %@", error);
                  
-        }];
+             }];
         
     }
 }
