@@ -18,9 +18,8 @@
 
 @protocol ChatOccupantDelegate <NSObject>
 @required
-- (void)connectToChatroom;
+- (void)currentUserConnectedToChatroom;
 - (void)newUserJoinedChatroom;
-- (void)userLeftChatroom;
 @end
 
 @interface XMPPManager : NSObject

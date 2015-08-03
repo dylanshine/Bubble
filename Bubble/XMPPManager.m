@@ -103,9 +103,6 @@
 }
 
 - (void)xmppStreamDidConnect:(XMPPStream *)sender {
-    self.xmppReconnect = [[XMPPReconnect alloc] init];
-    [self.xmppReconnect activate:self.xmppStream];
-    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     NSError *error = nil;
     if(![self.xmppStream authenticateAnonymously:&error]) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
@@ -119,6 +116,9 @@
 
 - (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
     NSLog(@"User Authenticated.");
+    self.xmppReconnect = [[XMPPReconnect alloc] init];
+    [self.xmppReconnect activate:self.xmppStream];
+    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self goOnline];
 }
 
@@ -162,16 +162,12 @@
     [self.chatOccupantDelegate newUserJoinedChatroom];
 }
 
-- (void)xmppRoom:(XMPPRoom *)sender occupantDidLeave:(XMPPJID *)occupantJID withPresence:(XMPPPresence *)presence {
-    [self.chatOccupantDelegate userLeftChatroom];
-}
-
 - (void)xmppRoomDidCreate:(XMPPRoom *)sender{
     NSLog(@"%@: %@", @"xmppRoomDidCreate", sender);
 }
 
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
-    [self.chatOccupantDelegate connectToChatroom];
+    [self.chatOccupantDelegate currentUserConnectedToChatroom];
 }
 
 - (void)dealloc {
