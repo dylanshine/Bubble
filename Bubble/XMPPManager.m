@@ -138,7 +138,7 @@
                                             dispatchQueue:dispatch_get_main_queue()];
     [self.xmppRoom activate:self.xmppStream];
     [self.xmppRoom addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [self.xmppRoom joinRoomUsingNickname:[PFUser currentUser].objectId
+    [self.xmppRoom joinRoomUsingNickname:[PFUser currentUser][@"facebookId"]
                                  history:nil
                                 password:nil];
 }

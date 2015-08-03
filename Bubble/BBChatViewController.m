@@ -34,9 +34,13 @@
     self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
     self.xmppManager.messageDelegate = self;
+    self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
-    [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(JSQMessagesAvatarImage *avatar) {
-        self.avatars[[PFUser currentUser][@"facebookId"]] = avatar;
+    [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(UIImage *profilePic) {
+        JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                               avatarImageWithImage:profilePic
+                                               diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+        self.avatars[[PFUser currentUser][@"facebookId"]] = avatarImage;
     }];
 }
 
@@ -61,7 +65,6 @@
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
     
     BBMessage *message =[[BBMessage alloc] initWithText:text];
-//    [self.messages addObject:message];
     [self.xmppManager sendMessage:message];
     [self finishSendingMessageAnimated:YES];
     
@@ -246,26 +249,32 @@
     
     for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
         if (![[self.avatars allKeys] containsObject:occupant.nickname]) {
-            [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(JSQMessagesAvatarImage *avatar) {
-                self.avatars[occupant.nickname] = avatar;
+            [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(UIImage *profilePic) {
+                JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                                       avatarImageWithImage:profilePic
+                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+                self.avatars[occupant.nickname] = avatarImage;
             }];
         }
     }
 }
 
 -(void)connectToChatroom {
+    NSLog(@"Connected to chat room");
     [self grabAvatarsForUsersInChat];
 }
 
 -(void)newUserJoinedChatroom {
+    NSLog(@"New user joined the chat room");
     [self grabAvatarsForUsersInChat];
 }
 
 -(void)userLeftChatroom {
-    
+    NSLog(@"User joined the chat room");
+
 }
 
--(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatar))block{
+-(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(UIImage *profilePic))block{
     if (![fbID isEqualToString:@""]) {
         NSString *imageURLString = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
         NSURL *imageURL = [NSURL URLWithString:imageURLString];
@@ -274,10 +283,8 @@
             NSData *imageData = [NSData dataWithContentsOfURL:imageURL];
             
             UIImage *profilePic = [UIImage imageWithData:imageData];
-            JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
-                                                       avatarImageWithImage:profilePic
-                                                       diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-            block(avatarImage);
+            
+            block(profilePic);
         });
     }
 }
