@@ -15,6 +15,7 @@
 #import <Masonry.h>
 #import <SKPolygraph.h>
 #import <AFNetworking.h>
+#import <TSMessages/TSMessageView.h>
 
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
@@ -39,6 +40,7 @@
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
+    self.friendsAtEvent = [[NSMutableArray alloc]init];
     
 }
 
@@ -299,7 +301,17 @@
             NSLog(@"Your friend %@ is in the chat",user[@"name"]);
             NSString *pushNotification = [NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up?", [PFUser currentUser][@"name"]];
             [PFPush sendPushMessageToChannelInBackground:user.objectId withMessage:pushNotification];
+            // send user a local push notification
+            [self.friendsAtEvent addObject:user[@"name"]];
         }
+    }
+    if (self.friendsAtEvent.count > 0 && self.friendsAtEvent.count <= 2){
+        for (NSString *friend in self.friendsAtEvent){
+            [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up? ",friend ]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
+        }
+    }
+    else if(self.friendsAtEvent.count > 3){
+        [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"%lu of your friends are also at the event!",(unsigned long)self.friendsAtEvent.count ]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
     }
 }
 
