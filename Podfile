@@ -20,7 +20,3 @@ pod 'SKPolygraph'
 pod 'TSMessages'
 end
 
-target 'BubbleTests' do
-
-end
-
