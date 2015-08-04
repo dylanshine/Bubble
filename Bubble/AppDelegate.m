@@ -66,9 +66,8 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
     [FBSDKAppEvents activateApp];
-
+    [self connectToServer];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -86,8 +85,7 @@
     // Store the deviceToken in the current installation and save it to Parse.
     PFInstallation *currentInstallation = [PFInstallation currentInstallation];
     [currentInstallation setDeviceTokenFromData:deviceToken];
-    currentInstallation.channels = @[[PFUser currentUser].objectId];
-    NSLog(@"Channel running");
+    currentInstallation.channels = @[@"global"];
     [currentInstallation saveInBackground];
 }
 
@@ -98,6 +96,13 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+}
+
+-(void)connectToServer {
+    if (![self.xmppManager.xmppStream isAuthenticated] && [PFUser currentUser]) {
+        [self.xmppManager connect];
+    }
+    
 }
 
 @end

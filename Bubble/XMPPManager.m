@@ -120,6 +120,10 @@
     [self.xmppReconnect activate:self.xmppStream];
     [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self goOnline];
+    
+    if (self.currentRoomId && ![self.xmppRoom isJoined]) {
+        [self joinOrCreateRoom:self.currentRoomId];
+    }
 }
 
 
@@ -130,6 +134,7 @@
 
 
 - (void)joinOrCreateRoom:(NSString *)room {
+    self.currentRoomId = room;
     XMPPRoomMemoryStorage *roomMemory = [[XMPPRoomMemoryStorage alloc]init];
     NSString *roomID = [NSString stringWithFormat:@"%@@conference.bubble", room];
     XMPPJID  *roomJID = [XMPPJID jidWithString:roomID];

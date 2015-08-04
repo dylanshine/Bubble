@@ -73,7 +73,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self connectToServer];
+
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -381,11 +381,6 @@
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
 }
 
--(void)connectToServer {
-    if (![self.xmppManager.xmppStream isAuthenticated] && [PFUser currentUser]) {
-        [self.xmppManager connect];
-    }
-}
 
 - (void)didReceiveMemoryWarning {
     

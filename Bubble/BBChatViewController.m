@@ -15,6 +15,7 @@
 #import <Masonry.h>
 #import <SKPolygraph.h>
 #import <AFNetworking.h>
+#import <TSMessages/TSMessageView.h>
 
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
@@ -39,20 +40,30 @@
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
+    self.friendsAtEvent = [[NSMutableArray alloc]init];
     
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.xmppManager joinOrCreateRoom:self.roomID];
+    
+    if (self.roomID != self.xmppManager.currentRoomId) {
+        [self.xmppManager.xmppRoom deactivate];
+        [self.xmppManager joinOrCreateRoom:self.roomID];
+    }
+    
     if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
         [self grabCurrentUserAvatar];
     }
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self finishReceivingMessageAnimated:NO];
+}
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.xmppManager.xmppRoom deactivate];
 }
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -261,7 +272,8 @@
 
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    
+    [self grabAvatarsForUsersInChat];
+
     PFUser *currentUser = [PFUser currentUser];
     
     currentUser[@"eventID"] = self.roomID;
@@ -281,7 +293,6 @@
                 }
             }];
             
-            [self grabAvatarsForUsersInChat];
         }
     }];
 }
@@ -295,7 +306,17 @@
             NSLog(@"Your friend %@ is in the chat",user[@"name"]);
             NSString *pushNotification = [NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up?", [PFUser currentUser][@"name"]];
             [PFPush sendPushMessageToChannelInBackground:user.objectId withMessage:pushNotification];
+            // send user a local push notification
+            [self.friendsAtEvent addObject:user[@"name"]];
         }
+    }
+    if (self.friendsAtEvent.count > 0 && self.friendsAtEvent.count <= 2){
+        for (NSString *friend in self.friendsAtEvent){
+            [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up? ",friend ]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
+        }
+    }
+    else if(self.friendsAtEvent.count > 3){
+        [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"%lu of your friends are also at the event!",(unsigned long)self.friendsAtEvent.count ]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
     }
 }
 
@@ -328,9 +349,7 @@
                  NSLog(@"Error: %@", error);
                  
              }];
-        
     }
 }
-
 
 @end
