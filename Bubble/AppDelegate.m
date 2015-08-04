@@ -66,8 +66,11 @@
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    
     [FBSDKAppEvents activateApp];
+    
+    if  (![self.xmppManager.xmppStream isAuthenticated]) {
+        [self.xmppManager connect];
+    }
 
 }
 

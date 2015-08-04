@@ -44,6 +44,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    
     [self.xmppManager joinOrCreateRoom:self.roomID];
     if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
         [self grabCurrentUserAvatar];
