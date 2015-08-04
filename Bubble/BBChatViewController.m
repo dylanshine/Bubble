@@ -179,9 +179,6 @@
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    /**
-     *  iOS7-style sender name labels
-     */
     if ([message.senderId isEqualToString:self.senderId]) {
         return nil;
     }
@@ -193,11 +190,36 @@
         }
     }
     
-    /**
-     *  Don't specify attributes to use the defaults.
-     */
-    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+    NSArray *splitName = [message.senderDisplayName componentsSeparatedByString:@" "];
+    NSString *formattedName = [NSString stringWithFormat:@"%@ %@.", splitName[0], [(NSString*)[splitName lastObject] substringToIndex:1]];
+    
+    NSAttributedString *attributedName = [[NSAttributedString alloc] initWithString:formattedName];
+    return attributedName;
 }
+
+//- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+//    
+//    /**
+//     *  iOS7-style sender name labels
+//     */
+//    if ([message.senderId isEqualToString:self.senderId]) {
+//        return nil;
+//    }
+//    
+//    if (indexPath.item - 1 > 0) {
+//        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+//        if ([[previousMessage senderId] isEqualToString:message.senderId]) {
+//            return nil;
+//        }
+//    }
+//    
+//    /**
+//     *  Don't specify attributes to use the defaults.
+//     */
+//    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+//}
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -248,6 +270,39 @@
     }
     
     return cell;
+}
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (indexPath.item % 3 == 0) {
+        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+    }
+    
+    return 0.0f;
+}
+
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    /**
+     *  iOS7-style sender name labels
+     */
+    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    if ([[currentMessage senderId] isEqualToString:self.senderId]) {
+        return 0.0f;
+    }
+    
+    if (indexPath.item - 1 > 0) {
+        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
+            return 0.0f;
+        }
+    }
+    
+    return kJSQMessagesCollectionViewCellLabelHeightDefault;
 }
 
 - (void)newMessageReceived:(BBMessage *)messageContent {
