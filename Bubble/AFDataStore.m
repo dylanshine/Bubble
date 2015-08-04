@@ -70,6 +70,7 @@
 
 - (void)createEventObjects:(NSDictionary *)incomingJSON{
     
+    self.eventsArray = [@[] mutableCopy];
     for (NSDictionary *event in incomingJSON[@"events"]){
         
         EventObject * eventItem = [[EventObject alloc]initWithDictionary:event];

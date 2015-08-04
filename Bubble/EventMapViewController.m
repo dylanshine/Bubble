@@ -456,7 +456,7 @@
 - (IBAction)dateSelectorTapped:(id)sender {
 
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
-        
+        [SVProgressHUD show];
         self.date = self.datePicker.date;
         [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
         [self setDateSelectorTitle];
