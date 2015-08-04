@@ -355,9 +355,11 @@
 
 -(void)currentUserOutsideOfBubble {
     self.inputToolbar.hidden = YES;
-    PFUser *currentUser = [PFUser currentUser];
-    currentUser[@"eventID"] = @"";
-    [currentUser saveInBackground];
+    if (![[PFUser currentUser][@"eventID"] isEqualToString:@""]) {
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"eventID"] = @"";
+        [currentUser saveInBackground];
+    }
 }
 
 -(void)currentUserInsideOfBubble {
