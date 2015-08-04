@@ -28,6 +28,7 @@
 @property (nonatomic, weak) id<ChatOccupantDelegate>chatOccupantDelegate;
 @property (nonatomic) XMPPStream *xmppStream;
 @property (nonatomic) XMPPRoom *xmppRoom;
+@property (nonatomic) NSString *currentRoomId;
 
 +(instancetype)sharedManager;
 -(BOOL)connect;

@@ -31,10 +31,10 @@
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE371B66D28C009258E5 /* BubbleTests.m */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
-		CC8694231B6BB0C00009B8DF /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8694221B6BB0C00009B8DF /* Constants.m */; };
 		CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */; };
 		CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860E1B69125400E6B6B0 /* EventObject.m */; };
 		EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D80382B0241D03474E1872 /* libPods-Bubble.a */; };
+		FC5A230C1B70625300C5061E /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5A230B1B70625300C5061E /* Constants.m */; };
 		FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC5BFCBD1B6A6A2300E1294A /* XMPPManager.m */; };
 		FC5BFCC01B6A6AC800E1294A /* libidn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCBF1B6A6AC800E1294A /* libidn.a */; };
 		FC5BFCC51B6A6B0F00E1294A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCC11B6A6AD800E1294A /* libxml2.dylib */; };
@@ -102,12 +102,12 @@
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		CC8694221B6BB0C00009B8DF /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDataStore.h; sourceTree = "<group>"; };
 		CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDataStore.m; sourceTree = "<group>"; };
 		CCDD860D1B69125400E6B6B0 /* EventObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventObject.h; sourceTree = "<group>"; };
 		CCDD860E1B69125400E6B6B0 /* EventObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventObject.m; sourceTree = "<group>"; };
 		FC4259C11B66D63500011956 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
+		FC5A230B1B70625300C5061E /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		FC5BFCBC1B6A6A2300E1294A /* XMPPManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMPPManager.h; sourceTree = "<group>"; };
 		FC5BFCBD1B6A6A2300E1294A /* XMPPManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMPPManager.m; sourceTree = "<group>"; };
 		FC5BFCBF1B6A6AC800E1294A /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = Pods/XMPPFramework/Vendor/libidn/libidn.a; sourceTree = "<group>"; };
@@ -279,7 +279,7 @@
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
 				8087EE1D1B66D28C009258E5 /* main.m */,
 				FC4259C11B66D63500011956 /* Constants.h */,
-				CC8694221B6BB0C00009B8DF /* Constants.m */,
+				FC5A230B1B70625300C5061E /* Constants.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -454,7 +454,6 @@
 				CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */,
 				8087EE241B66D28C009258E5 /* EventMapViewController.m in Sources */,
 				8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */,
-				CC8694231B6BB0C00009B8DF /* Constants.m in Sources */,
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
 				175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */,
 				178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */,
@@ -467,6 +466,7 @@
 				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
+				FC5A230C1B70625300C5061E /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

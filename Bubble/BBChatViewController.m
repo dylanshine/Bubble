@@ -44,7 +44,12 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.xmppManager joinOrCreateRoom:self.roomID];
+    
+    if (self.roomID != self.xmppManager.currentRoomId) {
+        [self.xmppManager.xmppRoom deactivate];
+        [self.xmppManager joinOrCreateRoom:self.roomID];
+    }
+    
     if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
         [self grabCurrentUserAvatar];
     }
@@ -52,7 +57,6 @@
 
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [self.xmppManager.xmppRoom deactivate];
 }
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -328,9 +332,7 @@
                  NSLog(@"Error: %@", error);
                  
              }];
-        
     }
 }
-
 
 @end
