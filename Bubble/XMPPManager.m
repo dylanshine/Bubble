@@ -171,6 +171,10 @@
     [self.chatOccupantDelegate currentUserConnectedToChatroom];
 }
 
+- (void)xmppRoomDidLeave:(XMPPRoom *)sender {
+    self.currentRoomId = nil;
+}
+
 - (void)dealloc {
     [self.xmppStream removeDelegate:self];
     [self.xmppRoom removeDelegate:self];
