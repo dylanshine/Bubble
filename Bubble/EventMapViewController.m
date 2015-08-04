@@ -444,6 +444,7 @@
     [SVProgressHUD show];
     [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
+    
 }
 
 - (IBAction)nextDayTapped:(id)sender {
@@ -464,9 +465,10 @@
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.9;
             self.nextDayButton.alpha = 0.9;
+            self.dateSelectorButton.alpha = 0.9;
             self.datePicker.alpha = 0;
             self.pickerBackground.alpha = 0;
-            self.dateSelectorConstraint.constant = 0;
+            self.dateSelectorConstraint.constant = 52;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) { }];
         
@@ -476,8 +478,9 @@
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
             self.datePicker.alpha = 1;
+            self.dateSelectorButton.alpha = 1;
             self.pickerBackground.alpha = 0.95;
-            self.dateSelectorConstraint.constant = 130;
+            self.dateSelectorConstraint.constant = 174;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
             [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
