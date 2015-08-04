@@ -24,6 +24,8 @@
 @property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
+@property (assign, nonatomic) INTULocationRequestID locationRequestID;
+@property (nonatomic) BOOL pushNotificationsSent;
 
 @end
 
@@ -39,6 +41,7 @@
     self.xmppManager.messageDelegate = self;
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
+    self.inputToolbar.hidden = YES;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
     self.friendsAtEvent = [[NSMutableArray alloc]init];
     
@@ -273,28 +276,7 @@
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
     [self grabAvatarsForUsersInChat];
-
-    PFUser *currentUser = [PFUser currentUser];
-    
-    currentUser[@"eventID"] = self.roomID;
-    
-    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
-        
-        if (succeeded) {
-            PFQuery *query = [PFUser query];
-            
-            [query whereKey:@"eventID" equalTo:self.roomID];
-            
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if (!error) {
-                    [self sendPushNotificationToEventFriends:objects];
-                } else {
-                    NSLog(@"Error fetching users in event");
-                }
-            }];
-            
-        }
-    }];
+    [self startLocationUpdateSubscription];
 }
 
 - (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
@@ -349,6 +331,56 @@
                  NSLog(@"Error: %@", error);
                  
              }];
+    }
+}
+
+- (void)startLocationUpdateSubscription {
+    __weak __typeof(self) weakSelf = self;
+    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
+    self.locationRequestID = [locMgr subscribeToLocationUpdatesWithBlock:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        __typeof(weakSelf) strongSelf = weakSelf;
+        
+        if (status == INTULocationStatusSuccess) {
+            CLLocationDistance distance = [currentLocation distanceFromLocation:strongSelf.eventLocation];
+            if (distance >= 400.0) {
+                [strongSelf currentUserOutsideOfBubble];
+            } else {
+                [strongSelf currentUserInsideOfBubble];
+            }
+        } else {
+            strongSelf.locationRequestID = NSNotFound;
+        }
+    }];
+}
+
+-(void)currentUserOutsideOfBubble {
+    self.inputToolbar.hidden = YES;
+    PFUser *currentUser = [PFUser currentUser];
+    currentUser[@"eventID"] = @"";
+    [currentUser saveInBackground];
+}
+
+-(void)currentUserInsideOfBubble {
+    self.inputToolbar.hidden = NO;
+    if (self.roomID != [PFUser currentUser][@"eventID"]) {
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"eventID"] = self.roomID;
+        
+        [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+            if (succeeded && !self.pushNotificationsSent) {
+                self.pushNotificationsSent = YES;
+                
+                PFQuery *query = [PFUser query];
+                [query whereKey:@"eventID" equalTo:self.roomID];
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        [self sendPushNotificationToEventFriends:objects];
+                    } else {
+                        NSLog(@"Error fetching users in event");
+                    }
+                }];
+            }
+        }];
     }
 }
 
