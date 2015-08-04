@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "EventObject.h"
+//#import "BBScrollViewNotifying.h"
 
-@interface EventDetailsViewController : UIViewController
+@interface EventDetailsViewController : UIViewController // <BBScrollViewNotifying>
 
 @property (nonatomic, strong) EventObject *event;
 

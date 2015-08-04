@@ -22,13 +22,15 @@
 #import "LoginViewController.h"
 #import <SVProgressHUD.h>
 
-
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIView *eventDetailContainer;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+@property (weak, nonatomic) IBOutlet UIImageView *eventImage;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventImageTopConstraint;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *scrollViewTapRecognizer;
 
 @property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
@@ -41,6 +43,7 @@
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
 
+
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
 
@@ -51,6 +54,7 @@
 
 @property (nonatomic, assign) CGFloat scrollViewStartingPosition;
 @property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
+
 
 - (void) plotEvents;
 - (void) moveMapToClosestAnnotation;
@@ -66,7 +70,7 @@
     self.dataStore.delegate = self;
     
     self.xmppManager = [XMPPManager sharedManager];
-
+    
     self.mapView.delegate = self;
     
     self.date = [NSDate date];
@@ -75,10 +79,8 @@
     [self setupMenuScrollView];
     [self setupSearchBar];
     
-    [self startLocationUpdateSubscription];
-    
-    [PFPush sendPushMessageToChannelInBackground:@"global" withMessage:@"Hello Bitches!"];
 
+    [self startLocationUpdateSubscription];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -90,21 +92,52 @@
     
     if (velocity.y >= 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
+            [UIView animateWithDuration:.4 animations:^{
                 [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
             }];
         });
         
     } else if (velocity.y < 0) {
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
+            [UIView animateWithDuration:.4 animations:^{
                 [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
             }];
         });
     }
 }
 
+
+- (void) toggleScrollViewLocation {
+    
+    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+        
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+    }
+}
 
 - (void)startLocationUpdateSubscription {
     __weak __typeof(self) weakSelf = self;
@@ -128,7 +161,7 @@
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
-
+    
     self.eventsArray = eventsArray;
     if ([self.eventsArray isEqual:@[]]) {
         [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
@@ -148,7 +181,7 @@
     _eventsArray = eventsArray;
     
     [self plotEvents];
-} 
+}
 
 - (void) plotEvents {
     
@@ -157,12 +190,12 @@
     for (EventObject *event in self.eventsArray) {
         
         BBAnnotation *annotation = [[BBAnnotation alloc] init];
-
+        
         annotation.coordinate = event.coordinate;
         annotation.event = event;
         annotation.title = event.eventTitle;
         annotation.eventImageName = [annotation getEventImageName:annotation.event];
-
+        
         [self.mapView addAnnotation:annotation];
     }
     [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:YES];
@@ -173,6 +206,7 @@
     BBAnnotation *annotation = view.annotation;
     
     self.eventDetailsVC.event = annotation.event;
+    self.eventImage.image = annotation.event.eventImage;
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -186,7 +220,7 @@
     }
     
     //annotationView = nil;  //annotations are reused and the below code is never entered to change the event type image.  Need to clear annotations or change bellow code
-
+    
     if (!annotationView) {
         
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:eventAnnotationReuseID];
@@ -194,7 +228,7 @@
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
-
+        
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
         annotationView.frame = CGRectMake(0,0,30,30);
@@ -219,7 +253,7 @@
         [detailButton.imageView startAnimating];
         
         annotationView.rightCalloutAccessoryView = detailButton;
-
+        
     } else {
         annotationView.annotation = annotation;
         BBAnnotation *eventAnnotation = annotation;
@@ -241,6 +275,7 @@
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
         chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
+        chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
     }
 }
 
@@ -252,7 +287,7 @@
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
-
+    
     if ([self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
         [self.mapView deselectAnnotation:self.mapView.selectedAnnotations[0] animated:YES];
     }
@@ -281,10 +316,10 @@
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     self.searchBar.showsScopeBar = YES;
-
+    
     [UIView animateWithDuration:.25 animations:^{
         self.searchBar.alpha = 1;
-
+        
     }];
 }
 
@@ -298,8 +333,8 @@
             [self.searchBar resignFirstResponder];
             self.searchBar.showsScopeBar = NO;
             [UIView animateWithDuration:.25 animations:^{
-            self.searchBar.alpha = 0.9;
-            
+                self.searchBar.alpha = 0.9;
+                
             }];
         }
     }
@@ -307,25 +342,25 @@
 }
 
 - (void) moveMapToClosestAnnotation {
-
-        MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
-        if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
-            closestAnnotation = self.mapView.annotations.lastObject;
+    
+    MKPointAnnotation *closestAnnotation = self.mapView.annotations.firstObject;
+    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+        closestAnnotation = self.mapView.annotations.lastObject;
+    }
+    
+    for (MKPointAnnotation *annotation in self.mapView.annotations) {
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
+        CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
+                                                                 longitude:closestAnnotation.coordinate.longitude];
+        if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
+            closestAnnotation = annotation;
         }
-        
-        for (MKPointAnnotation *annotation in self.mapView.annotations) {
-            CLLocation *location = [[CLLocation alloc] initWithLatitude:annotation.coordinate.latitude longitude:annotation.coordinate.longitude];
-            CLLocation *closestLocation = [[CLLocation alloc] initWithLatitude:closestAnnotation.coordinate.latitude
-                                                                     longitude:closestAnnotation.coordinate.longitude];
-            if ([self.currentLocation distanceFromLocation:location] < [self.currentLocation distanceFromLocation:closestLocation] && ![annotation isMemberOfClass:[MKUserLocation class]]) {
-                closestAnnotation = annotation;
-            }
-        }
-        if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
-            closestAnnotation.title = @"😱 No Events Found 😱";
-        }
-        [self.mapView selectAnnotation:closestAnnotation animated:YES];
-        [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
+    }
+    if ([closestAnnotation isMemberOfClass:[MKUserLocation class]]) {
+        closestAnnotation.title = @"😱 No Events Found 😱";
+    }
+    [self.mapView selectAnnotation:closestAnnotation animated:YES];
+    [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
 }
 
 -(void)setupSearchBar {
@@ -340,8 +375,18 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height * .91;
-    self.scrollViewDetailedPosition = self.view.frame.size.height * -.6;
+    self.scrollViewStartingPosition = self.view.frame.size.height - 80;
+    
+    if (self.view.frame.size.width == 320) {
+        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
+        
+    } else if (self.view.frame.size.width == 375){
+        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
+        
+    } else {
+        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
+    }
+    
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -349,6 +394,7 @@
     self.scrollView.alwaysBounceHorizontal = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
+    [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
 }
 
 #pragma mark date-search

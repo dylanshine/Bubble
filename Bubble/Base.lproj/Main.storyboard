@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
@@ -59,6 +60,9 @@
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
                                 <rect key="frame" x="0.0" y="20" width="375" height="667"/>
                                 <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF">
+                                        <rect key="frame" x="0.0" y="118" width="375" height="282"/>
+                                    </imageView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4C-VX-sVI">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                         <connections>
@@ -119,12 +123,19 @@
                                     <constraint firstItem="5LK-mr-ibY" firstAttribute="width" secondItem="Y4C-VX-sVI" secondAttribute="width" multiplier="0.8" id="MMG-Y1-WOI"/>
                                     <constraint firstItem="ReK-n8-q1k" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="PeT-G1-XgF"/>
                                     <constraint firstItem="HrZ-Ts-iZg" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="VDY-ef-hYm"/>
-                                    <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="leading" secondItem="TCK-NK-859" secondAttribute="leading" id="cW5-ld-lKL"/>
                                     <constraint firstItem="gWW-68-Y76" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="oi1-gu-s6t"/>
+                                    <constraint firstItem="mZE-da-erF" firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="top" constant="400" id="Dio-Bj-3Mt"/>
+                                    <constraint firstItem="mZE-da-erF" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="ZCn-YJ-Zqk"/>
+                                    <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
+                                    <constraint firstItem="mZE-da-erF" firstAttribute="height" secondItem="TCK-NK-859" secondAttribute="width" multiplier="21:28" id="jg9-F7-aPK"/>
+                                    <constraint firstAttribute="width" secondItem="mZE-da-erF" secondAttribute="width" id="o3N-ve-mMQ"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
                                     <constraint firstItem="iOA-yj-xAX" firstAttribute="centerX" secondItem="Y4C-VX-sVI" secondAttribute="centerX" id="sgw-ZW-Soe"/>
                                 </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="5QO-qA-ugj" appends="YES" id="jk8-HV-uPn"/>
+                                </connections>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -150,15 +161,19 @@
                         <outlet property="dateSelectorButton" destination="HrZ-Ts-iZg" id="0Px-g9-ZpX"/>
                         <outlet property="dateSelectorConstraint" destination="VDY-ef-hYm" id="Xzp-kc-qO9"/>
                         <outlet property="eventDetailContainer" destination="Y4C-VX-sVI" id="3eI-8h-M36"/>
+                        <outlet property="eventImage" destination="mZE-da-erF" id="AeF-Fz-O7c"/>
+                        <outlet property="eventImageTopConstraint" destination="Dio-Bj-3Mt" id="rXu-W2-vEo"/>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="nextDayButton" destination="gWW-68-Y76" id="Fbj-TK-L93"/>
                         <outlet property="previousDayButton" destination="ReK-n8-q1k" id="Rv8-DR-wGw"/>
                         <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
+                        <outlet property="scrollViewTapRecognizer" destination="5QO-qA-ugj" id="KX6-kF-b6z"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
                         <segue destination="oRG-IA-6WU" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="5QO-qA-ugj"/>
             </objects>
             <point key="canvasLocation" x="564.5" y="388.5"/>
         </scene>
