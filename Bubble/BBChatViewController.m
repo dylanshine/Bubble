@@ -265,7 +265,8 @@
 
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    
+    [self grabAvatarsForUsersInChat];
+
     PFUser *currentUser = [PFUser currentUser];
     
     currentUser[@"eventID"] = self.roomID;
@@ -285,7 +286,6 @@
                 }
             }];
             
-            [self grabAvatarsForUsersInChat];
         }
     }];
 }
