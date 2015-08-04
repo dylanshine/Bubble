@@ -55,6 +55,11 @@
     }
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self finishReceivingMessageAnimated:NO];
+}
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
