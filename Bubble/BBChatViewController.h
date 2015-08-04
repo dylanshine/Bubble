@@ -12,5 +12,6 @@
 
 @property (nonatomic) NSString *roomID;
 @property (nonatomic) NSString *eventTitle;
+@property (nonatomic, strong) NSMutableArray *friendsAtEvent;
 
 @end
