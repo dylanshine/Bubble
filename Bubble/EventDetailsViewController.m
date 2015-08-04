@@ -14,6 +14,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
 @property (weak, nonatomic) IBOutlet UILabel *eventSubtitle;
+@property (nonatomic, strong) UIImageView *eventImage;
 
 @end
 
@@ -33,11 +34,14 @@
     
     translucentView.translucentAlpha = .99;
     translucentView.translucentStyle = UIBarStyleDefault;
-    
+    translucentView.layer.shadowOffset = CGSizeMake(0, -20);
+    translucentView.layer.shadowRadius = 5;
+    translucentView.layer.shadowOpacity = .7;
     [self.view insertSubview:translucentView atIndex:0];
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(@0);
+        make.bottom.right.left.equalTo(@0);
+        make.top.equalTo(@0);
     }];
 }
 
@@ -57,6 +61,8 @@
     _event = event;
     self.eventTitle.text = event.eventTitle;
     self.eventSubtitle.text = [[event.eventType stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
+//    self.eventImage.image = event.eventImage;
+
 }
 
 /*

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
+#import <AFNetworking/AFNetworking.h>
 
 @interface EventObject : NSObject
 
@@ -24,6 +25,8 @@
 @property (nonatomic, strong) NSURL *ticketURL;
 @property (nonatomic, strong) NSNumber *eventScore;
 @property (nonatomic, strong) NSNumber *venueScore;
+//@property (nonatomic, strong, readonly) UIImage *eventPhoto;
+@property (nonatomic, strong) UIImage *eventImage;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 

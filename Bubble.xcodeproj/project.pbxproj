@@ -56,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BBScrollViewNotifying.h; sourceTree = "<group>"; };
 		175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationViewController.h; sourceTree = "<group>"; };
 		175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApplicationViewController.m; sourceTree = "<group>"; };
 		175E54DA1B6BBEC8002A7CAA /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
@@ -255,6 +256,33 @@
 			children = (
 				8087EE1F1B66D28C009258E5 /* AppDelegate.h */,
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
+				175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */,
+				175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */,
+				175E54DC1B6BDADF002A7CAA /* LoginViewController.h */,
+				175E54DD1B6BDADF002A7CAA /* LoginViewController.m */,
+				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
+				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
+				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
+				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
+				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
+				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
+				80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */,
+				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
+				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
+				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
+				175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */,
+				175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */,
+				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
+				CCDD860E1B69125400E6B6B0 /* EventObject.m */,
+				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
+				17A915FB1B67E568000821E2 /* BBAnnotation.m */,
+				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,
+				178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */,
+				1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */,
+				802273811B6A784D00C62E50 /* BBChatViewController.h */,
+				802273821B6A784D00C62E50 /* BBChatViewController.m */,
+				802273841B6A805A00C62E50 /* BBMessage.h */,
+				802273851B6A805A00C62E50 /* BBMessage.m */,
 				803185C51B70185A0046CF79 /* View Controllers */,
 				803185C71B7018A30046CF79 /* Model Classes */,
 				803185C61B7018760046CF79 /* Data Managers */,
@@ -361,6 +389,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = 9RXLE5FXUN;
 					};
 					8087EE301B66D28C009258E5 = {
 						CreatedOnToolsVersion = 6.4;
@@ -598,6 +627,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -631,6 +661,7 @@
 					"$(PROJECT_DIR)/Pods/XMPPFramework/Vendor/libidn",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
 			};
 			name = Debug;
@@ -641,6 +672,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -674,6 +706,7 @@
 					"$(PROJECT_DIR)/Pods/XMPPFramework/Vendor/libidn",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				USER_HEADER_SEARCH_PATHS = /usr/include/libxml2;
 			};
 			name = Release;
