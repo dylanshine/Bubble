@@ -130,6 +130,7 @@
 
 
 - (void)joinOrCreateRoom:(NSString *)room {
+    self.currentRoomId = room;
     XMPPRoomMemoryStorage *roomMemory = [[XMPPRoomMemoryStorage alloc]init];
     NSString *roomID = [NSString stringWithFormat:@"%@@conference.bubble", room];
     XMPPJID  *roomJID = [XMPPJID jidWithString:roomID];
