@@ -39,26 +39,29 @@
 }
 
 - (void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation{
-    // get today and tomorrow, then format them for the API
-    NSDate *today = [NSDate date];
-    NSDateComponents *tomorrowSetter = [[NSDateComponents alloc] init];
-    tomorrowSetter.day = 1;
-    NSDate *tomorrow = [today dateByAddingTimeInterval:60*60*24];
+    [self getSeatgeekEventsWithLocation:currentLocation date:[NSDate date]];
+    
+}
+
+-(void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date {
+    NSDateComponents *nextDaySetter = [[NSDateComponents alloc] init];
+    nextDaySetter.day = 1;
+    NSDate *nextDay = [date dateByAddingTimeInterval:60*60*24];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // create API URL and make the call
-    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=15mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:today], [formatter stringFromDate:tomorrow]];
-
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=15mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:date], [formatter stringFromDate:nextDay]];
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
     [manager GET:url parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
              [self createEventObjects:responseObject];
-            
+             
              // Implemented delegate to account for pagination if needed
              [self.delegate dataStore:self didLoadEvents:self.eventsArray];
-            
+             
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"Error: %@", error);
          }];

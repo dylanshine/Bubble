@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -65,32 +65,79 @@
                                             <segue destination="1Bi-iS-RdZ" kind="embed" identifier="DetailEmbedSegue" id="ROe-Sb-ehz"/>
                                         </connections>
                                     </containerView>
+                                    <searchBar alpha="0.79999999999999982" contentMode="redraw" searchBarStyle="minimal" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5LK-mr-ibY">
+                                        <rect key="frame" x="37" y="0.0" width="300" height="44"/>
+                                        <textInputTraits key="textInputTraits" returnKeyType="done"/>
+                                    </searchBar>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HrZ-Ts-iZg">
+                                        <rect key="frame" x="127" y="44" width="120" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="yiS-ju-jcg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
+                                        <state key="normal" title="Button"/>
+                                        <connections>
+                                            <action selector="dateSelectorTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="D9c-x1-XgH"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ReK-n8-q1k">
+                                        <rect key="frame" x="89" y="44" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="18"/>
+                                        <state key="normal" title="&lt;">
+                                            <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="previousDayTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="IbR-vV-9hF"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gWW-68-Y76">
+                                        <rect key="frame" x="255" y="44" width="30" height="30"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="&gt;">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="nextDayTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uA0-pC-hHY"/>
+                                        </connections>
+                                    </button>
+                                    <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="date" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="iOA-yj-xAX">
+                                        <rect key="frame" x="0.0" y="14" width="375" height="162"/>
+                                        <date key="date" timeIntervalSinceReferenceDate="460397496.30804998">
+                                            <!--2015-08-04 16:11:36 +0000-->
+                                        </date>
+                                    </datePicker>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Y4C-VX-sVI" secondAttribute="trailing" id="3Go-mA-S1c"/>
+                                    <constraint firstItem="gWW-68-Y76" firstAttribute="leading" secondItem="HrZ-Ts-iZg" secondAttribute="trailing" constant="8" id="46n-UG-yal"/>
+                                    <constraint firstItem="HrZ-Ts-iZg" firstAttribute="leading" secondItem="ReK-n8-q1k" secondAttribute="trailing" constant="8" id="7Uo-CU-c67"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" id="84b-mO-xpM"/>
                                     <constraint firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="bottom" id="8Bt-Pj-MMr"/>
+                                    <constraint firstItem="HrZ-Ts-iZg" firstAttribute="centerX" secondItem="5LK-mr-ibY" secondAttribute="centerX" id="Ai2-EC-TCT"/>
+                                    <constraint firstItem="iOA-yj-xAX" firstAttribute="width" secondItem="Y4C-VX-sVI" secondAttribute="width" id="IYp-j5-U9M"/>
+                                    <constraint firstItem="5LK-mr-ibY" firstAttribute="width" secondItem="Y4C-VX-sVI" secondAttribute="width" multiplier="0.8" id="MMG-Y1-WOI"/>
+                                    <constraint firstItem="ReK-n8-q1k" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="PeT-G1-XgF"/>
+                                    <constraint firstItem="HrZ-Ts-iZg" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="VDY-ef-hYm"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="leading" secondItem="TCK-NK-859" secondAttribute="leading" id="cW5-ld-lKL"/>
+                                    <constraint firstItem="gWW-68-Y76" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" id="oi1-gu-s6t"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
+                                    <constraint firstItem="iOA-yj-xAX" firstAttribute="centerX" secondItem="Y4C-VX-sVI" secondAttribute="centerX" id="sgw-ZW-Soe"/>
                                 </constraints>
                             </scrollView>
-                            <searchBar alpha="0.79999999999999982" contentMode="redraw" searchBarStyle="minimal" showsScopeBar="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5LK-mr-ibY">
-                                <rect key="frame" x="38" y="20" width="300" height="44"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="done"/>
-                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="TCK-NK-859" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="06j-Y6-khg"/>
+                            <constraint firstItem="5LK-mr-ibY" firstAttribute="centerX" secondItem="Axx-4m-T16" secondAttribute="centerX" id="0hA-Jt-Z5m"/>
                             <constraint firstItem="Y4C-VX-sVI" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="2CI-wy-OIl"/>
                             <constraint firstAttribute="centerY" secondItem="Axx-4m-T16" secondAttribute="centerY" id="CUz-35-5UA"/>
-                            <constraint firstItem="5LK-mr-ibY" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="G0e-YO-SRa"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="MFs-hJ-CfO"/>
-                            <constraint firstItem="5LK-mr-ibY" firstAttribute="width" secondItem="Axx-4m-T16" secondAttribute="width" multiplier="0.8" id="MKr-ue-wLJ"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="OWG-bJ-3f4"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="PbR-RJ-fXp"/>
-                            <constraint firstItem="Axx-4m-T16" firstAttribute="centerX" secondItem="5LK-mr-ibY" secondAttribute="centerX" id="XTE-gS-YEx"/>
+                            <constraint firstItem="Axx-4m-T16" firstAttribute="top" secondItem="iOA-yj-xAX" secondAttribute="bottom" constant="-196" id="Svb-rT-btR"/>
+                            <constraint firstItem="Axx-4m-T16" firstAttribute="top" secondItem="5LK-mr-ibY" secondAttribute="bottom" constant="-64" id="Z3d-mo-iJM"/>
                             <constraint firstItem="TCK-NK-859" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="hxH-yQ-zOr"/>
                             <constraint firstItem="Axx-4m-T16" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="sZY-If-kAE"/>
                             <constraint firstAttribute="centerX" secondItem="Axx-4m-T16" secondAttribute="centerX" id="yCz-go-oen"/>
@@ -99,8 +146,13 @@
                     <navigationItem key="navigationItem" id="PQa-4J-qEK"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="datePicker" destination="iOA-yj-xAX" id="fOd-g1-lQb"/>
+                        <outlet property="dateSelectorButton" destination="HrZ-Ts-iZg" id="0Px-g9-ZpX"/>
+                        <outlet property="dateSelectorConstraint" destination="VDY-ef-hYm" id="Xzp-kc-qO9"/>
                         <outlet property="eventDetailContainer" destination="Y4C-VX-sVI" id="3eI-8h-M36"/>
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
+                        <outlet property="nextDayButton" destination="gWW-68-Y76" id="Fbj-TK-L93"/>
+                        <outlet property="previousDayButton" destination="ReK-n8-q1k" id="Rv8-DR-wGw"/>
                         <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
                         <segue destination="oRG-IA-6WU" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
