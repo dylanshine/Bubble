@@ -8,6 +8,12 @@
 
 #import "EventObject.h"
 
+@interface EventObject()
+
+@property (nonatomic, strong) NSDictionary *eventDictionary;
+
+@end
+
 @implementation EventObject
 
 
@@ -27,6 +33,13 @@
     NSString *addressState = jsonDict[@"venue"][@"state"];
     NSNumber *addressZip = jsonDict[@"venue"][@"postal_code"];
     NSURL *ticketURL = jsonDict[@"url"];
+    NSString *imageString = jsonDict[@"performers"][0][@"image"];
+    
+    // Set placeholder image.  Make dynamic for event types
+    if ([imageString isKindOfClass:[NSNull class]]) {
+    imageString = @"https://placekitten.com/g/280/210";
+    }
+    
     NSNumber *eventScore = jsonDict[@"score"];
     NSNumber *venueScore = jsonDict[@"venue"][@"score"];
     
@@ -39,7 +52,8 @@
     coordinate.latitude = venueLat.floatValue;
     coordinate.longitude = venueLon.floatValue;
     
-    if (self){
+    if (self) {
+        _eventDictionary = jsonDict;
         _eventID = eventID;
         _eventTitle = eventTitle;
         _eventType = eventType;
@@ -54,6 +68,19 @@
         _ticketURL = ticketURL;
         _eventScore = eventScore;
         _venueScore = venueScore;
+        
+        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+        
+        manager.responseSerializer = [AFImageResponseSerializer serializer];
+        
+        [manager GET:imageString
+          parameters:nil
+             success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                 _eventImage = [UIImage imageWithData:operation.responseData];
+                 
+             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                 NSLog(@"%@",error.description);
+             }];
     }
     
     return self;
