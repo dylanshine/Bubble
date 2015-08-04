@@ -55,6 +55,11 @@
     }
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self finishReceivingMessageAnimated:NO];
+}
+
 -(void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
 }
@@ -265,7 +270,8 @@
 
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    
+    [self grabAvatarsForUsersInChat];
+
     PFUser *currentUser = [PFUser currentUser];
     
     currentUser[@"eventID"] = self.roomID;
@@ -285,7 +291,6 @@
                 }
             }];
             
-            [self grabAvatarsForUsersInChat];
         }
     }];
 }

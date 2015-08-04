@@ -103,6 +103,9 @@
     
     [self.loginManager facebookLoginRequestWithCompletion:^(PFUser *currentUser) {
         [currentUser saveInBackground];
+        PFInstallation *currentInstallation = [PFInstallation currentInstallation];
+        [currentInstallation addUniqueObject:[PFUser currentUser].objectId forKey:@"channels"];
+        [currentInstallation saveInBackground];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"loginComplete" object:nil];
         
