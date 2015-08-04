@@ -25,7 +25,7 @@
 @property (nonatomic, strong) NSURL *ticketURL;
 @property (nonatomic, strong) NSNumber *eventScore;
 @property (nonatomic, strong) NSNumber *venueScore;
-//@property (nonatomic, strong, readonly) UIImage *eventPhoto;
+@property (nonatomic, strong) NSString *eventImageURL;
 @property (nonatomic, strong) UIImage *eventImage;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
@@ -33,5 +33,6 @@
 
 - (instancetype) initWithDictionary:(NSDictionary *)jsonDict;
 
+- (void) fetchEventImage;
 
 @end
