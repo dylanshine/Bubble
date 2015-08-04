@@ -29,7 +29,6 @@
 		8087EE271B66D28C009258E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE251B66D28C009258E5 /* Main.storyboard */; };
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
-		8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE371B66D28C009258E5 /* BubbleTests.m */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
 		CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */; };
 		CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860E1B69125400E6B6B0 /* EventObject.m */; };
@@ -44,16 +43,6 @@
 		FC5BFCCC1B6A6B6D00E1294A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCCB1B6A6B6D00E1294A /* SystemConfiguration.framework */; };
 		FC5BFCCE1B6A6B7600E1294A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCCD1B6A6B7600E1294A /* CoreLocation.framework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		8087EE321B66D28C009258E5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8087EE101B66D28B009258E5 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8087EE171B66D28B009258E5;
-			remoteInfo = Bubble;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BBScrollViewNotifying.h; sourceTree = "<group>"; };
@@ -97,7 +86,6 @@
 		8087EE261B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8087EE281B66D28C009258E5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		8087EE2B1B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		8087EE311B66D28C009258E5 /* BubbleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BubbleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8087EE361B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
@@ -138,13 +126,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8087EE2E1B66D28C009258E5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -177,16 +158,6 @@
 		803185C51B70185A0046CF79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */,
-				175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */,
-				175E54DC1B6BDADF002A7CAA /* LoginViewController.h */,
-				175E54DD1B6BDADF002A7CAA /* LoginViewController.m */,
-				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
-				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
-				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
-				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
-				802273811B6A784D00C62E50 /* BBChatViewController.h */,
-				802273821B6A784D00C62E50 /* BBChatViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -194,12 +165,6 @@
 		803185C61B7018760046CF79 /* Data Managers */ = {
 			isa = PBXGroup;
 			children = (
-				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
-				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
-				80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */,
-				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
-				175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */,
-				175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */,
 				FC5BFCBC1B6A6A2300E1294A /* XMPPManager.h */,
 				FC5BFCBD1B6A6A2300E1294A /* XMPPManager.m */,
 			);
@@ -209,12 +174,6 @@
 		803185C71B7018A30046CF79 /* Model Classes */ = {
 			isa = PBXGroup;
 			children = (
-				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
-				CCDD860E1B69125400E6B6B0 /* EventObject.m */,
-				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
-				17A915FB1B67E568000821E2 /* BBAnnotation.m */,
-				802273841B6A805A00C62E50 /* BBMessage.h */,
-				802273851B6A805A00C62E50 /* BBMessage.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -222,10 +181,6 @@
 		803185C81B7018B40046CF79 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
-				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
-				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,
-				178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */,
 				1786506E1B6A5A5600A68FF9 /* ILTranslucentView */,
 			);
 			name = Extensions;
@@ -246,7 +201,6 @@
 			isa = PBXGroup;
 			children = (
 				8087EE181B66D28B009258E5 /* Bubble.app */,
-				8087EE311B66D28C009258E5 /* BubbleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -360,24 +314,6 @@
 			productReference = 8087EE181B66D28B009258E5 /* Bubble.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8087EE301B66D28C009258E5 /* BubbleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8087EE3E1B66D28C009258E5 /* Build configuration list for PBXNativeTarget "BubbleTests" */;
-			buildPhases = (
-				8087EE2D1B66D28C009258E5 /* Sources */,
-				8087EE2E1B66D28C009258E5 /* Frameworks */,
-				8087EE2F1B66D28C009258E5 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				8087EE331B66D28C009258E5 /* PBXTargetDependency */,
-			);
-			name = BubbleTests;
-			productName = BubbleTests;
-			productReference = 8087EE311B66D28C009258E5 /* BubbleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -389,11 +325,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 9RXLE5FXUN;
-					};
-					8087EE301B66D28C009258E5 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 8087EE171B66D28B009258E5;
+						DevelopmentTeam = 6FWSRPXBW6;
 					};
 				};
 			};
@@ -411,7 +343,6 @@
 			projectRoot = "";
 			targets = (
 				8087EE171B66D28B009258E5 /* Bubble */,
-				8087EE301B66D28C009258E5 /* BubbleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -428,13 +359,6 @@
 				80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */,
 				8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */,
 				8087EE291B66D28C009258E5 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8087EE2F1B66D28C009258E5 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,23 +423,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8087EE2D1B66D28C009258E5 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8087EE381B66D28C009258E5 /* BubbleTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		8087EE331B66D28C009258E5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8087EE171B66D28B009258E5 /* Bubble */;
-			targetProxy = 8087EE321B66D28C009258E5 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8087EE251B66D28C009258E5 /* Main.storyboard */ = {
@@ -711,40 +619,6 @@
 			};
 			name = Release;
 		};
-		8087EE3F1B66D28C009258E5 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = BubbleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bubble.app/Bubble";
-			};
-			name = Debug;
-		};
-		8087EE401B66D28C009258E5 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = BubbleTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Bubble.app/Bubble";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -762,15 +636,6 @@
 			buildConfigurations = (
 				8087EE3C1B66D28C009258E5 /* Debug */,
 				8087EE3D1B66D28C009258E5 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8087EE3E1B66D28C009258E5 /* Build configuration list for PBXNativeTarget "BubbleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8087EE3F1B66D28C009258E5 /* Debug */,
-				8087EE401B66D28C009258E5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
