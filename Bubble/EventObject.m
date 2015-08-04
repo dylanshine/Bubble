@@ -33,11 +33,11 @@
     NSString *addressState = jsonDict[@"venue"][@"state"];
     NSNumber *addressZip = jsonDict[@"venue"][@"postal_code"];
     NSURL *ticketURL = jsonDict[@"url"];
-    NSString *imageString = jsonDict[@"performers"][0][@"image"];
+    NSString *eventImageURL = jsonDict[@"performers"][0][@"image"];
     
     // Set placeholder image.  Make dynamic for event types
-    if ([imageString isKindOfClass:[NSNull class]]) {
-    imageString = @"https://placekitten.com/g/280/210";
+    if ([eventImageURL isKindOfClass:[NSNull class]]) {
+    eventImageURL = @"https://placekitten.com/g/414/310";
     }
     
     NSNumber *eventScore = jsonDict[@"score"];
@@ -67,26 +67,30 @@
         _addressState = addressState;
         _addressZip = addressZip;
         _ticketURL = ticketURL;
+        _eventImageURL = eventImageURL;
         _eventScore = eventScore;
         _venueScore = venueScore;
         _eventLocation = eventLocation;
-
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        
-        manager.responseSerializer = [AFImageResponseSerializer serializer];
-        
-        [manager GET:imageString
-          parameters:nil
-             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 _eventImage = [UIImage imageWithData:operation.responseData];
-                 
-             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 NSLog(@"%@",error.description);
-             }];
     }
     
     return self;
+}
+
+
+- (void) fetchEventImage {
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    manager.responseSerializer = [AFImageResponseSerializer serializer];
+    
+    [manager GET:self.eventImageURL
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             _eventImage = [UIImage imageWithData:operation.responseData];
+             
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"%@",error.description);
+         }];
 }
 
 @end
