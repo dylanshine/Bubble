@@ -415,7 +415,7 @@
         [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
         [self setDateSelectorTitle];
 //        [self.dateSelectorButton setBackgroundColor:[UIColor clearColor]];
-        [UIView animateWithDuration:0.75 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.9;
             self.nextDayButton.alpha = 0.9;
             self.datePicker.alpha = 0;
@@ -426,7 +426,7 @@
         
     } else {
         self.datePicker.date = self.date;
-        [UIView animateWithDuration:0.75 animations:^{
+        [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
             self.datePicker.alpha = 1;
