@@ -71,6 +71,8 @@
         
         EventObject * eventItem = [[EventObject alloc]initWithDictionary:event];
         
+        [eventItem fetchEventImage];
+        
         [self.eventsArray addObject:eventItem];
     }
 }
