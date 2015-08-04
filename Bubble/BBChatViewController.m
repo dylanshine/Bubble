@@ -47,9 +47,8 @@
     
     if (self.roomID != self.xmppManager.currentRoomId) {
         [self.xmppManager.xmppRoom deactivate];
+        [self.xmppManager joinOrCreateRoom:self.roomID];
     }
-    
-    [self.xmppManager joinOrCreateRoom:self.roomID];
     
     if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
         [self grabCurrentUserAvatar];
@@ -333,9 +332,7 @@
                  NSLog(@"Error: %@", error);
                  
              }];
-        
     }
 }
-
 
 @end

@@ -67,7 +67,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBSDKAppEvents activateApp];
-
+    [self connectToServer];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -97,6 +97,13 @@
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     [PFPush handlePush:userInfo];
+}
+
+-(void)connectToServer {
+    if (![self.xmppManager.xmppStream isAuthenticated] && [PFUser currentUser]) {
+        [self.xmppManager connect];
+    }
+    
 }
 
 @end

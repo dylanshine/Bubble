@@ -120,6 +120,10 @@
     [self.xmppReconnect activate:self.xmppStream];
     [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
     [self goOnline];
+    
+    if (self.currentRoomId && ![self.xmppRoom isJoined]) {
+        [self joinOrCreateRoom:self.currentRoomId];
+    }
 }
 
 
@@ -169,10 +173,6 @@
 
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
     [self.chatOccupantDelegate currentUserConnectedToChatroom];
-}
-
-- (void)xmppRoomDidLeave:(XMPPRoom *)sender {
-    self.currentRoomId = nil;
 }
 
 - (void)dealloc {
