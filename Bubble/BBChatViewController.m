@@ -24,6 +24,8 @@
 @property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
+@property (assign, nonatomic) INTULocationRequestID locationRequestID;
+@property (nonatomic) BOOL pushNotificationsSent;
 
 @end
 
@@ -39,6 +41,7 @@
     self.xmppManager.messageDelegate = self;
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
+    self.inputToolbar.hidden = YES;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
     self.friendsAtEvent = [[NSMutableArray alloc]init];
     
@@ -176,9 +179,6 @@
 {
     JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
     
-    /**
-     *  iOS7-style sender name labels
-     */
     if ([message.senderId isEqualToString:self.senderId]) {
         return nil;
     }
@@ -190,11 +190,36 @@
         }
     }
     
-    /**
-     *  Don't specify attributes to use the defaults.
-     */
-    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+    NSArray *splitName = [message.senderDisplayName componentsSeparatedByString:@" "];
+    NSString *formattedName = [NSString stringWithFormat:@"%@ %@.", splitName[0], [(NSString*)[splitName lastObject] substringToIndex:1]];
+    
+    NSAttributedString *attributedName = [[NSAttributedString alloc] initWithString:formattedName];
+    return attributedName;
 }
+
+//- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+//    
+//    /**
+//     *  iOS7-style sender name labels
+//     */
+//    if ([message.senderId isEqualToString:self.senderId]) {
+//        return nil;
+//    }
+//    
+//    if (indexPath.item - 1 > 0) {
+//        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+//        if ([[previousMessage senderId] isEqualToString:message.senderId]) {
+//            return nil;
+//        }
+//    }
+//    
+//    /**
+//     *  Don't specify attributes to use the defaults.
+//     */
+//    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
+//}
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -247,6 +272,39 @@
     return cell;
 }
 
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    if (indexPath.item % 3 == 0) {
+        return kJSQMessagesCollectionViewCellLabelHeightDefault;
+    }
+    
+    return 0.0f;
+}
+
+
+- (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
+{
+    /**
+     *  iOS7-style sender name labels
+     */
+    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    if ([[currentMessage senderId] isEqualToString:self.senderId]) {
+        return 0.0f;
+    }
+    
+    if (indexPath.item - 1 > 0) {
+        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
+            return 0.0f;
+        }
+    }
+    
+    return kJSQMessagesCollectionViewCellLabelHeightDefault;
+}
+
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
@@ -273,28 +331,7 @@
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
     [self grabAvatarsForUsersInChat];
-
-    PFUser *currentUser = [PFUser currentUser];
-    
-    currentUser[@"eventID"] = self.roomID;
-    
-    [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
-        
-        if (succeeded) {
-            PFQuery *query = [PFUser query];
-            
-            [query whereKey:@"eventID" equalTo:self.roomID];
-            
-            [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-                if (!error) {
-                    [self sendPushNotificationToEventFriends:objects];
-                } else {
-                    NSLog(@"Error fetching users in event");
-                }
-            }];
-            
-        }
-    }];
+    [self startLocationUpdateSubscription];
 }
 
 - (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
@@ -349,6 +386,58 @@
                  NSLog(@"Error: %@", error);
                  
              }];
+    }
+}
+
+- (void)startLocationUpdateSubscription {
+    __weak __typeof(self) weakSelf = self;
+    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
+    self.locationRequestID = [locMgr subscribeToLocationUpdatesWithBlock:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
+        __typeof(weakSelf) strongSelf = weakSelf;
+        
+        if (status == INTULocationStatusSuccess) {
+            CLLocationDistance distance = [currentLocation distanceFromLocation:strongSelf.eventLocation];
+            if (distance >= 400.0) {
+                [strongSelf currentUserOutsideOfBubble];
+            } else {
+                [strongSelf currentUserInsideOfBubble];
+            }
+        } else {
+            strongSelf.locationRequestID = NSNotFound;
+        }
+    }];
+}
+
+-(void)currentUserOutsideOfBubble {
+    self.inputToolbar.hidden = YES;
+    if (![[PFUser currentUser][@"eventID"] isEqualToString:@""]) {
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"eventID"] = @"";
+        [currentUser saveInBackground];
+    }
+}
+
+-(void)currentUserInsideOfBubble {
+    self.inputToolbar.hidden = NO;
+    if (self.roomID != [PFUser currentUser][@"eventID"]) {
+        PFUser *currentUser = [PFUser currentUser];
+        currentUser[@"eventID"] = self.roomID;
+        
+        [currentUser saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+            if (succeeded && !self.pushNotificationsSent) {
+                self.pushNotificationsSent = YES;
+                
+                PFQuery *query = [PFUser query];
+                [query whereKey:@"eventID" equalTo:self.roomID];
+                [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+                    if (!error) {
+                        [self sendPushNotificationToEventFriends:objects];
+                    } else {
+                        NSLog(@"Error fetching users in event");
+                    }
+                }];
+            }
+        }];
     }
 }
 

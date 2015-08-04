@@ -21,7 +21,6 @@
 #import "BBChatViewController.h"
 #import "LoginViewController.h"
 
-
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -68,6 +67,7 @@
     [self setupMenuScrollView];
     [self setupSearchBar];
     
+
     [self startLocationUpdateSubscription];
 }
 
@@ -260,6 +260,7 @@
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
         chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
+        chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
     }
 }
 

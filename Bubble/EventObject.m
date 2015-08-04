@@ -52,8 +52,9 @@
     coordinate.latitude = venueLat.floatValue;
     coordinate.longitude = venueLon.floatValue;
     
-    if (self) {
-        _eventDictionary = jsonDict;
+    CLLocation *eventLocation = [[CLLocation alloc] initWithLatitude:coordinate.latitude longitude:coordinate.longitude];
+    
+    if (self){
         _eventID = eventID;
         _eventTitle = eventTitle;
         _eventType = eventType;
@@ -68,6 +69,8 @@
         _ticketURL = ticketURL;
         _eventScore = eventScore;
         _venueScore = venueScore;
+        _eventLocation = eventLocation;
+
         
         AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
         

@@ -29,6 +29,7 @@
 @property (nonatomic, strong) UIImage *eventImage;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
+@property (nonatomic, strong) CLLocation *eventLocation;
 
 - (instancetype) initWithDictionary:(NSDictionary *)jsonDict;
 
