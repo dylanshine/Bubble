@@ -37,7 +37,7 @@
     
     // Set placeholder image.  Make dynamic for event types
     if ([imageString isKindOfClass:[NSNull class]]) {
-    imageString = @"https://placekitten.com/g/280/210";
+    imageString = @"https://placekitten.com/g/414/310";
     }
     
     NSNumber *eventScore = jsonDict[@"score"];
