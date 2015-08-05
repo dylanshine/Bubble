@@ -467,6 +467,7 @@
         if (![self.date isEqual:self.datePicker.date]) {
             self.date = self.datePicker.date;
             [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+            [self.dataStore getMeetupEventsWithLocation:[self mapCenter] date:self.date];
         }
         [self setDateSelectorTitle];
         [UIView animateWithDuration:0.5 animations:^{
