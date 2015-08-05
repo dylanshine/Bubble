@@ -79,7 +79,6 @@
     [self setupMenuScrollView];
     [self setupSearchBar];
     
-
     [self startLocationUpdateSubscription];
 }
 
@@ -105,7 +104,6 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.4 animations:^{
                 [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
-                
                 self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
                 [self.eventImage layoutIfNeeded];
             }];
@@ -148,9 +146,9 @@
         if (status == INTULocationStatusSuccess) {
             strongSelf.currentLocation = currentLocation;
             if (!strongSelf.loaded) {
-                [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation];
                 strongSelf.loaded = YES;
-                [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
+                [strongSelf.dataStore getSeatgeekEventsWithLocation:strongSelf.currentLocation];
+                [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
             }
         }
         else {
@@ -276,6 +274,7 @@
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
         chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
         chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
+        chatVC.currentUserLocation = self.currentLocation;
     }
 }
 

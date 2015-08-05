@@ -18,7 +18,6 @@
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
 		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
-		80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */; };
 		80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */; };
 		80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */; };
 		80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */; };
@@ -69,8 +68,6 @@
 		802273851B6A805A00C62E50 /* BBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessage.m; sourceTree = "<group>"; };
 		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
-		80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBLoginAlertView.h; sourceTree = "<group>"; };
-		80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBLoginAlertView.m; sourceTree = "<group>"; };
 		80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-white_512.png"; sourceTree = "<group>"; };
 		80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512.png"; sourceTree = "<group>"; };
 		80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512_cropped.png"; sourceTree = "<group>"; };
@@ -158,6 +155,16 @@
 		803185C51B70185A0046CF79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				802273811B6A784D00C62E50 /* BBChatViewController.h */,
+				802273821B6A784D00C62E50 /* BBChatViewController.m */,
+				175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */,
+				175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */,
+				175E54DC1B6BDADF002A7CAA /* LoginViewController.h */,
+				175E54DD1B6BDADF002A7CAA /* LoginViewController.m */,
+				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
+				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
+				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
+				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -165,8 +172,12 @@
 		803185C61B7018760046CF79 /* Data Managers */ = {
 			isa = PBXGroup;
 			children = (
+				175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */,
+				175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */,
 				FC5BFCBC1B6A6A2300E1294A /* XMPPManager.h */,
 				FC5BFCBD1B6A6A2300E1294A /* XMPPManager.m */,
+				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
+				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
 			);
 			name = "Data Managers";
 			sourceTree = "<group>";
@@ -174,6 +185,12 @@
 		803185C71B7018A30046CF79 /* Model Classes */ = {
 			isa = PBXGroup;
 			children = (
+				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
+				17A915FB1B67E568000821E2 /* BBAnnotation.m */,
+				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
+				CCDD860E1B69125400E6B6B0 /* EventObject.m */,
+				802273841B6A805A00C62E50 /* BBMessage.h */,
+				802273851B6A805A00C62E50 /* BBMessage.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -181,6 +198,11 @@
 		803185C81B7018B40046CF79 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
+				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
+				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,
+				178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */,
+				1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */,
 				1786506E1B6A5A5600A68FF9 /* ILTranslucentView */,
 			);
 			name = Extensions;
@@ -210,33 +232,6 @@
 			children = (
 				8087EE1F1B66D28C009258E5 /* AppDelegate.h */,
 				8087EE201B66D28C009258E5 /* AppDelegate.m */,
-				175E54D71B6BB9B7002A7CAA /* ApplicationViewController.h */,
-				175E54D81B6BB9B7002A7CAA /* ApplicationViewController.m */,
-				175E54DC1B6BDADF002A7CAA /* LoginViewController.h */,
-				175E54DD1B6BDADF002A7CAA /* LoginViewController.m */,
-				8087EE221B66D28C009258E5 /* EventMapViewController.h */,
-				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
-				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
-				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
-				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
-				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
-				80839ACB1B6934AE008BBC7C /* BBLoginAlertView.h */,
-				80839ACC1B6934AE008BBC7C /* BBLoginAlertView.m */,
-				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
-				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
-				175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */,
-				175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */,
-				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
-				CCDD860E1B69125400E6B6B0 /* EventObject.m */,
-				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
-				17A915FB1B67E568000821E2 /* BBAnnotation.m */,
-				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,
-				178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */,
-				1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */,
-				802273811B6A784D00C62E50 /* BBChatViewController.h */,
-				802273821B6A784D00C62E50 /* BBChatViewController.m */,
-				802273841B6A805A00C62E50 /* BBMessage.h */,
-				802273851B6A805A00C62E50 /* BBMessage.m */,
 				803185C51B70185A0046CF79 /* View Controllers */,
 				803185C71B7018A30046CF79 /* Model Classes */,
 				803185C61B7018760046CF79 /* Data Managers */,
@@ -325,7 +320,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SN6947879T;
+						DevelopmentTeam = 6FWSRPXBW6;
 					};
 				};
 			};
@@ -414,7 +409,6 @@
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
-				80839ACD1B6934AE008BBC7C /* BBLoginAlertView.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
 				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
