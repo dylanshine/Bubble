@@ -20,6 +20,7 @@
 #import "XMPPManager.h"
 #import "BBChatViewController.h"
 #import "LoginViewController.h"
+#import <SVProgressHUD.h>
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
 
@@ -30,6 +31,14 @@
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventImageTopConstraint;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *scrollViewTapRecognizer;
+
+@property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
+@property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
+@property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (strong, nonatomic) UIView *pickerBackground;
+@property (strong, nonatomic) NSDate *date;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
@@ -63,6 +72,9 @@
     self.xmppManager = [XMPPManager sharedManager];
     
     self.mapView.delegate = self;
+    
+    self.date = [NSDate date];
+    [self setupDateSelector];
     
     [self setupMenuScrollView];
     [self setupSearchBar];
@@ -145,6 +157,7 @@
             strongSelf.locationRequestID = NSNotFound;
         }
     }];
+
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
@@ -160,6 +173,7 @@
             }];
         } completion:^(BOOL finished) { }];
     }
+
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
@@ -184,7 +198,8 @@
         
         [self.mapView addAnnotation:annotation];
     }
-    self.mapView.region = MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1));
+    [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:YES];
+    [SVProgressHUD dismiss];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
@@ -380,6 +395,98 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
+}
+
+#pragma mark date-search
+
+-(void) setupDateSelector {
+    self.dateSelectorButton.titleLabel.font = [UIFont systemFontOfSize:18];
+    [self.dateSelectorButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [self setDateSelectorTitle];
+    self.dateSelectorButton.alpha = 0.9;
+    self.dateSelectorButton.layer.cornerRadius = 10;
+    self.dateSelectorButton.backgroundColor = [UIColor whiteColor];
+    self.previousDayButton.layer.cornerRadius = 10;
+    self.previousDayButton.backgroundColor = [UIColor whiteColor];
+    self.nextDayButton.layer.cornerRadius = 10;
+    self.nextDayButton.backgroundColor = [UIColor whiteColor];
+    self.datePicker.alpha = 0;
+    self.datePicker.minimumDate = [NSDate date];
+    UIView *datePickerBackground = [[UIView alloc] init];
+    datePickerBackground.backgroundColor = [UIColor whiteColor];
+    datePickerBackground.alpha = 0.0;
+    [self.mapView addSubview:datePickerBackground];
+    [datePickerBackground mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.view.mas_width);
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.searchBar.mas_bottom).with.offset(6);
+        make.height.equalTo(@36);
+    }];
+    self.pickerBackground = datePickerBackground;
+    
+}
+
+-(void) setDateSelectorTitle {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"EEE MMM dd";
+    NSString *dateString = [formatter stringFromDate:self.date];
+    if ([dateString isEqual:[formatter stringFromDate:[NSDate date]]]) {
+        [self.dateSelectorButton setTitle:@"Today" forState:UIControlStateNormal];
+    } else if ([dateString isEqual:[formatter stringFromDate:[NSDate dateWithTimeInterval:60*60*24 sinceDate:[NSDate date]]]]) {
+        [self.dateSelectorButton setTitle:@"Tomorrow" forState:UIControlStateNormal];
+    } else {
+        [self.dateSelectorButton setTitle:[formatter stringFromDate:self.date] forState:UIControlStateNormal];
+    }
+}
+
+- (IBAction)previousDayTapped:(id)sender {
+    self.date = [self.date dateByAddingTimeInterval:-(60*60*24)];
+    [SVProgressHUD show];
+    [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self setDateSelectorTitle];
+    
+}
+
+- (IBAction)nextDayTapped:(id)sender {
+    self.date = [self.date dateByAddingTimeInterval:(60*60*24)];
+    [SVProgressHUD show];
+    [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self setDateSelectorTitle];
+}
+
+- (IBAction)dateSelectorTapped:(id)sender {
+
+    if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
+        [SVProgressHUD show];
+        self.date = self.datePicker.date;
+        [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+        [self setDateSelectorTitle];
+//        [self.dateSelectorButton setBackgroundColor:[UIColor clearColor]];
+        [UIView animateWithDuration:0.5 animations:^{
+            self.previousDayButton.alpha = 0.9;
+            self.nextDayButton.alpha = 0.9;
+            self.dateSelectorButton.alpha = 0.9;
+            self.datePicker.alpha = 0;
+            self.pickerBackground.alpha = 0;
+            self.dateSelectorConstraint.constant = 52;
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) { }];
+        
+    } else {
+        self.datePicker.date = self.date;
+        [UIView animateWithDuration:0.5 animations:^{
+            self.previousDayButton.alpha = 0.0;
+            self.nextDayButton.alpha = 0.0;
+            self.datePicker.alpha = 1;
+            self.dateSelectorButton.alpha = 1;
+            self.pickerBackground.alpha = 0.95;
+            self.dateSelectorConstraint.constant = 174;
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
+//            [self.dateSelectorButton setBackgroundColor:[UIColor whiteColor]];
+        }];
+    }
 }
 
 
