@@ -21,8 +21,19 @@
     
     self = [super init];
     
+    
+    
+    
+    NSString *title = jsonDict[@"title"];
+    NSString *eventTitle = @"";
+    
+    if ([title containsString:@" - "]) {
+        eventTitle = jsonDict[@"performers"][0][@"name"];
+    } else {
+        eventTitle = jsonDict[@"title"];
+    }
+    
     NSNumber *eventID = jsonDict[@"id"];
-    NSString *eventTitle = jsonDict[@"title"];
     NSString *eventType = jsonDict[@"type"];
     NSString *eventTime = jsonDict[@"datetime_local"];
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
@@ -86,7 +97,7 @@
     [manager GET:self.eventImageURL
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             _eventImage = [UIImage imageWithData:operation.responseData];
+             _eventImage = responseObject;
              
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"%@",error.description);
