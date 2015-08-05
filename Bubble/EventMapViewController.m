@@ -12,7 +12,6 @@
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
-#import "BBLoginAlertView.h"
 #import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
 #import "EventDetailsViewController.h"
@@ -37,6 +36,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
 
@@ -411,7 +411,9 @@
     self.nextDayButton.backgroundColor = [UIColor whiteColor];
     self.datePicker.alpha = 0;
     self.datePicker.minimumDate = [NSDate date];
-    UIView *datePickerBackground = [[UIView alloc] init];
+    self.datePickerCenterConstraint.constant = -400;
+    self.pickerBackground.userInteractionEnabled = NO;
+    UIView *datePickerBackground = [[BBSearchViewPassThrough alloc] init];
     datePickerBackground.backgroundColor = [UIColor whiteColor];
     datePickerBackground.alpha = 0.0;
     [self.mapView addSubview:datePickerBackground];
@@ -466,6 +468,7 @@
             self.nextDayButton.alpha = 0.9;
             self.dateSelectorButton.alpha = 0.9;
             self.datePicker.alpha = 0;
+            self.datePickerCenterConstraint.constant = -400;
             self.pickerBackground.alpha = 0;
             self.dateSelectorConstraint.constant = 52;
             [self.view layoutIfNeeded];
@@ -473,12 +476,14 @@
         
     } else {
         self.datePicker.date = self.date;
+
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
             self.datePicker.alpha = 1;
             self.dateSelectorButton.alpha = 1;
             self.pickerBackground.alpha = 0.95;
+            self.datePickerCenterConstraint.constant = 0;
             self.dateSelectorConstraint.constant = 174;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
