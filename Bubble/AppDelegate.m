@@ -68,6 +68,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [FBSDKAppEvents activateApp];
     [self connectToServer];
+    
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

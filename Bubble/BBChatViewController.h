@@ -7,12 +7,13 @@
 //
 
 #import <JSQMessagesViewController.h>
-#import <INTULocationManager.h>
+#import <CoreLocation/CoreLocation.h>
 
 @interface BBChatViewController : JSQMessagesViewController
 
 @property (nonatomic) NSString *roomID;
 @property (nonatomic) CLLocation *eventLocation;
+@property (nonatomic) CLLocation *currentUserLocation;
 @property (nonatomic) NSString *eventTitle;
 @property (nonatomic, strong) NSMutableArray *friendsAtEvent;
 

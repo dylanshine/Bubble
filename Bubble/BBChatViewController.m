@@ -24,7 +24,6 @@
 @property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
-@property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (nonatomic) BOOL pushNotificationsSent;
 
 @end
@@ -33,6 +32,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self userCurrentLocationCheck];
     self.messages = [[NSMutableArray alloc] init];
     self.avatars = [[NSMutableDictionary alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
@@ -41,7 +41,6 @@
     self.xmppManager.messageDelegate = self;
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
-    self.inputToolbar.hidden = YES;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
     self.friendsAtEvent = [[NSMutableArray alloc]init];
     
@@ -49,7 +48,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     if (self.roomID != self.xmppManager.currentRoomId) {
         [self.xmppManager.xmppRoom deactivate];
         [self.xmppManager joinOrCreateRoom:self.roomID];
@@ -59,6 +58,7 @@
         [self grabCurrentUserAvatar];
     }
 }
+
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
@@ -331,7 +331,6 @@
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
     [self grabAvatarsForUsersInChat];
-    [self startLocationUpdateSubscription];
 }
 
 - (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
@@ -389,27 +388,16 @@
     }
 }
 
-- (void)startLocationUpdateSubscription {
-    __weak __typeof(self) weakSelf = self;
-    INTULocationManager *locMgr = [INTULocationManager sharedInstance];
-    self.locationRequestID = [locMgr subscribeToLocationUpdatesWithBlock:^(CLLocation *currentLocation, INTULocationAccuracy achievedAccuracy, INTULocationStatus status) {
-        __typeof(weakSelf) strongSelf = weakSelf;
-        
-        if (status == INTULocationStatusSuccess) {
-            CLLocationDistance distance = [currentLocation distanceFromLocation:strongSelf.eventLocation];
-            if (distance >= 5000.0) {
-                [strongSelf currentUserOutsideOfBubble];
-            } else {
-                [strongSelf currentUserInsideOfBubble];
-            }
-        } else {
-            strongSelf.locationRequestID = NSNotFound;
-        }
-    }];
+-(void)userCurrentLocationCheck {
+    CLLocationDistance distance = [self.currentUserLocation distanceFromLocation:self.eventLocation];
+    if (distance >= 5000.0) {
+        [self currentUserOutsideOfBubble];
+    } else {
+        [self currentUserInsideOfBubble];
+    }
 }
 
 -(void)currentUserOutsideOfBubble {
-    self.inputToolbar.hidden = YES;
     if (![[PFUser currentUser][@"eventID"] isEqualToString:@""]) {
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"eventID"] = @"";
@@ -418,7 +406,6 @@
 }
 
 -(void)currentUserInsideOfBubble {
-    self.inputToolbar.hidden = NO;
     if (self.roomID != [PFUser currentUser][@"eventID"]) {
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"eventID"] = self.roomID;

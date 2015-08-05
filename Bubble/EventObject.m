@@ -91,7 +91,7 @@
 - (void) fetchEventImage {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    
+
     manager.responseSerializer = [AFImageResponseSerializer serializer];
     
     [manager GET:self.eventImageURL
