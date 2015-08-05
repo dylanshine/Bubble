@@ -9,7 +9,7 @@
 #import "AFDataStore.h"
 #import <AFNetworking.h>
 #import "EventObject.h"
-
+#import "Constants.h"
 @interface AFDataStore()
 
 
@@ -77,7 +77,7 @@
     NSDate * todayEpoch = [formatter dateFromString:[formatter stringFromDate:date]];
     NSDate * tomorrowEpoch = [formatter dateFromString:[formatter stringFromDate:tomorrow]];
     
-    NSString *url = [NSString stringWithFormat:@"https://api.meetup.com/2/open_events?&key=642aa45707d7d3a46148553d462e16&photo-host=public&lat=%f&lon=%f&time=%lld,%lld&radius=10&page=75",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude,[@(floor([todayEpoch timeIntervalSince1970] * 1000)) longLongValue],[@(floor([tomorrowEpoch timeIntervalSince1970] * 1000)) longLongValue]];
+    NSString *url = [NSString stringWithFormat:@"https://api.meetup.com/2/open_events?&key=%@&photo-host=public&lat=%f&lon=%f&time=%lld,%lld&radius=10&page=75",kMEETUP_API_KEY, currentLocation.coordinate.latitude, currentLocation.coordinate.longitude,[@(floor([todayEpoch timeIntervalSince1970] * 1000)) longLongValue],[@(floor([tomorrowEpoch timeIntervalSince1970] * 1000)) longLongValue]];
     
     
     //https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=NYCUltimate&page=20
@@ -123,6 +123,9 @@
     }
     NSLog(@"%lu",(unsigned long)self.eventsArray.count);
 }
+
+
+
 
 
 - (void) searchEvents: (NSString *)searchTerm withScope:(NSInteger)index {
