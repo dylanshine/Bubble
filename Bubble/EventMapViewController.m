@@ -461,11 +461,12 @@
 
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
         [SVProgressHUD show];
-        self.date = self.datePicker.date;
-
-        [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+        
+        if (![self.date isEqual:self.datePicker.date]) {
+            self.date = self.datePicker.date;
+            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+        }
         [self setDateSelectorTitle];
-//        [self.dateSelectorButton setBackgroundColor:[UIColor clearColor]];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.9;
             self.nextDayButton.alpha = 0.9;
@@ -479,7 +480,7 @@
         
     } else {
         self.datePicker.date = self.date;
-
+        [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
@@ -490,8 +491,6 @@
             self.dateSelectorConstraint.constant = 174;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
-//            [self.dateSelectorButton setBackgroundColor:[UIColor whiteColor]];
         }];
     }
 }
