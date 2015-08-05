@@ -151,6 +151,7 @@
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
                 [strongSelf.dataStore getSeatgeekEventsWithLocation:strongSelf.currentLocation];
+                [strongSelf.dataStore getMeetupEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
             }
         }
@@ -228,11 +229,10 @@
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
-        
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
         annotationView.frame = CGRectMake(0,0,30,30);
-        
+
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
         [detailButton setImage:[UIImage imageNamed:@"Bubble-White"] forState:UIControlStateNormal];
@@ -274,7 +274,7 @@
         UINavigationController *destination = [segue destinationViewController];
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
-        chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
+        chatVC.roomID = self.selectedAnnotation.event.eventID; //stringValue];  //meet up event crash here, event id is already a string
         chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
         chatVC.currentUserLocation = self.currentLocation;
     }
@@ -446,6 +446,7 @@
     self.date = [self.date dateByAddingTimeInterval:-(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
     
 }
@@ -454,6 +455,7 @@
     self.date = [self.date dateByAddingTimeInterval:(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
 }
 
@@ -465,6 +467,7 @@
         if (![self.date isEqual:self.datePicker.date]) {
             self.date = self.datePicker.date;
             [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+            [self.dataStore getMeetupEventsWithLocation:[self mapCenter] date:self.date];
         }
         [self setDateSelectorTitle];
         [UIView animateWithDuration:0.5 animations:^{
