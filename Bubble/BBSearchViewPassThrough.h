@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BBSearchView : UIView
+@interface BBSearchViewPassThrough : UIView
 
 @end
