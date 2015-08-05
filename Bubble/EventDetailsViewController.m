@@ -13,7 +13,7 @@
 @interface EventDetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
-@property (weak, nonatomic) IBOutlet UILabel *eventSubtitle;
+@property (weak, nonatomic) IBOutlet UILabel *eventAddress;
 @property (nonatomic, strong) UIImageView *eventImage;
 
 @end
@@ -26,6 +26,10 @@
     [self makeTranslucentBackground];
     
     [self adjustFontForDeviceSize];
+    
+    
+    NSURL *testURL = [NSURL URLWithString:@"seatgeek://app"];
+    NSLog(@"Can open URL %d",[[UIApplication sharedApplication] canOpenURL:testURL]);
 }
 
 - (void) makeTranslucentBackground {
@@ -60,8 +64,7 @@
     
     _event = event;
     self.eventTitle.text = event.eventTitle;
-    self.eventSubtitle.text = [[event.eventType stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
-//    self.eventImage.image = event.eventImage;
+
 
 }
 

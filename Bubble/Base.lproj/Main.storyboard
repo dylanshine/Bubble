@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
@@ -214,31 +214,31 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
-                                <rect key="frame" x="19" y="0.0" width="338" height="45"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boston Red Sox at New York Yankees" textAlignment="center" lineBreakMode="clip" numberOfLines="2" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
+                                <rect key="frame" x="19" y="6" width="338" height="90"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="38"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="clip" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="2sI-Lh-ROv" userLabel="Event Subtitle">
-                                <rect key="frame" x="-21" y="13" width="417" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="26"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
-                                <rect key="frame" x="-96" y="-45" width="3" height="90"/>
+                                <rect key="frame" x="18" y="-80" width="7" height="8"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Ticket-Red" translatesAutoresizingMaskIntoConstraints="NO" id="enn-Qg-gF7">
+                                <rect key="frame" x="238" y="-3" width="119" height="63"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="enn-Qg-gF7" secondAttribute="height" multiplier="17:9" id="LDi-X3-8yZ"/>
+                                    <constraint firstAttribute="width" constant="119" id="NqE-w5-VyG"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="8HB-TE-CAY"/>
                             <constraint firstAttribute="trailing" secondItem="ThR-hw-vhn" secondAttribute="trailing" id="Brr-lh-xyn"/>
+                            <constraint firstItem="enn-Qg-gF7" firstAttribute="trailing" secondItem="52e-vu-Pwx" secondAttribute="trailing" id="Kmr-UO-KBE"/>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.9" id="PPN-sK-fwt"/>
-                            <constraint firstAttribute="centerX" secondItem="2sI-Lh-ROv" secondAttribute="centerX" id="Ueb-wl-czV"/>
-                            <constraint firstAttribute="width" secondItem="2sI-Lh-ROv" secondAttribute="width" multiplier="0.9" id="bxq-v8-Exy"/>
-                            <constraint firstItem="2sI-Lh-ROv" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" constant="13" id="eMk-XL-nz4"/>
                             <constraint firstItem="ThR-hw-vhn" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="f78-ya-RYI"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="gVA-WE-MQI"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="6" id="gVA-WE-MQI"/>
                             <constraint firstItem="ThR-hw-vhn" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="mLS-tu-LQa"/>
                             <constraint firstAttribute="bottomMargin" secondItem="ThR-hw-vhn" secondAttribute="bottom" id="vZc-bn-bKS"/>
                         </constraints>
@@ -254,7 +254,6 @@
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
-                        <outlet property="eventSubtitle" destination="2sI-Lh-ROv" id="291-VF-ECM"/>
                         <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
                     </connections>
                 </viewController>
@@ -306,4 +305,7 @@
             <point key="canvasLocation" x="1316.5" y="388.5"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Ticket-Red" width="732" height="387"/>
+    </resources>
 </document>

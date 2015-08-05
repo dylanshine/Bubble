@@ -12,7 +12,6 @@
 #import "BBAnnotation.h"
 #import "AFDataStore.h"
 #import "EventObject.h"
-#import "BBLoginAlertView.h"
 #import "UISearchBar+EnableReturnKey.h"
 #import <INTULocationManager.h>
 #import "EventDetailsViewController.h"
