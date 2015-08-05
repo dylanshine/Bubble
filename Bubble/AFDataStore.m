@@ -57,7 +57,7 @@
     [manager GET:url parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
              
-             [self createEventObjects:responseObject];
+             [self createSeatgeekEventObjects:responseObject];
              
              // Implemented delegate to account for pagination if needed
              [self.delegate dataStore:self didLoadEvents:self.eventsArray];
@@ -67,19 +67,63 @@
          }];
 }
 
+- (void)getMeetupEventsWithLocation:(CLLocation *)currentLocation date:(NSDate*)date{
+    NSDateComponents *tomorrowSetter = [[NSDateComponents alloc] init];
+    tomorrowSetter.day = 1;
+    NSDate *tomorrow = [date dateByAddingTimeInterval:60*60*24];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    
+    NSDate * todayEpoch = [formatter dateFromString:[formatter stringFromDate:date]];
+    NSDate * tomorrowEpoch = [formatter dateFromString:[formatter stringFromDate:tomorrow]];
+    
+    NSString *url = [NSString stringWithFormat:@"https://api.meetup.com/2/open_events?&key=642aa45707d7d3a46148553d462e16&photo-host=public&lat=%f&lon=%f&time=%lld,%lld&radius=10&page=75",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude,[@(floor([todayEpoch timeIntervalSince1970] * 1000)) longLongValue],[@(floor([tomorrowEpoch timeIntervalSince1970] * 1000)) longLongValue]];
+    
+    
+    //https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=NYCUltimate&page=20
+    
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    [manager GET:url parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             
+             [self createMeetupEventObjects:responseObject];
+             // Implemented delegate to account for pagination if needed
+             [self.delegate dataStore:self didLoadEvents:self.eventsArray];
+             
+         } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             NSLog(@"Error: %@", error);
+         }];
+}
 
-- (void)createEventObjects:(NSDictionary *)incomingJSON{
+- (void)createSeatgeekEventObjects:(NSDictionary *)incomingJSON{
     
     self.eventsArray = [@[] mutableCopy];
     for (NSDictionary *event in incomingJSON[@"events"]){
         
-        EventObject * eventItem = [[EventObject alloc]initWithDictionary:event];
+        EventObject * eventItem = [[EventObject alloc]initWithSeatgeekDictionary:event];
         
         [eventItem fetchEventImage];
         
         [self.eventsArray addObject:eventItem];
     }
 }
+
+- (void)createMeetupEventObjects:(NSDictionary *)incomingJSON{
+    
+    //self.eventsArray = [@[] mutableCopy];
+    for (NSDictionary *event in incomingJSON[@"results"]){
+        
+        EventObject * eventItem = [[EventObject alloc]initWithMeetupDictionary:event];
+        
+        //[eventItem fetchEventImage];
+        
+        [self.eventsArray addObject:eventItem];
+    }
+    NSLog(@"%lu",(unsigned long)self.eventsArray.count);
+}
+
 
 - (void) searchEvents: (NSString *)searchTerm withScope:(NSInteger)index {
     

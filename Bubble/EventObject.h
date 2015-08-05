@@ -12,7 +12,7 @@
 
 @interface EventObject : NSObject
 
-@property (nonatomic, strong) NSNumber *eventID;
+@property (nonatomic, strong) NSString *eventID;
 @property (nonatomic, strong) NSString *eventTitle;
 @property (nonatomic, strong) NSString *eventType;
 @property (nonatomic, strong) NSString *eventTime;
@@ -27,11 +27,13 @@
 @property (nonatomic, strong) NSNumber *venueScore;
 @property (nonatomic, strong) NSString *eventImageURL;
 @property (nonatomic, strong) UIImage *eventImage;
+@property (nonatomic, strong) NSNumber *eventPrice;
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLLocation *eventLocation;
 
-- (instancetype) initWithDictionary:(NSDictionary *)jsonDict;
+- (instancetype) initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
+- (instancetype) initWithMeetupDictionary:(NSDictionary *)jsonDict;
 
 - (void) fetchEventImage;
 
