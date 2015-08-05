@@ -30,4 +30,6 @@
 
 - (void)getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
 
+-(void)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date;
+
 @end

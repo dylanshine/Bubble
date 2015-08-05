@@ -397,7 +397,7 @@
         
         if (status == INTULocationStatusSuccess) {
             CLLocationDistance distance = [currentLocation distanceFromLocation:strongSelf.eventLocation];
-            if (distance >= 400.0) {
+            if (distance >= 5000.0) {
                 [strongSelf currentUserOutsideOfBubble];
             } else {
                 [strongSelf currentUserInsideOfBubble];
