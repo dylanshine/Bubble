@@ -21,7 +21,7 @@
 #import "LoginViewController.h"
 #import <SVProgressHUD.h>
 
-@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
+@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -36,12 +36,12 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
-
 
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
@@ -79,6 +79,10 @@
     [self setupSearchBar];
     
     [self startLocationUpdateSubscription];
+    
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
+    [panRecognizer setDelegate:self];
+    [self.mapView addGestureRecognizer:panRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -196,7 +200,6 @@
         
         [self.mapView addAnnotation:annotation];
     }
-    [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:YES];
     [SVProgressHUD dismiss];
 }
 
@@ -410,6 +413,8 @@
     self.nextDayButton.backgroundColor = [UIColor whiteColor];
     self.datePicker.alpha = 0;
     self.datePicker.minimumDate = [NSDate date];
+    self.datePickerCenterConstraint.constant = -400;
+    self.pickerBackground.userInteractionEnabled = NO;
     UIView *datePickerBackground = [[UIView alloc] init];
     datePickerBackground.backgroundColor = [UIColor whiteColor];
     datePickerBackground.alpha = 0.0;
@@ -458,15 +463,18 @@
 
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
         [SVProgressHUD show];
-        self.date = self.datePicker.date;
-        [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+        
+        if (![self.date isEqual:self.datePicker.date]) {
+            self.date = self.datePicker.date;
+            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+        }
         [self setDateSelectorTitle];
-//        [self.dateSelectorButton setBackgroundColor:[UIColor clearColor]];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.9;
             self.nextDayButton.alpha = 0.9;
             self.dateSelectorButton.alpha = 0.9;
             self.datePicker.alpha = 0;
+            self.datePickerCenterConstraint.constant = -400;
             self.pickerBackground.alpha = 0;
             self.dateSelectorConstraint.constant = 52;
             [self.view layoutIfNeeded];
@@ -474,21 +482,41 @@
         
     } else {
         self.datePicker.date = self.date;
+        [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
             self.datePicker.alpha = 1;
             self.dateSelectorButton.alpha = 1;
             self.pickerBackground.alpha = 0.95;
+            self.datePickerCenterConstraint.constant = 0;
             self.dateSelectorConstraint.constant = 174;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
-//            [self.dateSelectorButton setBackgroundColor:[UIColor whiteColor]];
         }];
     }
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        MKMapRect visibleRect = self.mapView.visibleMapRect;
+        NSSet *visibleAnnotations = [self.mapView annotationsInMapRect:visibleRect];
+        if (visibleAnnotations.count < 2) {
+            NSLog(@"Making Seatgeek Call");
+            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+        }
+        
+    }
+}
+
+-(CLLocation *)mapCenter {
+    CLLocation *center = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    return center;
+}
 
 - (void)didReceiveMemoryWarning {
     
