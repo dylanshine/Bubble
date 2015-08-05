@@ -97,8 +97,7 @@
     [manager GET:self.eventImageURL
       parameters:nil
          success:^(AFHTTPRequestOperation *operation, id responseObject) {
-             _eventImage = responseObject;
-             
+             self.eventImage = responseObject;             
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"%@",error.description);
          }];
