@@ -30,7 +30,7 @@
         eventTitle = jsonDict[@"title"];
     }
     
-    NSString *eventID = jsonDict[@"id"];
+    NSString *eventID = [jsonDict[@"id"] stringValue];
     NSString *eventType = jsonDict[@"type"];
     NSString *eventTime = jsonDict[@"datetime_local"];
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
@@ -104,7 +104,7 @@
     NSURL *ticketURL = jsonDict[@"event_url"];
     NSString *eventImageURL = jsonDict[@"group"][@"urlname"];
     NSNumber * eventPrice = jsonDict[@"fee"][@"amount"];
-
+    UIImage *eventImage = [UIImage imageNamed:@"MeetupCover"];
     
     // Set placeholder image.  Make dynamic for event types
     if ([eventImageURL isKindOfClass:[NSNull class]]) {
@@ -140,8 +140,8 @@
         _eventScore = eventScore;
         _eventLocation = eventLocation;
         _eventPrice = eventPrice;
+        _eventImage = eventImage;
     }
-    NSLog(@"%@",eventImageURL);
     return self;
 }
 

@@ -77,11 +77,8 @@
     NSDate * todayEpoch = [formatter dateFromString:[formatter stringFromDate:date]];
     NSDate * tomorrowEpoch = [formatter dateFromString:[formatter stringFromDate:tomorrow]];
     
-    NSString *url = [NSString stringWithFormat:@"https://api.meetup.com/2/open_events?&key=%@&photo-host=public&lat=%f&lon=%f&time=%lld,%lld&radius=10&page=75",kMEETUP_API_KEY, currentLocation.coordinate.latitude, currentLocation.coordinate.longitude,[@(floor([todayEpoch timeIntervalSince1970] * 1000)) longLongValue],[@(floor([tomorrowEpoch timeIntervalSince1970] * 1000)) longLongValue]];
-    
-    
-    //https://api.meetup.com/2/groups?&sign=true&photo-host=public&group_urlname=NYCUltimate&page=20
-    
+    NSString *url = [NSString stringWithFormat:@"https://api.meetup.com/2/open_events?&key=%@&photo-host=public&lat=%f&lon=%f&time=%lld,%lld&radius=10&page=200",kMEETUP_API_KEY, currentLocation.coordinate.latitude, currentLocation.coordinate.longitude,[@(floor([todayEpoch timeIntervalSince1970] * 1000)) longLongValue],[@(floor([tomorrowEpoch timeIntervalSince1970] * 1000)) longLongValue]];
+
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -121,7 +118,6 @@
         
         [self.eventsArray addObject:eventItem];
     }
-    NSLog(@"%lu",(unsigned long)self.eventsArray.count);
 }
 
 
