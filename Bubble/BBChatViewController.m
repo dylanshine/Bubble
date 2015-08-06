@@ -326,6 +326,14 @@
             }];
         }
     }
+    
+    for (BBMessage *message in self.messages) {
+        if (![self.avatars objectForKey:message.senderId]) {
+            [self fetchUserProfilePictureWithFaceBookId:message.senderId Completion:^(JSQMessagesAvatarImage *avatarImage) {
+                self.avatars[message.senderId] = avatarImage;
+            }];
+        }
+    }
 }
 
 -(void)currentUserConnectedToChatroom {
