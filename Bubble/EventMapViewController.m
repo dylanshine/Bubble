@@ -535,12 +535,12 @@
     self.menuItems = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i<4; i++) {
         IGLDropDownItem *preferences = [[IGLDropDownItem alloc] init];
-        [preferences setText:@"Preferences"];
+        [preferences setText:@"Menu Item"];
         [self.menuItems addObject:preferences];
     }
 
     self.menu = [[IGLDropDownMenu alloc] init];
-    [self.menu setFrame:CGRectMake(self.menuButton.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
     self.menu.menuText = @"Dismiss";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
@@ -551,7 +551,6 @@
     self.menu.delegate = self;
     [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
 //    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
-    self.menu.alpha = 0;
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
@@ -560,13 +559,11 @@
 - (IBAction)menuButtonTapped:(id)sender {
     
     [UIView animateWithDuration:.6 animations:^{
-        self.menu.alpha = 1;
         [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = -400;
         self.searchBarXConstraint.constant = -400;
         [self.view layoutIfNeeded];
     }];
-    self.menu.hidden = NO;
     self.menu.expanding = YES;
 //    [self.menu toggleView];
 }
@@ -579,7 +576,6 @@
 
 -(void) dismissMenu {
     [UIView animateWithDuration:.6 animations:^{
-        self.menu.alpha = 0;
         [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = 0;
         self.searchBarXConstraint.constant = -20;
