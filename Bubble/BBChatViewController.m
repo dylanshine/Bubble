@@ -12,6 +12,7 @@
 #import <JSQMessagesBubbleImageFactory.h>
 #import <Parse.h>
 #import "XMPPManager.h"
+#import "ChatDataManager.h"
 #import <Masonry.h>
 #import <SKPolygraph.h>
 #import <AFNetworking.h>
@@ -20,9 +21,10 @@
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
-@property (strong, nonatomic) NSMutableArray *messages;
-@property (strong, nonatomic) NSMutableDictionary *avatars;
+//@property (strong, nonatomic) NSMutableArray *messages;
+//@property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
+@property (strong, nonatomic) ChatDataManager *chatManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
 @property (nonatomic) BOOL pushNotificationsSent;
 
@@ -33,11 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self userCurrentLocationCheck];
-    self.messages = [[NSMutableArray alloc] init];
-    self.avatars = [[NSMutableDictionary alloc] init];
     self.senderDisplayName = [PFUser currentUser][@"name"];
     self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
+    self.chatManager = [ChatDataManager sharedManager];
     self.xmppManager.messageDelegate = self;
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
@@ -48,13 +49,9 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self checkIfNewRoom];
 
-    if (self.roomID != self.xmppManager.currentRoomId) {
-        [self.xmppManager.xmppRoom deactivate];
-        [self.xmppManager joinOrCreateRoom:self.roomID];
-    }
-    
-    if (![self.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
+    if (![self.chatManager.avatars objectForKey:[PFUser currentUser][@"facebookId"]]) {
         [self grabCurrentUserAvatar];
     }
 }
@@ -89,12 +86,12 @@
 
 - (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [self.messages objectAtIndex:indexPath.item];
+    return [self.chatManager.messages objectAtIndex:indexPath.item];
 }
 
 - (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    BBMessage *message = [self.messages objectAtIndex:indexPath.item];
+    BBMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     
     UIColor *messageBubbleColor = [self getMessageContentColor:message];
     
@@ -143,7 +140,7 @@
      *
      *  Override the defaults in `viewDidLoad`
      //     */
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     //
     //    if ([message.senderId isEqualToString:self.senderId]) {
     //        if (![NSUserDefaults outgoingAvatarSetting]) {
@@ -157,8 +154,8 @@
     //    }
     //
     //
-    if ([self.avatars objectForKey:message.senderId]) {
-        return [self.avatars objectForKey:message.senderId];
+    if ([self.chatManager.avatars objectForKey:message.senderId]) {
+        return [self.chatManager.avatars objectForKey:message.senderId];
     }
     return nil;
     
@@ -168,7 +165,7 @@
 {
     
     if (indexPath.item % 3 == 0) {
-        JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+        JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
         return [[JSQMessagesTimestampFormatter sharedFormatter] attributedTimestampForDate:message.date];
     }
     
@@ -177,14 +174,14 @@
 
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
 {
-    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
         return nil;
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        JSQMessage *previousMessage = [self.chatManager.messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage senderId] isEqualToString:message.senderId]) {
             return nil;
         }
@@ -230,7 +227,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return [self.messages count];
+    return [self.chatManager.messages count];
 }
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -254,7 +251,7 @@
      *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
      */
     
-    JSQMessage *msg = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *msg = [self.chatManager.messages objectAtIndex:indexPath.item];
     
     if (!msg.isMediaMessage) {
         
@@ -290,13 +287,13 @@
     /**
      *  iOS7-style sender name labels
      */
-    JSQMessage *currentMessage = [self.messages objectAtIndex:indexPath.item];
+    JSQMessage *currentMessage = [self.chatManager.messages objectAtIndex:indexPath.item];
     if ([[currentMessage senderId] isEqualToString:self.senderId]) {
         return 0.0f;
     }
     
     if (indexPath.item - 1 > 0) {
-        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
+        JSQMessage *previousMessage = [self.chatManager.messages objectAtIndex:indexPath.item - 1];
         if ([[previousMessage senderId] isEqualToString:[currentMessage senderId]]) {
             return 0.0f;
         }
@@ -306,13 +303,13 @@
 }
 
 - (void)newMessageReceived:(BBMessage *)messageContent {
-    [self.messages addObject:messageContent];
+    [self.chatManager.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
 }
 
 -(void)grabCurrentUserAvatar {
     [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(JSQMessagesAvatarImage *avatarImage) {
-        self.avatars[[PFUser currentUser][@"facebookId"]] = avatarImage;
+        self.chatManager.avatars[[PFUser currentUser][@"facebookId"]] = avatarImage;
     }];
 }
 
@@ -320,17 +317,17 @@
     NSArray *currentOccupants =  [(XMPPRoomMemoryStorage *)self.xmppManager.xmppRoom.xmppRoomStorage occupants];
     
     for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
-        if (![self.avatars objectForKey:occupant.nickname]) {
+        if (![self.chatManager.avatars objectForKey:occupant.nickname]) {
             [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(JSQMessagesAvatarImage *avatarImage) {
-                self.avatars[occupant.nickname] = avatarImage;
+                self.chatManager.avatars[occupant.nickname] = avatarImage;
             }];
         }
     }
     
-    for (BBMessage *message in self.messages) {
-        if (![self.avatars objectForKey:message.senderId]) {
+    for (BBMessage *message in self.chatManager.messages) {
+        if (![self.chatManager.avatars objectForKey:message.senderId]) {
             [self fetchUserProfilePictureWithFaceBookId:message.senderId Completion:^(JSQMessagesAvatarImage *avatarImage) {
-                self.avatars[message.senderId] = avatarImage;
+                self.chatManager.avatars[message.senderId] = avatarImage;
             }];
         }
     }
@@ -433,6 +430,13 @@
                 }];
             }
         }];
+    }
+}
+
+-(void)checkIfNewRoom {
+    if (self.roomID != self.xmppManager.currentRoomId) {
+        [self.xmppManager.xmppRoom deactivate];
+        [self.xmppManager joinOrCreateRoom:self.roomID];
     }
 }
 
