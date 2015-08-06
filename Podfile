@@ -18,5 +18,7 @@ pod 'XMPPFramework'
 pod 'SVProgressHUD'
 pod 'SKPolygraph'
 pod 'TSMessages'
+pod 'IGLDropDownMenu'
+
 end
 

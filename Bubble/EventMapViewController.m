@@ -20,8 +20,10 @@
 #import "BBChatViewController.h"
 #import "LoginViewController.h"
 #import <SVProgressHUD.h>
+#import <IGLDropDownMenu.h>
+#import "BBSearchViewPassThrough.h"
 
-@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate>
+@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -30,6 +32,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventImageTopConstraint;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *scrollViewTapRecognizer;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarXConstraint;
+@property (weak, nonatomic) IBOutlet BBSearchViewPassThrough *searchContainer;
 
 @property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
@@ -37,8 +41,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerXConstraint;
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
+
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (strong, nonatomic) IGLDropDownMenu *menu;
+@property (strong, nonatomic) NSMutableArray *menuItems;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
@@ -79,6 +88,9 @@
     [self setupSearchBar];
     
     [self startLocationUpdateSubscription];
+    
+    [self menuSetup];
+    
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
@@ -518,6 +530,60 @@
     CLLocation *center = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
     return center;
 }
+
+-(void) menuSetup {
+    self.menuItems = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i<4; i++) {
+        IGLDropDownItem *preferences = [[IGLDropDownItem alloc] init];
+        [preferences setText:@"Menu Item"];
+        [self.menuItems addObject:preferences];
+    }
+
+    self.menu = [[IGLDropDownMenu alloc] init];
+    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+    self.menu.menuText = @"Dismiss";
+    self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
+    self.menu.useSpringAnimation = NO;
+    self.menu.dropDownItems = self.menuItems;
+    self.menu.gutterY = 5;
+    self.menu.paddingLeft = 15;
+    self.menu.slidingInOffset = 0;
+    self.menu.delegate = self;
+    [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
+//    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
+    [self.menu reloadView];
+    [self.searchContainer addSubview:self.menu];
+    
+}
+
+- (IBAction)menuButtonTapped:(id)sender {
+    
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = -400;
+        self.searchBarXConstraint.constant = -400;
+        [self.view layoutIfNeeded];
+    }];
+    self.menu.expanding = YES;
+//    [self.menu toggleView];
+}
+
+- (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
+    
+    [self dismissMenu];
+//    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
+}
+
+-(void) dismissMenu {
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = 0;
+        self.searchBarXConstraint.constant = -20;
+        [self.view layoutIfNeeded];
+    }];
+    self.menu.menuText = @"Dismiss";
+}
+
 
 - (void)didReceiveMemoryWarning {
     

@@ -19,6 +19,7 @@
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
 		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
+		807B38E21B73E69200B591AA /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 807B38E11B73E69200B591AA /* menu.png */; };
 		80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */; };
 		80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */; };
 		80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */; };
@@ -71,6 +72,7 @@
 		802273851B6A805A00C62E50 /* BBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessage.m; sourceTree = "<group>"; };
 		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
+		807B38E11B73E69200B591AA /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-white_512.png"; sourceTree = "<group>"; };
 		80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512.png"; sourceTree = "<group>"; };
 		80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512_cropped.png"; sourceTree = "<group>"; };
@@ -253,6 +255,7 @@
 		8087EE1B1B66D28C009258E5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				807B38E11B73E69200B591AA /* menu.png */,
 				802273871B6AD81E00C62E50 /* ILTranslucentView.h */,
 				802273881B6AD81E00C62E50 /* ILTranslucentView.m */,
 				80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */,
@@ -352,6 +355,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				807B38E21B73E69200B591AA /* menu.png in Resources */,
 				8087EE271B66D28C009258E5 /* Main.storyboard in Resources */,
 				80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */,
 				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
