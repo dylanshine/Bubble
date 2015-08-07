@@ -13,5 +13,6 @@
 extern NSString *const PARSE_APP_ID;
 extern NSString *const PARSE_CLIENT_KEY;
 extern NSString *const kJABBER_HOSTNAME;
+extern NSString *const kMEETUP_API_KEY;
 
 @end

@@ -17,11 +17,14 @@
 #import "EventDetailsViewController.h"
 #import "BBAnnotation.h"
 #import "XMPPManager.h"
+#import "ChatDataManager.h"
 #import "BBChatViewController.h"
 #import "LoginViewController.h"
 #import <SVProgressHUD.h>
+#import <IGLDropDownMenu.h>
+#import "BBSearchViewPassThrough.h"
 
-@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate>
+@interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
@@ -30,21 +33,29 @@
 @property (weak, nonatomic) IBOutlet UIImageView *eventImage;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *eventImageTopConstraint;
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *scrollViewTapRecognizer;
-
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarXConstraint;
+@property (weak, nonatomic) IBOutlet BBSearchViewPassThrough *searchContainer;
+@property (weak, nonatomic) IBOutlet UIButton *chatBubbleButton;
 @property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerXConstraint;
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
+
+@property (weak, nonatomic) IBOutlet UIButton *menuButton;
+@property (strong, nonatomic) IGLDropDownMenu *menu;
+@property (strong, nonatomic) NSMutableArray *menuItems;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
 
-
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
+@property (nonatomic) ChatDataManager *chatManager;
 
 @property (nonatomic) CLLocation *currentLocation;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
@@ -69,6 +80,7 @@
     self.dataStore.delegate = self;
     
     self.xmppManager = [XMPPManager sharedManager];
+    self.chatManager = [ChatDataManager sharedManager];
     
     self.mapView.delegate = self;
     
@@ -79,6 +91,12 @@
     [self setupSearchBar];
     
     [self startLocationUpdateSubscription];
+    
+    [self menuSetup];
+
+    UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
+    [panRecognizer setDelegate:self];
+    [self.mapView addGestureRecognizer:panRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -147,6 +165,7 @@
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
                 [strongSelf.dataStore getSeatgeekEventsWithLocation:strongSelf.currentLocation];
+                [strongSelf.dataStore getMeetupEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
             }
         }
@@ -195,15 +214,20 @@
         
         [self.mapView addAnnotation:annotation];
     }
-    [self.mapView setRegion:MKCoordinateRegionMake(self.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:YES];
     [SVProgressHUD dismiss];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     BBAnnotation *annotation = view.annotation;
-    
+    self.scrollView.scrollEnabled = YES;
+    self.selectedAnnotation = annotation;
     self.eventDetailsVC.event = annotation.event;
     self.eventImage.image = annotation.event.eventImage;
+    
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.chatBubbleButton.alpha = 1;
+                     }];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -225,11 +249,10 @@
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
         
-        
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
         annotationView.frame = CGRectMake(0,0,30,30);
-        
+
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
         [detailButton setImage:[UIImage imageNamed:@"Bubble-White"] forState:UIControlStateNormal];
@@ -262,16 +285,25 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-    self.selectedAnnotation = (BBAnnotation *)view.annotation;
+  
+    [self performSegueWithIdentifier:@"chatSegue" sender:self];
+}
+
+- (IBAction)chatBubbleTapped:(id)sender {
+
     [self performSegueWithIdentifier:@"chatSegue" sender:self];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
+        
         UINavigationController *destination = [segue destinationViewController];
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
-        chatVC.roomID = [self.selectedAnnotation.event.eventID stringValue];
+        chatVC.roomID = self.selectedAnnotation.event.eventID;
+        if (![chatVC.roomID isEqualToString:self.xmppManager.currentRoomId]) {
+            [self.chatManager.messages removeAllObjects];
+        }
         chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
         chatVC.currentUserLocation = self.currentLocation;
     }
@@ -385,6 +417,7 @@
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
     }
     
+    self.scrollView.scrollEnabled = NO;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -393,6 +426,8 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
+    
+    self.chatBubbleButton.alpha = 0;
 }
 
 #pragma mark date-search
@@ -410,6 +445,8 @@
     self.nextDayButton.backgroundColor = [UIColor whiteColor];
     self.datePicker.alpha = 0;
     self.datePicker.minimumDate = [NSDate date];
+    self.datePickerCenterConstraint.constant = -400;
+    self.pickerBackground.userInteractionEnabled = NO;
     UIView *datePickerBackground = [[UIView alloc] init];
     datePickerBackground.backgroundColor = [UIColor whiteColor];
     datePickerBackground.alpha = 0.0;
@@ -441,6 +478,7 @@
     self.date = [self.date dateByAddingTimeInterval:-(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
     
 }
@@ -449,6 +487,7 @@
     self.date = [self.date dateByAddingTimeInterval:(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
 }
 
@@ -456,15 +495,19 @@
 
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
         [SVProgressHUD show];
-        self.date = self.datePicker.date;
-        [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
+        
+        if (![self.date isEqual:self.datePicker.date]) {
+            self.date = self.datePicker.date;
+            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+            [self.dataStore getMeetupEventsWithLocation:[self mapCenter] date:self.date];
+        }
         [self setDateSelectorTitle];
-//        [self.dateSelectorButton setBackgroundColor:[UIColor clearColor]];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.9;
             self.nextDayButton.alpha = 0.9;
             self.dateSelectorButton.alpha = 0.9;
             self.datePicker.alpha = 0;
+            self.datePickerCenterConstraint.constant = -400;
             self.pickerBackground.alpha = 0;
             self.dateSelectorConstraint.constant = 52;
             [self.view layoutIfNeeded];
@@ -472,19 +515,93 @@
         
     } else {
         self.datePicker.date = self.date;
+        [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
         [UIView animateWithDuration:0.5 animations:^{
             self.previousDayButton.alpha = 0.0;
             self.nextDayButton.alpha = 0.0;
             self.datePicker.alpha = 1;
             self.dateSelectorButton.alpha = 1;
             self.pickerBackground.alpha = 0.95;
+            self.datePickerCenterConstraint.constant = 0;
             self.dateSelectorConstraint.constant = 174;
             [self.view layoutIfNeeded];
         } completion:^(BOOL finished) {
-            [self.dateSelectorButton setTitle:@"Set Date" forState:UIControlStateNormal];
-//            [self.dateSelectorButton setBackgroundColor:[UIColor whiteColor]];
         }];
     }
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return YES;
+}
+
+- (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+        MKMapRect visibleRect = self.mapView.visibleMapRect;
+        NSSet *visibleAnnotations = [self.mapView annotationsInMapRect:visibleRect];
+        if (visibleAnnotations.count < 2) {
+            NSLog(@"Making Seatgeek Call");
+            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+        }
+        
+    }
+}
+
+-(CLLocation *)mapCenter {
+    CLLocation *center = [[CLLocation alloc] initWithLatitude:self.mapView.centerCoordinate.latitude longitude:self.mapView.centerCoordinate.longitude];
+    return center;
+}
+
+-(void) menuSetup {
+    self.menuItems = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i<4; i++) {
+        IGLDropDownItem *preferences = [[IGLDropDownItem alloc] init];
+        [preferences setText:@"Menu Item"];
+        [self.menuItems addObject:preferences];
+    }
+
+    self.menu = [[IGLDropDownMenu alloc] init];
+    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+    self.menu.menuText = @"Dismiss";
+    self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
+    self.menu.useSpringAnimation = NO;
+    self.menu.dropDownItems = self.menuItems;
+    self.menu.gutterY = 5;
+    self.menu.paddingLeft = 15;
+    self.menu.slidingInOffset = 0;
+    self.menu.delegate = self;
+    [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
+//    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
+    [self.menu reloadView];
+    [self.searchContainer addSubview:self.menu];
+    
+}
+
+- (IBAction)menuButtonTapped:(id)sender {
+    
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = -400;
+        self.searchBarXConstraint.constant = -400;
+        [self.view layoutIfNeeded];
+    }];
+    self.menu.expanding = YES;
+//    [self.menu toggleView];
+}
+
+- (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
+    
+    [self dismissMenu];
+//    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
+}
+
+-(void) dismissMenu {
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = 0;
+        self.searchBarXConstraint.constant = -20;
+        [self.view layoutIfNeeded];
+    }];
+    self.menu.menuText = @"Dismiss";
 }
 
 

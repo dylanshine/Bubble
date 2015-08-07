@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *eventParticipants;
 @property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
 @property (weak, nonatomic) IBOutlet UILabel *eventAddress;
+- (IBAction)getTicketsTapped:(id)sender;
 
 @end
 
@@ -27,12 +28,17 @@
     [super viewDidLoad];
     
     [self makeTranslucentBackground];
-    
     [self adjustFontForDeviceSize];
     
     
     NSURL *testURL = [NSURL URLWithString:@"seatgeek://app"];
     NSLog(@"Can open URL %d",[[UIApplication sharedApplication] canOpenURL:testURL]);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:YES];
+    [self fetchChatParticipantCount];
 }
 
 - (void) makeTranslucentBackground {
@@ -77,18 +83,18 @@
 }
 
 - (void) fetchChatParticipantCount {
-    
-    PFQuery *query = [PFUser query];
-    [query whereKey:@"eventID" equalTo:self.event.eventID];
-    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        if (!error) {
-            self.eventParticipants.text = [NSString stringWithFormat:@"%lu participants",objects.count];
-            NSLog(@"%@",self.event.eventID);
-        } else {
-            NSLog(@"Error fetching users in event");
-        }
-    }];
-    
+
+    if (self.event.eventID) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"eventID" equalTo:self.event.eventID];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.eventParticipants.text = [NSString stringWithFormat:@"%lu participants",objects.count];
+            } else {
+                NSLog(@"Error fetching users in event");
+            }
+        }];
+    }
 }
 
 /*
@@ -105,4 +111,7 @@
     [super didReceiveMemoryWarning];
 }
 
+- (IBAction)getTicketsTapped:(id)sender {
+    NSLog(@"Tickets button tapped");
+}
 @end

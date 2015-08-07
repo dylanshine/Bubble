@@ -19,8 +19,13 @@
     NSSet *concertSet = [NSSet setWithObjects:@"concert",@"music_festival", nil];
     
     NSSet *autoRacingSet = [NSSet setWithObjects:@"auto_racing",@"f1",@"indycar",@"monster_truck",@"motorcross",@"nascar", @"    nascar_nationwide", @"nascar_sprintcup", nil];
+    NSSet *meetup = [NSSet setWithObjects:@"meetup", nil];
     
-    if([sportsSet containsObject:eventName.eventType]){
+    
+    if([meetup containsObject:eventName.eventType]){
+        return @"Meetup";
+    }
+    else if([sportsSet containsObject:eventName.eventType]){
         return @"Sports";
     }
     else if([performingArtsSet containsObject:eventName.eventType]){
