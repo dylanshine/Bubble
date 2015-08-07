@@ -373,7 +373,7 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height - 80;
+    self.scrollViewStartingPosition = self.view.frame.size.height - 100;
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;

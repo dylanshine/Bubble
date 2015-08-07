@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -136,7 +137,7 @@
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
                                 <rect key="frame" x="0.0" y="20" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF" userLabel="Event Image">
                                         <rect key="frame" x="0.0" y="118" width="375" height="282"/>
                                     </imageView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4C-VX-sVI">
@@ -145,9 +146,17 @@
                                             <segue destination="1Bi-iS-RdZ" kind="embed" identifier="DetailEmbedSegue" id="ROe-Sb-ehz"/>
                                         </connections>
                                     </containerView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Blue-Bubble" translatesAutoresizingMaskIntoConstraints="NO" id="Y6P-Gx-iAA" userLabel="Chat Bubble">
+                                        <rect key="frame" x="292" y="-31" width="71" height="61"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="Y6P-Gx-iAA" secondAttribute="height" multiplier="961:829" id="AcK-av-mAs"/>
+                                            <constraint firstAttribute="width" constant="71" id="Blc-pM-jCb"/>
+                                        </constraints>
+                                    </imageView>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Y4C-VX-sVI" secondAttribute="trailing" id="3Go-mA-S1c"/>
+                                    <constraint firstItem="Y6P-Gx-iAA" firstAttribute="centerY" secondItem="Y4C-VX-sVI" secondAttribute="top" id="6jX-TH-lW2"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" id="84b-mO-xpM"/>
                                     <constraint firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="bottom" id="8Bt-Pj-MMr"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="top" constant="400" id="Dio-Bj-3Mt"/>
@@ -157,6 +166,7 @@
                                     <constraint firstItem="mZE-da-erF" firstAttribute="height" secondItem="TCK-NK-859" secondAttribute="width" multiplier="21:28" id="jg9-F7-aPK"/>
                                     <constraint firstAttribute="width" secondItem="mZE-da-erF" secondAttribute="width" id="o3N-ve-mMQ"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
+                                    <constraint firstItem="Y6P-Gx-iAA" firstAttribute="trailing" secondItem="TCK-NK-859" secondAttribute="trailing" constant="-12" id="zWf-tC-xpz"/>
                                 </constraints>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="5QO-qA-ugj" appends="YES" id="jk8-HV-uPn"/>
@@ -214,47 +224,86 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boston Red Sox at New York Yankees" textAlignment="center" lineBreakMode="clip" numberOfLines="2" minimumScaleFactor="0.20000000000000007" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
-                                <rect key="frame" x="19" y="6" width="338" height="90"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="38"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gp3-6h-8Go" customClass="BubbleAnimationView">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Venue-Header" translatesAutoresizingMaskIntoConstraints="NO" id="QRt-py-L2y">
+                                <rect key="frame" x="8" y="66" width="359" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="R4d-rw-9Yb"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Start time: 7:05pm" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="bji-Jk-eVs" userLabel="Start Time">
+                                <rect key="frame" x="20" y="47" width="150" height="21"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <view hidden="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ThR-hw-vhn" customClass="ILTranslucentView">
-                                <rect key="frame" x="18" y="-80" width="7" height="8"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="Ticket-Red" translatesAutoresizingMaskIntoConstraints="NO" id="enn-Qg-gF7">
-                                <rect key="frame" x="238" y="-3" width="119" height="63"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Ticket-Red" translatesAutoresizingMaskIntoConstraints="NO" id="enn-Qg-gF7">
+                                <rect key="frame" x="230" y="211" width="119" height="93"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="enn-Qg-gF7" secondAttribute="height" multiplier="17:9" id="LDi-X3-8yZ"/>
+                                    <constraint firstAttribute="width" secondItem="enn-Qg-gF7" secondAttribute="height" multiplier="753:584" id="LDi-X3-8yZ"/>
                                     <constraint firstAttribute="width" constant="119" id="NqE-w5-VyG"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="6 participants" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="3fP-Qw-xkh" userLabel="# of Participants">
+                                <rect key="frame" x="292" y="54" width="71" height="15"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="71" id="HL3-c4-Xwm"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Boston Red Sox at New York Yankees" lineBreakMode="wordWrap" baselineAdjustment="none" minimumScaleFactor="0.35000000000000003" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
+                                <rect key="frame" x="20" y="18" width="300" height="22"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yankee Stadium" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue Name">
+                                <rect key="frame" x="20" y="96" width="120" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="3" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="oyr-f8-fhw" userLabel="Venue Address">
+                                <rect key="frame" x="20" y="124" width="123" height="38"/>
+                                <string key="text">1 E 161st Street
+Bronx, NY 10451</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="8HB-TE-CAY"/>
-                            <constraint firstAttribute="trailing" secondItem="ThR-hw-vhn" secondAttribute="trailing" id="Brr-lh-xyn"/>
-                            <constraint firstItem="enn-Qg-gF7" firstAttribute="trailing" secondItem="52e-vu-Pwx" secondAttribute="trailing" id="Kmr-UO-KBE"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.9" id="PPN-sK-fwt"/>
-                            <constraint firstItem="ThR-hw-vhn" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="f78-ya-RYI"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="6" id="gVA-WE-MQI"/>
-                            <constraint firstItem="ThR-hw-vhn" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="mLS-tu-LQa"/>
-                            <constraint firstAttribute="bottomMargin" secondItem="ThR-hw-vhn" secondAttribute="bottom" id="vZc-bn-bKS"/>
+                            <constraint firstItem="enn-Qg-gF7" firstAttribute="top" secondItem="oyr-f8-fhw" secondAttribute="bottom" constant="50" id="1uh-hD-p2T"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="top" secondItem="bji-Jk-eVs" secondAttribute="bottom" constant="4" id="2fR-BN-ERb"/>
+                            <constraint firstAttribute="centerX" secondItem="QRt-py-L2y" secondAttribute="centerX" id="E9L-P2-bVc"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leadingMargin" constant="4" id="Jwc-G0-2cf"/>
+                            <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="LXX-X5-ANp"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="bji-Jk-eVs" secondAttribute="leading" id="Lil-5J-pDQ"/>
+                            <constraint firstItem="bji-Jk-eVs" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" constant="6" id="Lwf-Lh-6GG"/>
+                            <constraint firstItem="3fP-Qw-xkh" firstAttribute="bottom" secondItem="bji-Jk-eVs" secondAttribute="bottom" id="O9r-e3-pyf"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.8" id="PPN-sK-fwt"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="bji-Jk-eVs" secondAttribute="leading" id="Tb0-n0-2E3"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="18" id="gVA-WE-MQI"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" constant="-16" id="gtN-zS-zGB"/>
+                            <constraint firstAttribute="height" secondItem="Gp3-6h-8Go" secondAttribute="height" id="hIy-h1-tGL"/>
+                            <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerY" secondItem="bDp-pf-5OZ" secondAttribute="centerY" id="mo3-4Y-fF1"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="top" secondItem="QRt-py-L2y" secondAttribute="bottom" id="pUo-VO-q3P"/>
+                            <constraint firstItem="oyr-f8-fhw" firstAttribute="top" secondItem="ulE-cu-9zb" secondAttribute="bottom" constant="8" id="plP-Kn-db0"/>
+                            <constraint firstItem="3fP-Qw-xkh" firstAttribute="trailing" secondItem="bDp-pf-5OZ" secondAttribute="trailing" constant="-12" id="rjh-rc-pbu"/>
+                            <constraint firstAttribute="width" secondItem="Gp3-6h-8Go" secondAttribute="width" id="rxb-Rg-ZOQ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="enn-Qg-gF7" secondAttribute="trailing" constant="10" id="w5n-Hg-W2z"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="oyr-f8-fhw" secondAttribute="leading" id="xdD-31-cZg"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="Brr-lh-xyn"/>
-                                <exclude reference="f78-ya-RYI"/>
-                                <exclude reference="mLS-tu-LQa"/>
-                                <exclude reference="vZc-bn-bKS"/>
-                            </mask>
-                        </variation>
                     </view>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="eventAddress" destination="oyr-f8-fhw" id="jW4-5g-DsP"/>
+                        <outlet property="eventParticipants" destination="3fP-Qw-xkh" id="YJP-9m-Zdx"/>
+                        <outlet property="eventStartTime" destination="bji-Jk-eVs" id="Lv5-YQ-yPA"/>
                         <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
+                        <outlet property="eventVenueName" destination="ulE-cu-9zb" id="E1f-8N-kfc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hd-w8-2QO" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -306,6 +355,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="Ticket-Red" width="732" height="387"/>
+        <image name="Blue-Bubble" width="965" height="889"/>
+        <image name="Ticket-Red" width="753" height="584"/>
+        <image name="Venue-Header" width="2192" height="144"/>
     </resources>
 </document>
