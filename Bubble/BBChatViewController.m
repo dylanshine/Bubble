@@ -15,14 +15,11 @@
 #import "ChatDataManager.h"
 #import <Masonry.h>
 #import <SKPolygraph.h>
-#import <AFNetworking.h>
 #import <TSMessages/TSMessageView.h>
 
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
 
-//@property (strong, nonatomic) NSMutableArray *messages;
-//@property (strong, nonatomic) NSMutableDictionary *avatars;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) ChatDataManager *chatManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
@@ -62,9 +59,6 @@
     [self finishReceivingMessageAnimated:NO];
 }
 
--(void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
