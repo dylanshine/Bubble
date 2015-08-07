@@ -11,6 +11,7 @@
 		175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 175E54DA1B6BBEC8002A7CAA /* Login.storyboard */; };
 		175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54DD1B6BDADF002A7CAA /* LoginViewController.m */; };
 		175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */; };
+		1760C08B1B73F5620013C287 /* BubbleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1760C08A1B73F5620013C287 /* BubbleAnimationView.m */; };
 		1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650691B697CAD00A68FF9 /* EventDetailsViewController.m */; };
 		178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
@@ -52,10 +53,10 @@
 		175E54DD1B6BDADF002A7CAA /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		175E54DF1B6BFEB6002A7CAA /* FacebookLoginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookLoginManager.h; sourceTree = "<group>"; };
 		175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginManager.m; sourceTree = "<group>"; };
+		1760C0891B73F5620013C287 /* BubbleAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleAnimationView.h; sourceTree = "<group>"; };
+		1760C08A1B73F5620013C287 /* BubbleAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleAnimationView.m; sourceTree = "<group>"; };
 		178650681B697CAD00A68FF9 /* EventDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		178650691B697CAD00A68FF9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
-		1786506B1B6A5A4F00A68FF9 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ILTranslucentView.h; path = Pods/ILTranslucentView/Source/ILTranslucentView.h; sourceTree = SOURCE_ROOT; };
-		1786506C1B6A5A4F00A68FF9 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ILTranslucentView.m; path = Pods/ILTranslucentView/Source/ILTranslucentView.m; sourceTree = SOURCE_ROOT; };
 		178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBScrollViewPassThrough.h; sourceTree = "<group>"; };
 		178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBScrollViewPassThrough.m; sourceTree = "<group>"; };
 		17A915F51B67BDD4000821E2 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -145,15 +146,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		1786506E1B6A5A5600A68FF9 /* ILTranslucentView */ = {
-			isa = PBXGroup;
-			children = (
-				1786506B1B6A5A4F00A68FF9 /* ILTranslucentView.h */,
-				1786506C1B6A5A4F00A68FF9 /* ILTranslucentView.m */,
-			);
-			name = ILTranslucentView;
-			sourceTree = "<group>";
-		};
 		803185C51B70185A0046CF79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -209,7 +201,6 @@
 				1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */,
 				801114081B725FD5005FF955 /* BBSearchViewPassThrough.h */,
 				801114091B725FD5005FF955 /* BBSearchViewPassThrough.m */,
-				1786506E1B6A5A5600A68FF9 /* ILTranslucentView */,
 			);
 			name = "Extensions & Overrides";
 			sourceTree = "<group>";
@@ -255,6 +246,8 @@
 			isa = PBXGroup;
 			children = (
 				807B38E11B73E69200B591AA /* menu.png */,
+				1760C0891B73F5620013C287 /* BubbleAnimationView.h */,
+				1760C08A1B73F5620013C287 /* BubbleAnimationView.m */,
 				802273871B6AD81E00C62E50 /* ILTranslucentView.h */,
 				802273881B6AD81E00C62E50 /* ILTranslucentView.m */,
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
@@ -324,7 +317,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 6FWSRPXBW6;
+						DevelopmentTeam = 9RXLE5FXUN;
 					};
 				};
 			};
@@ -414,6 +407,7 @@
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
 				8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
+				1760C08B1B73F5620013C287 /* BubbleAnimationView.m in Sources */,
 				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,

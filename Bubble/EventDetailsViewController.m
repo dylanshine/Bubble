@@ -9,12 +9,16 @@
 #import "EventDetailsViewController.h"
 #import "ILTranslucentView.h"
 #import <Masonry/Masonry.h>
+#import <Parse.h>
 
 @interface EventDetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
-@property (weak, nonatomic) IBOutlet UILabel *eventSubtitle;
-@property (nonatomic, strong) UIImageView *eventImage;
+@property (weak, nonatomic) IBOutlet UILabel *eventStartTime;
+@property (weak, nonatomic) IBOutlet UILabel *eventParticipants;
+@property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
+@property (weak, nonatomic) IBOutlet UILabel *eventAddress;
+- (IBAction)getTicketsTapped:(id)sender;
 
 @end
 
@@ -24,19 +28,26 @@
     [super viewDidLoad];
     
     [self makeTranslucentBackground];
-    
     [self adjustFontForDeviceSize];
+    
+    
+    NSURL *testURL = [NSURL URLWithString:@"seatgeek://app"];
+    NSLog(@"Can open URL %d",[[UIApplication sharedApplication] canOpenURL:testURL]);
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [super viewDidAppear:YES];
+    [self fetchChatParticipantCount];
 }
 
 - (void) makeTranslucentBackground {
     
     ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
     
-    translucentView.translucentAlpha = .99;
-    translucentView.translucentStyle = UIBarStyleDefault;
-    translucentView.layer.shadowOffset = CGSizeMake(0, -20);
-    translucentView.layer.shadowRadius = 5;
-    translucentView.layer.shadowOpacity = .7;
+    translucentView.translucentAlpha = 1;
+    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    
     [self.view insertSubview:translucentView atIndex:0];
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -59,10 +70,31 @@
 - (void)setEvent:(EventObject *)event{
     
     _event = event;
-    self.eventTitle.text = event.eventTitle;
-    self.eventSubtitle.text = [[event.eventType stringByReplacingOccurrencesOfString:@"_" withString:@" "] capitalizedString];
-//    self.eventImage.image = event.eventImage;
+    [self updateEventLabels];
+}
 
+- (void) updateEventLabels {
+    self.eventTitle.text = self.event.eventTitle;
+    self.eventStartTime.text = [NSString stringWithFormat:@"Start time: %@",self.event.eventTime];
+    self.eventVenueName.text = self.event.venueName;
+    self.eventAddress.text = [NSString stringWithFormat:@"%@\n%@, %@ %@",self.event.addressStreet,self.event.addressCity,self.event.addressState,self.event.addressZip];
+    
+    [self fetchChatParticipantCount];
+}
+
+- (void) fetchChatParticipantCount {
+
+    if (self.event.eventID) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"eventID" equalTo:self.event.eventID];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.eventParticipants.text = [NSString stringWithFormat:@"%lu participants",objects.count];
+            } else {
+                NSLog(@"Error fetching users in event");
+            }
+        }];
+    }
 }
 
 /*
@@ -79,4 +111,7 @@
     [super didReceiveMemoryWarning];
 }
 
+- (IBAction)getTicketsTapped:(id)sender {
+    NSLog(@"Tickets button tapped");
+}
 @end

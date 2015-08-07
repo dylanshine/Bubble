@@ -35,7 +35,7 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer *scrollViewTapRecognizer;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarXConstraint;
 @property (weak, nonatomic) IBOutlet BBSearchViewPassThrough *searchContainer;
-
+@property (weak, nonatomic) IBOutlet UIButton *chatBubbleButton;
 @property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
@@ -93,8 +93,7 @@
     [self startLocationUpdateSubscription];
     
     [self menuSetup];
-    
-    
+
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];
@@ -220,9 +219,15 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     BBAnnotation *annotation = view.annotation;
-    
+    self.scrollView.scrollEnabled = YES;
+    self.selectedAnnotation = annotation;
     self.eventDetailsVC.event = annotation.event;
     self.eventImage.image = annotation.event.eventImage;
+    
+    [UIView animateWithDuration:.5
+                     animations:^{
+                         self.chatBubbleButton.alpha = 1;
+                     }];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -280,7 +285,12 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-    self.selectedAnnotation = (BBAnnotation *)view.annotation;
+  
+    [self performSegueWithIdentifier:@"chatSegue" sender:self];
+}
+
+- (IBAction)chatBubbleTapped:(id)sender {
+
     [self performSegueWithIdentifier:@"chatSegue" sender:self];
 }
 
@@ -395,7 +405,7 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height - 80;
+    self.scrollViewStartingPosition = self.view.frame.size.height - 100;
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
@@ -407,6 +417,7 @@
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
     }
     
+    self.scrollView.scrollEnabled = NO;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
@@ -415,6 +426,8 @@
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
+    
+    self.chatBubbleButton.alpha = 0;
 }
 
 #pragma mark date-search

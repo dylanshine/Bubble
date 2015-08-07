@@ -20,7 +20,7 @@
 - (instancetype)initWithSeatgeekDictionary:(NSDictionary *)jsonDict{
     
     self = [super init];
-    
+
     NSString *title = jsonDict[@"title"];
     NSString *eventTitle = @"";
     
@@ -32,7 +32,23 @@
     
     NSString *eventID = [jsonDict[@"id"] stringValue];
     NSString *eventType = jsonDict[@"type"];
+    
     NSString *eventTime = jsonDict[@"datetime_local"];
+    eventTime = [eventTime substringWithRange:NSMakeRange(11, eventTime.length-11)];
+    
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"HH:mm:ss"];
+    
+    NSDate *eventTimeAsDate = [[NSDate alloc] init];
+    eventTimeAsDate = [dateFormat dateFromString:eventTime];
+
+    [dateFormat setDateFormat:@"h:mm a"];
+    eventTime = [dateFormat stringFromDate:eventTimeAsDate];
+    
+    if ([eventTime isEqualToString:@"3:30 AM"]) {
+        eventTime = @"TBD";
+    }
+    
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"location"][@"lon"];
     NSString *venueName = jsonDict[@"venue"][@"name"];
@@ -40,6 +56,13 @@
     NSString *addressCity = jsonDict[@"venue"][@"city"];
     NSString *addressState = jsonDict[@"venue"][@"state"];
     NSNumber *addressZip = jsonDict[@"venue"][@"postal_code"];
+    
+    // Occassionally the Street is missing from SeatGeek API
+    if ([addressStreet isKindOfClass:[NSNull class]]) {
+        addressStreet = @"";
+        NSLog(@"Null address for event %@",eventTitle);
+    }
+    
     NSURL *ticketURL = jsonDict[@"url"];
     NSString *eventImageURL = jsonDict[@"performers"][0][@"image"];
     NSNumber * eventPrice = jsonDict[@"stats"][@"average_price"];
@@ -144,8 +167,6 @@
     }
     return self;
 }
-
-
 
 - (void) fetchEventImage {
     
