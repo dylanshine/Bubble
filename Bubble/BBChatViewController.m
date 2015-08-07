@@ -337,6 +337,8 @@
 -(void)currentUserConnectedToChatroom {
     NSLog(@"You have successfully connected to chat room: %@",self.roomID);
     [self grabAvatarsForUsersInChat];
+    [self.chatManager.messages removeAllObjects];
+    [self.collectionView reloadData];
 }
 
 - (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
