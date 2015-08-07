@@ -20,9 +20,6 @@
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
 		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
 		807B38E21B73E69200B591AA /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 807B38E11B73E69200B591AA /* menu.png */; };
-		80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */; };
-		80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */; };
-		80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */ = {isa = PBXBuildFile; fileRef = 80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */; };
 		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
@@ -43,6 +40,7 @@
 		FC5BFCCA1B6A6B6300E1294A /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCC91B6A6B6300E1294A /* CoreData.framework */; };
 		FC5BFCCC1B6A6B6D00E1294A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCCB1B6A6B6D00E1294A /* SystemConfiguration.framework */; };
 		FC5BFCCE1B6A6B7600E1294A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC5BFCCD1B6A6B7600E1294A /* CoreLocation.framework */; };
+		FC688E511B7425F0003B46A9 /* ChatDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688E501B7425F0003B46A9 /* ChatDataManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,9 +71,6 @@
 		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
 		807B38E11B73E69200B591AA /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
-		80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-white_512.png"; sourceTree = "<group>"; };
-		80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512.png"; sourceTree = "<group>"; };
-		80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FBLogo-blue_512_cropped.png"; sourceTree = "<group>"; };
 		80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+EnableReturnKey.h"; sourceTree = "<group>"; };
 		80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+EnableReturnKey.m"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +103,8 @@
 		FC5BFCC91B6A6B6300E1294A /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FC5BFCCB1B6A6B6D00E1294A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		FC5BFCCD1B6A6B7600E1294A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FC688E4F1B7425F0003B46A9 /* ChatDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChatDataManager.h; sourceTree = "<group>"; };
+		FC688E501B7425F0003B46A9 /* ChatDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChatDataManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -183,6 +180,8 @@
 				FC5BFCBD1B6A6A2300E1294A /* XMPPManager.m */,
 				CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */,
 				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
+				FC688E4F1B7425F0003B46A9 /* ChatDataManager.h */,
+				FC688E501B7425F0003B46A9 /* ChatDataManager.m */,
 			);
 			name = "Data Managers";
 			sourceTree = "<group>";
@@ -258,9 +257,6 @@
 				807B38E11B73E69200B591AA /* menu.png */,
 				802273871B6AD81E00C62E50 /* ILTranslucentView.h */,
 				802273881B6AD81E00C62E50 /* ILTranslucentView.m */,
-				80839AD41B693E35008BBC7C /* FBLogo-blue_512_cropped.png */,
-				80839AD01B693CF6008BBC7C /* FBLogo-blue_512.png */,
-				80839ACE1B6936A5008BBC7C /* FBLogo-white_512.png */,
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
 				8087EE1D1B66D28C009258E5 /* main.m */,
 				FC4259C11B66D63500011956 /* Constants.h */,
@@ -328,7 +324,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SN6947879T;
+						DevelopmentTeam = 6FWSRPXBW6;
 					};
 				};
 			};
@@ -357,10 +353,7 @@
 			files = (
 				807B38E21B73E69200B591AA /* menu.png in Resources */,
 				8087EE271B66D28C009258E5 /* Main.storyboard in Resources */,
-				80839AD51B693E35008BBC7C /* FBLogo-blue_512_cropped.png in Resources */,
 				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
-				80839ACF1B6936A5008BBC7C /* FBLogo-white_512.png in Resources */,
-				80839AD11B693CF6008BBC7C /* FBLogo-blue_512.png in Resources */,
 				8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */,
 				8087EE291B66D28C009258E5 /* Images.xcassets in Resources */,
 			);
@@ -414,6 +407,7 @@
 				8087EE1E1B66D28C009258E5 /* main.m in Sources */,
 				175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */,
 				178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */,
+				FC688E511B7425F0003B46A9 /* ChatDataManager.m in Sources */,
 				175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */,
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,

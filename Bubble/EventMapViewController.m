@@ -17,6 +17,7 @@
 #import "EventDetailsViewController.h"
 #import "BBAnnotation.h"
 #import "XMPPManager.h"
+#import "ChatDataManager.h"
 #import "BBChatViewController.h"
 #import "LoginViewController.h"
 #import <SVProgressHUD.h>
@@ -54,6 +55,7 @@
 
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
+@property (nonatomic) ChatDataManager *chatManager;
 
 @property (nonatomic) CLLocation *currentLocation;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
@@ -78,6 +80,7 @@
     self.dataStore.delegate = self;
     
     self.xmppManager = [XMPPManager sharedManager];
+    self.chatManager = [ChatDataManager sharedManager];
     
     self.mapView.delegate = self;
     
@@ -283,10 +286,14 @@
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
+        
         UINavigationController *destination = [segue destinationViewController];
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
         chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
-        chatVC.roomID = self.selectedAnnotation.event.eventID; //stringValue];  //meet up event crash here, event id is already a string
+        chatVC.roomID = self.selectedAnnotation.event.eventID;
+        if (![chatVC.roomID isEqualToString:self.xmppManager.currentRoomId]) {
+            [self.chatManager.messages removeAllObjects];
+        }
         chatVC.eventLocation = self.selectedAnnotation.event.eventLocation;
         chatVC.currentUserLocation = self.currentLocation;
     }
