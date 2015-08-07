@@ -308,8 +308,8 @@
 }
 
 -(void)grabCurrentUserAvatar {
-    [self fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(JSQMessagesAvatarImage *avatarImage) {
-        self.chatManager.avatars[[PFUser currentUser][@"facebookId"]] = avatarImage;
+    [self.chatManager fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(UIImage *profileImage) {
+        [self setAvatarImage:profileImage User:[PFUser currentUser][@"facebookId"]];
     }];
 }
 
@@ -318,19 +318,26 @@
     
     for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
         if (![self.chatManager.avatars objectForKey:occupant.nickname]) {
-            [self fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(JSQMessagesAvatarImage *avatarImage) {
-                self.chatManager.avatars[occupant.nickname] = avatarImage;
+            [self.chatManager fetchUserProfilePictureWithFaceBookId:occupant.nickname Completion:^(UIImage *profileImage) {
+                [self setAvatarImage:profileImage User:occupant.nickname];
             }];
         }
     }
     
     for (BBMessage *message in self.chatManager.messages) {
         if (![self.chatManager.avatars objectForKey:message.senderId]) {
-            [self fetchUserProfilePictureWithFaceBookId:message.senderId Completion:^(JSQMessagesAvatarImage *avatarImage) {
-                self.chatManager.avatars[message.senderId] = avatarImage;
+            [self.chatManager fetchUserProfilePictureWithFaceBookId:message.senderId Completion:^(UIImage *profileImage) {
+                [self setAvatarImage:profileImage User:message.senderId];
             }];
         }
     }
+}
+
+-(void)setAvatarImage:(UIImage *)image User:(NSString *)user {
+    JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
+                                           avatarImageWithImage:image
+                                           diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
+    self.chatManager.avatars[user] = avatarImage;
 }
 
 -(void)currentUserConnectedToChatroom {
@@ -364,33 +371,6 @@
 -(void)newUserJoinedChatroom {
     NSLog(@"New user joined the chat room");
     [self grabAvatarsForUsersInChat];
-}
-
-
--(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(JSQMessagesAvatarImage *avatarImage))block{
-    if (![fbID isEqualToString:@""]) {
-        
-        NSString *url = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbID];
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        manager.responseSerializer = [AFImageResponseSerializer serializer];
-        [manager GET:url parameters:nil
-         
-             success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                 
-                 JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
-                                                        avatarImageWithImage:responseObject
-                                                        diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
-                 block(avatarImage);
-                 
-             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                 
-                 // Need to add placeholder image on failure
-                 
-                 NSLog(@"Error: %@", error);
-                 
-             }];
-    }
 }
 
 -(void)userCurrentLocationCheck {

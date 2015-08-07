@@ -7,10 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 @interface ChatDataManager : NSObject
-
-+(instancetype)sharedManager;
 @property (nonatomic) NSMutableArray *messages;
 @property (nonatomic) NSMutableDictionary *avatars;
+
++(instancetype)sharedManager;
+-(void)fetchUserProfilePictureWithFaceBookId:(NSString *)fbID Completion:(void (^)(UIImage *profileImage))block;
 @end
