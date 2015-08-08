@@ -41,7 +41,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kP8-RU-P6C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="25.5" y="388.5"/>
+            <point key="canvasLocation" x="162.5" y="388.5"/>
         </scene>
         <!--Event Map View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -378,15 +378,15 @@
                         <viewControllerLayoutGuide type="bottom" id="RSr-S4-avp"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="F8N-Fl-QWV">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jOU-Qz-AJJ">
-                                <rect key="frame" x="0.0" y="44" width="600" height="623"/>
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ww2-ag-GTk">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                 <items>
                                     <barButtonItem systemItem="stop" id="YOP-5j-8bD">
                                         <connections>
@@ -410,13 +410,14 @@
                             <constraint firstItem="jOU-Qz-AJJ" firstAttribute="leading" secondItem="F8N-Fl-QWV" secondAttribute="leading" id="udP-n0-aev"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
                         <outlet property="webPage" destination="jOU-Qz-AJJ" id="xSj-vn-ksO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qTX-H0-L7X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1140" y="1161"/>
+            <point key="canvasLocation" x="965.5" y="1194.5"/>
         </scene>
         <!--Title-->
         <scene sceneID="jVK-NW-Gbo">
@@ -441,7 +442,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J58-0w-UN3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1903.5" y="388.5"/>
+            <point key="canvasLocation" x="1441.5" y="388.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nGz-mh-N7Z">
@@ -459,7 +460,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp0-ps-Yn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1316.5" y="388.5"/>
+            <point key="canvasLocation" x="1005.5" y="388.5"/>
         </scene>
     </scenes>
     <resources>
