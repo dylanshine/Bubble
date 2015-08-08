@@ -95,7 +95,7 @@
     [self startLocationUpdateSubscription];
     
     [self menuSetup];
-
+    
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];
@@ -103,7 +103,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
+    
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -175,23 +175,36 @@
             strongSelf.locationRequestID = NSNotFound;
         }
     }];
-
+    
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
-    
     self.eventsArray = eventsArray;
     if ([self.eventsArray isEqual:@[]]) {
-        [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
-            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
-                self.searchBar.barStyle = UIBarStyleBlack;
-            }];
-            [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
-                self.searchBar.barTintColor = [UIColor whiteColor];
-            }];
-        } completion:^(BOOL finished) { }];
+        [self changeSearchBarWithColor:[UIColor redColor]];
+            }
+    else{
+        [self changeSearchBarWithColor:[UIColor grayColor]];
     }
+}
 
+- (void)changeSearchBarWithColor:(UIColor*)color{
+    [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
+        [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
+            self.searchBar.tintColor = color;
+            
+            for (UIView *subView in self.searchBar.subviews)
+            {
+                for (UIView *secondLevelSubview in subView.subviews){
+                    if ([secondLevelSubview isKindOfClass:[UITextField class]])
+                    {
+                        UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                        searchBarTextField.textColor = color;
+                    }
+                }
+            }
+        }];
+    } completion:^(BOOL finished) { }];
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
@@ -222,15 +235,15 @@
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     BBAnnotation *annotation = view.annotation;
     if (![self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
-    self.scrollView.scrollEnabled = YES;
-    self.selectedAnnotation = annotation;
-    self.eventDetailsVC.event = annotation.event;
-    self.eventImage.image = annotation.event.eventImage;
-    
-    [UIView animateWithDuration:.5
-                     animations:^{
-                         self.chatBubbleButton.alpha = 1;
-                     }];
+        self.scrollView.scrollEnabled = YES;
+        self.selectedAnnotation = annotation;
+        self.eventDetailsVC.event = annotation.event;
+        self.eventImage.image = annotation.event.eventImage;
+        
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.chatBubbleButton.alpha = 1;
+                         }];
     }
     [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
 }
@@ -258,7 +271,7 @@
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
         annotationView.frame = CGRectMake(0,0,30,30);
-
+        
         UIButton *detailButton = [UIButton buttonWithType:UIButtonTypeCustom];
         detailButton.frame = CGRectMake(0,0,30,30);
         [detailButton setImage:[UIImage imageNamed:@"Bubble-White"] forState:UIControlStateNormal];
@@ -291,12 +304,12 @@
 }
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control{
-  
+    
     [self performSegueWithIdentifier:@"chatSegue" sender:self];
 }
 
 - (IBAction)chatBubbleTapped:(id)sender {
-
+    
     [self performSegueWithIdentifier:@"chatSegue" sender:self];
 }
 
@@ -328,39 +341,6 @@
         [self.mapView deselectAnnotation:self.mapView.selectedAnnotations[0] animated:YES];
     }
     [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
-    if(self.mapView.annotations.count == 1){
-//        for (UIView *subView in self.searchBar.subviews)
-//        {
-//            for (UIView *secondLevelSubview in subView.subviews){
-//                if ([secondLevelSubview isKindOfClass:[UITextField class]])
-//                {
-//                    UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-//                    //set font color here
-//                    searchBarTextField.textColor = [UIColor redColor];
-//                    [searchBarTextField setBackgroundColor:[UIColor redColor]];
-//                    break;
-//                }
-//            }
-//        }
-//        UIAlertController *alertController = [UIAlertController
-//                                              alertControllerWithTitle:@"No matches found"
-//                                              message:@"Please try again!"
-//                                              preferredStyle:UIAlertControllerStyleAlert];
-//        UIAlertAction *okAction = [UIAlertAction
-//                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-//                                   style:UIAlertActionStyleDefault
-//                                   handler:^(UIAlertAction *action)
-//                                   {
-//                                   }];
-//        [alertController addAction:okAction];
-//        [self presentViewController:alertController animated:YES completion:nil];
-    }
-}
-
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    if(self.searchBar.text.length > 0){
-        [self searchBar:searchBar textDidChange:self.searchBar.text];
-    }
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -515,7 +495,7 @@
 }
 
 - (IBAction)dateSelectorTapped:(id)sender {
-
+    
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
         [SVProgressHUD show];
         
@@ -581,7 +561,7 @@
         [preferences setText:@"Menu Item"];
         [self.menuItems addObject:preferences];
     }
-
+    
     self.menu = [[IGLDropDownMenu alloc] init];
     [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
     self.menu.menuText = @"Dismiss";
@@ -593,7 +573,7 @@
     self.menu.slidingInOffset = 0;
     self.menu.delegate = self;
     [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
-//    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
+    //    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
@@ -623,13 +603,13 @@
         [self.view layoutIfNeeded];
     }];
     self.menu.expanding = YES;
-//    [self.menu toggleView];
+    //    [self.menu toggleView];
 }
 
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
     
     [self dismissMenu];
-//    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
+    //    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
 }
 
 -(void) dismissMenu {
