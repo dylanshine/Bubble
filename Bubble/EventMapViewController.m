@@ -366,6 +366,8 @@
         }
     }
     annotation.title = @"Current Location";
+    
+    [self.view endEditing:YES];
 }
 
 - (void) moveMapToClosestAnnotation {
@@ -600,7 +602,6 @@
     }];
     self.menu.menuText = @"Dismiss";
 }
-
 
 - (void)didReceiveMemoryWarning {
     
