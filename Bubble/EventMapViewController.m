@@ -177,44 +177,33 @@
 }
 
 - (void)dataStore:(AFDataStore *)datastore didLoadEvents:(NSArray *)eventsArray{
-    
     self.eventsArray = eventsArray;
     if ([self.eventsArray isEqual:@[]]) {
-        [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
-            [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
-                self.searchBar.barStyle = UIBarStyleBlack;
-                self.searchBar.tintColor = [UIColor redColor];
-                
-                for (UIView *subView in self.searchBar.subviews)
-                {
-                    for (UIView *secondLevelSubview in subView.subviews){
-                        if ([secondLevelSubview isKindOfClass:[UITextField class]])
-                        {
-                            UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                            searchBarTextField.textColor = [UIColor redColor];
-                        }
+        [self changeSearchBarWithColor:[UIColor redColor]];
+            }
+    else{
+        [self changeSearchBarWithColor:[UIColor grayColor]];
+    }
+}
+
+- (void)changeSearchBarWithColor:(UIColor*)color{
+    [UIView animateKeyframesWithDuration:0.5 delay:0 options:0 animations:^{
+        [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
+            self.searchBar.tintColor = color;
+            
+            for (UIView *subView in self.searchBar.subviews)
+            {
+                for (UIView *secondLevelSubview in subView.subviews){
+                    if ([secondLevelSubview isKindOfClass:[UITextField class]])
+                    {
+                        UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+                        searchBarTextField.textColor = color;
                     }
                 }
-            }];
-            [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
-                self.searchBar.barTintColor = [UIColor grayColor];
-                self.searchBar.tintColor = [UIColor grayColor];
-            }];
-        } completion:^(BOOL finished) { }];
-    }
-    else{
-        for (UIView *subView in self.searchBar.subviews)
-        {
-            for (UIView *secondLevelSubview in subView.subviews){
-                if ([secondLevelSubview isKindOfClass:[UITextField class]])
-                {
-                    UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
-                    searchBarTextField.textColor = [UIColor blackColor];
-                }
             }
-        }
-    }
-    
+            [[self.searchBar.subviews objectAtIndex:0] subviews];
+        }];
+    } completion:^(BOOL finished) { }];
 }
 
 - (void)setEventsArray:(NSArray *)eventsArray{
