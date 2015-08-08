@@ -201,7 +201,6 @@
                     }
                 }
             }
-            [[self.searchBar.subviews objectAtIndex:0] subviews];
         }];
     } completion:^(BOOL finished) { }];
 }
