@@ -294,7 +294,7 @@
                                 </state>
                                 <connections>
                                     <action selector="getTicketsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="ioK-af-yzH"/>
-                                    <segue destination="3QW-9y-IX2" kind="presentation" id="xrZ-zb-woL"/>
+                                    <segue destination="NoJ-cq-0Ns" kind="presentation" identifier="webViewSegueID" id="879-KA-az4"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcD-t3-qJn" userLabel="Get Directions Button">
@@ -371,39 +371,53 @@
             <point key="canvasLocation" x="564.5" y="1194.5"/>
         </scene>
         <!--Web View Controller-->
-        <scene sceneID="3jT-qt-kdN">
+        <scene sceneID="wVS-0c-NzR">
             <objects>
-                <viewController id="e6B-eb-L3e" customClass="WebViewController" sceneMemberID="viewController">
+                <viewController id="NoJ-cq-0Ns" customClass="WebViewController" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ipD-nf-bjX"/>
-                        <viewControllerLayoutGuide type="bottom" id="5VH-Uh-u9z"/>
+                        <viewControllerLayoutGuide type="top" id="Zgz-5L-tcN"/>
+                        <viewControllerLayoutGuide type="bottom" id="RSr-S4-avp"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Ri7-Qz-zEM">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <view key="view" contentMode="scaleToFill" id="F8N-Fl-QWV">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <webView contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rCE-TE-Lum">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jOU-Qz-AJJ">
+                                <rect key="frame" x="0.0" y="44" width="375" height="623"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </webView>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ww2-ag-GTk">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                                <items>
+                                    <barButtonItem systemItem="stop" id="YOP-5j-8bD">
+                                        <connections>
+                                            <action selector="doneButtonPressed:" destination="NoJ-cq-0Ns" id="83c-rR-XRC"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ww2-ag-GTk" firstAttribute="leading" secondItem="F8N-Fl-QWV" secondAttribute="leading" id="4yG-uL-XuN"/>
+                            <constraint firstAttribute="trailing" secondItem="jOU-Qz-AJJ" secondAttribute="trailing" id="HZp-wg-pQZ"/>
+                            <constraint firstItem="RSr-S4-avp" firstAttribute="top" secondItem="jOU-Qz-AJJ" secondAttribute="bottom" id="LAZ-80-UEt"/>
+                            <constraint firstItem="ww2-ag-GTk" firstAttribute="top" secondItem="Zgz-5L-tcN" secondAttribute="bottom" id="QQM-dc-gs4"/>
+                            <constraint firstItem="jOU-Qz-AJJ" firstAttribute="top" secondItem="ww2-ag-GTk" secondAttribute="bottom" id="RqE-pE-SXa"/>
+                            <constraint firstAttribute="trailing" secondItem="jOU-Qz-AJJ" secondAttribute="trailing" id="TGZ-lH-BvI"/>
+                            <constraint firstItem="jOU-Qz-AJJ" firstAttribute="leading" secondItem="F8N-Fl-QWV" secondAttribute="leading" id="gTv-mt-X0I"/>
+                            <constraint firstAttribute="trailing" secondItem="ww2-ag-GTk" secondAttribute="trailing" id="hFv-lJ-rC2"/>
+                            <constraint firstItem="RSr-S4-avp" firstAttribute="top" secondItem="jOU-Qz-AJJ" secondAttribute="bottom" id="tP1-dh-i6H"/>
+                            <constraint firstItem="jOU-Qz-AJJ" firstAttribute="leading" secondItem="F8N-Fl-QWV" secondAttribute="leading" id="udP-n0-aev"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="okV-KY-2nH">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Afh-9A-mcJ">
-                            <connections>
-                                <action selector="doneButtonPressed:" destination="e6B-eb-L3e" id="w8m-2W-n9f"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="webPage" destination="rCE-TE-Lum" id="hLR-Qs-VI6"/>
+                        <outlet property="webPage" destination="jOU-Qz-AJJ" id="xSj-vn-ksO"/>
                     </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rex-Hn-MY1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qTX-H0-L7X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1625" y="1154"/>
+            <point key="canvasLocation" x="1075.5" y="1194.5"/>
         </scene>
         <!--Title-->
         <scene sceneID="jVK-NW-Gbo">
@@ -447,25 +461,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rp0-ps-Yn7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1316.5" y="388.5"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Org-GR-qIQ">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3QW-9y-IX2" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZNx-dI-Z3J">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="e6B-eb-L3e" kind="relationship" relationship="rootViewController" id="OXV-fg-Qch"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Pkg-1N-cbU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1100" y="1155"/>
         </scene>
     </scenes>
     <resources>

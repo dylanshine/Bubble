@@ -30,10 +30,6 @@
     
     [self makeTranslucentBackground];
     [self adjustFontForDeviceSize];
-    
-    
-    NSURL *testURL = [NSURL URLWithString:@"seatgeek://app"];
-    NSLog(@"Can open URL %d",[[UIApplication sharedApplication] canOpenURL:testURL]);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -113,15 +109,23 @@
 }
 
 - (IBAction)getTicketsTapped:(id)sender {
-    NSLog(@"Tickets button tapped");
+    if ([self seatGeekInstalled]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
+    } else {
+        [self performSegueWithIdentifier:@"webViewSegueID" sender:self];
+    }
+}
+
+- (BOOL) seatGeekInstalled {
+    NSURL *url = [NSURL URLWithString:@"seatgeek://app"];
+    return [[UIApplication sharedApplication] canOpenURL:url];
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    //WebViewController * webviewVC = [segue destinationViewController];
-    UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-    WebViewController *webviewVC = [[navigationController viewControllers] lastObject];
+    
+    WebViewController *webviewVC = segue.destinationViewController;
 
     webviewVC.ticketURL = self.event.ticketURL;
-    
+
 }
 @end

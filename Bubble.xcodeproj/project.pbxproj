@@ -162,6 +162,8 @@
 				8087EE231B66D28C009258E5 /* EventMapViewController.m */,
 				178650681B697CAD00A68FF9 /* EventDetailsViewController.h */,
 				178650691B697CAD00A68FF9 /* EventDetailsViewController.m */,
+				CC8E67891B7543D100B1838F /* WebViewController.h */,
+				CC8E678A1B7543D100B1838F /* WebViewController.m */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -237,8 +239,6 @@
 				803185C61B7018760046CF79 /* Data Managers */,
 				803185C81B7018B40046CF79 /* Extensions & Overrides */,
 				8087EE251B66D28C009258E5 /* Main.storyboard */,
-				CC8E67891B7543D100B1838F /* WebViewController.h */,
-				CC8E678A1B7543D100B1838F /* WebViewController.m */,
 				175E54DA1B6BBEC8002A7CAA /* Login.storyboard */,
 				8087EE281B66D28C009258E5 /* Images.xcassets */,
 				8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */,
