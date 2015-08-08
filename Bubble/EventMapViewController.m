@@ -341,12 +341,6 @@
     [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
 }
 
-- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
-    if(self.searchBar.text.length > 0){
-        [self searchBar:searchBar textDidChange:self.searchBar.text];
-    }
-}
-
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
     self.searchBar.showsScopeBar = YES;
     
