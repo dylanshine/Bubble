@@ -103,7 +103,10 @@
     if ([self seatGeekInstalled]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
     } else {
-        [self performSegueWithIdentifier:@"webViewSegueID" sender:self];
+        WebViewController *webVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"webViewController"];
+        webVC.ticketURL = self.event.ticketURL;
+        
+        [self presentViewController:webVC animated:YES completion:^{}];
     }
 }
 
@@ -112,11 +115,4 @@
     return [[UIApplication sharedApplication] canOpenURL:url];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    WebViewController *webviewVC = segue.destinationViewController;
-
-    webviewVC.ticketURL = self.event.ticketURL;
-
-}
 @end
