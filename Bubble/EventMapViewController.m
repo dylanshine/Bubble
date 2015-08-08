@@ -23,6 +23,7 @@
 #import <SVProgressHUD.h>
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
+#import "ILTranslucentView.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
@@ -89,7 +90,7 @@
     
     [self setupMenuScrollView];
     [self setupSearchBar];
-    
+    [self translucentHeaderSetup];
     [self startLocationUpdateSubscription];
     
     [self menuSetup];
@@ -414,7 +415,7 @@
 
 -(void)setupSearchBar {
     self.searchBar.delegate = self;
-    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.backgroundColor = [UIColor clearColor];
     self.searchBar.layer.cornerRadius = 10;
     self.searchBar.clipsToBounds = YES;
     self.searchBar.alpha = .9;
@@ -593,6 +594,21 @@
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
+}
+
+- (void) translucentHeaderSetup {
+    
+    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
+    
+    translucentView.translucentAlpha = 1;
+    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    
+    [self.view insertSubview:translucentView aboveSubview:self.mapView];
+    
+    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(@0);
+        make.height.equalTo(@65);
+    }];
 }
 
 - (IBAction)menuButtonTapped:(id)sender {
