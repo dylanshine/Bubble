@@ -63,7 +63,7 @@
         NSLog(@"Null address for event %@",eventTitle);
     }
     
-    NSURL *ticketURL = jsonDict[@"url"];
+    NSString *ticketURL = jsonDict[@"url"];
     NSString *eventImageURL = jsonDict[@"performers"][0][@"image"];
     NSNumber * eventPrice = jsonDict[@"stats"][@"average_price"];
     
@@ -124,7 +124,7 @@
     NSString *addressCity = jsonDict[@"venue"][@"city"];
     NSString *addressState = jsonDict[@"venue"][@"state"];
     NSNumber *addressZip = jsonDict[@"venue"][@"zip"];
-    NSURL *ticketURL = jsonDict[@"event_url"];
+    NSString *ticketURL = jsonDict[@"event_url"];
     NSString *eventImageURL = jsonDict[@"group"][@"urlname"];
     NSNumber * eventPrice = jsonDict[@"fee"][@"amount"];
     UIImage *eventImage = [UIImage imageNamed:@"MeetupCover"];

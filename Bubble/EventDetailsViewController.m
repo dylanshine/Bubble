@@ -10,6 +10,7 @@
 #import "ILTranslucentView.h"
 #import <Masonry/Masonry.h>
 #import <Parse.h>
+#import "WebViewController.h"
 
 @interface EventDetailsViewController ()
 
@@ -113,5 +114,14 @@
 
 - (IBAction)getTicketsTapped:(id)sender {
     NSLog(@"Tickets button tapped");
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    //WebViewController * webviewVC = [segue destinationViewController];
+    UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
+    WebViewController *webviewVC = [[navigationController viewControllers] lastObject];
+
+    webviewVC.ticketURL = self.event.ticketURL;
+    
 }
 @end

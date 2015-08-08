@@ -219,6 +219,7 @@
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     BBAnnotation *annotation = view.annotation;
+    if (![self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
     self.scrollView.scrollEnabled = YES;
     self.selectedAnnotation = annotation;
     self.eventDetailsVC.event = annotation.event;
@@ -228,7 +229,10 @@
                      animations:^{
                          self.chatBubbleButton.alpha = 1;
                      }];
+    }
+    [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
 }
+
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
@@ -323,18 +327,31 @@
     }
     [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
     if(self.mapView.annotations.count == 1){
-        UIAlertController *alertController = [UIAlertController
-                                              alertControllerWithTitle:@"No matches found"
-                                              message:@"Please try again!"
-                                              preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *okAction = [UIAlertAction
-                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
-                                   style:UIAlertActionStyleDefault
-                                   handler:^(UIAlertAction *action)
-                                   {
-                                   }];
-        [alertController addAction:okAction];
-        [self presentViewController:alertController animated:YES completion:nil];
+//        for (UIView *subView in self.searchBar.subviews)
+//        {
+//            for (UIView *secondLevelSubview in subView.subviews){
+//                if ([secondLevelSubview isKindOfClass:[UITextField class]])
+//                {
+//                    UITextField *searchBarTextField = (UITextField *)secondLevelSubview;
+//                    //set font color here
+//                    searchBarTextField.textColor = [UIColor redColor];
+//                    [searchBarTextField setBackgroundColor:[UIColor redColor]];
+//                    break;
+//                }
+//            }
+//        }
+//        UIAlertController *alertController = [UIAlertController
+//                                              alertControllerWithTitle:@"No matches found"
+//                                              message:@"Please try again!"
+//                                              preferredStyle:UIAlertControllerStyleAlert];
+//        UIAlertAction *okAction = [UIAlertAction
+//                                   actionWithTitle:NSLocalizedString(@"OK", @"OK action")
+//                                   style:UIAlertActionStyleDefault
+//                                   handler:^(UIAlertAction *action)
+//                                   {
+//                                   }];
+//        [alertController addAction:okAction];
+//        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 
