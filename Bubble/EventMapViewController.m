@@ -64,6 +64,7 @@
 @property (nonatomic) BBAnnotation *selectedAnnotation;
 
 @property (nonatomic, assign) CGFloat scrollViewStartingPosition;
+@property (nonatomic, assign) CGFloat scrollViewMiniViewPosition;
 @property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
 
 
@@ -425,16 +426,18 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height - 100;
+    
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
-        
+        self.scrollViewStartingPosition = self.view.frame.size.height - 70;
+        self.scrollViewMiniViewPosition = self.view.frame.size.height - 80;
     } else if (self.view.frame.size.width == 375){
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
-        
+        self.scrollViewStartingPosition = self.view.frame.size.height - 80;
     } else {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
+        self.scrollViewStartingPosition = self.view.frame.size.height - 85;
     }
     
     self.scrollView.scrollEnabled = NO;
