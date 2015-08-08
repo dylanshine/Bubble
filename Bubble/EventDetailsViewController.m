@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *eventParticipants;
 @property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
 @property (weak, nonatomic) IBOutlet UILabel *eventAddress;
+
 - (IBAction)getTicketsTapped:(id)sender;
 
 @end
@@ -30,10 +31,6 @@
     
     [self makeTranslucentBackground];
     [self adjustFontForDeviceSize];
-    
-    
-    NSURL *testURL = [NSURL URLWithString:@"seatgeek://app"];
-    NSLog(@"Can open URL %d",[[UIApplication sharedApplication] canOpenURL:testURL]);
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -98,30 +95,24 @@
     }
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 
 - (IBAction)getTicketsTapped:(id)sender {
-    NSLog(@"Tickets button tapped");
+    if ([self seatGeekInstalled]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
+    } else {
+        WebViewController *webVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"webViewController"];
+        webVC.ticketURL = self.event.ticketURL;
+        
+        [self presentViewController:webVC animated:YES completion:^{}];
+    }
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    //WebViewController * webviewVC = [segue destinationViewController];
-    UINavigationController *navigationController = (UINavigationController *)segue.destinationViewController;
-    WebViewController *webviewVC = [[navigationController viewControllers] lastObject];
-
-    webviewVC.ticketURL = self.event.ticketURL;
-    
+- (BOOL) seatGeekInstalled {
+    NSURL *url = [NSURL URLWithString:@"seatgeek://app"];
+    return [[UIApplication sharedApplication] canOpenURL:url];
 }
+
 @end

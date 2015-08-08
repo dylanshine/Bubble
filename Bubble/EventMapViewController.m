@@ -23,6 +23,7 @@
 #import <SVProgressHUD.h>
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
+#import "ILTranslucentView.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
@@ -63,6 +64,7 @@
 @property (nonatomic) BBAnnotation *selectedAnnotation;
 
 @property (nonatomic, assign) CGFloat scrollViewStartingPosition;
+@property (nonatomic, assign) CGFloat scrollViewMiniViewPosition;
 @property (nonatomic, assign) CGFloat scrollViewDetailedPosition;
 
 
@@ -89,7 +91,7 @@
     
     [self setupMenuScrollView];
     [self setupSearchBar];
-    
+    [self translucentHeaderSetup];
     [self startLocationUpdateSubscription];
     
     [self menuSetup];
@@ -414,7 +416,7 @@
 
 -(void)setupSearchBar {
     self.searchBar.delegate = self;
-    self.searchBar.backgroundColor = [UIColor whiteColor];
+    self.searchBar.backgroundColor = [UIColor clearColor];
     self.searchBar.layer.cornerRadius = 10;
     self.searchBar.clipsToBounds = YES;
     self.searchBar.alpha = .9;
@@ -424,16 +426,18 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    self.scrollViewStartingPosition = self.view.frame.size.height - 100;
+    
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
-        
+        self.scrollViewStartingPosition = self.view.frame.size.height - 70;
+        self.scrollViewMiniViewPosition = self.view.frame.size.height - 80;
     } else if (self.view.frame.size.width == 375){
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
-        
+        self.scrollViewStartingPosition = self.view.frame.size.height - 80;
     } else {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
+        self.scrollViewStartingPosition = self.view.frame.size.height - 85;
     }
     
     self.scrollView.scrollEnabled = NO;
@@ -593,6 +597,21 @@
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
+}
+
+- (void) translucentHeaderSetup {
+    
+    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
+    
+    translucentView.translucentAlpha = 1;
+    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    
+    [self.view insertSubview:translucentView aboveSubview:self.mapView];
+    
+    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(@0);
+        make.height.equalTo(@65);
+    }];
 }
 
 - (IBAction)menuButtonTapped:(id)sender {
