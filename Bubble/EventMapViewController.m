@@ -93,7 +93,7 @@
     [self setupSearchBar];
     [self translucentHeaderSetup];
     [self startLocationUpdateSubscription];
-    
+    [self mapSetup];
     [self menuSetup];
     
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
@@ -169,6 +169,7 @@
                 [strongSelf.dataStore getSeatgeekEventsWithLocation:strongSelf.currentLocation];
                 [strongSelf.dataStore getMeetupEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
+                [self mapSetup];
             }
         }
         else {
@@ -577,6 +578,14 @@
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
+}
+
+- (void) mapSetup {
+
+    MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:1000];
+    mapCamera.pitch = 80;
+    mapCamera.heading = 28.5;
+    [self.mapView setCamera:mapCamera animated:NO];
 }
 
 - (void) translucentHeaderSetup {
