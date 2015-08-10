@@ -16,14 +16,20 @@
 #import <Masonry.h>
 #import <SKPolygraph.h>
 #import <TSMessages/TSMessageView.h>
+#import "Friend.h"
+#import "FriendCell.h"
+#import "ILTranslucentView.h"
 
 
-@interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate>
+@interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate, UITableViewDelegate, UITableViewDataSource>
 
+@property (strong, nonatomic) UITableView *friendTV;
+@property (nonatomic, assign) BOOL menuShown;
+@property (strong, nonatomic) MASConstraint *rightConstraint;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) ChatDataManager *chatManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
-@property (nonatomic) BOOL pushNotificationsSent;
+@property (nonatomic, assign) BOOL pushNotificationsSent;
 
 @end
 
@@ -32,6 +38,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self userCurrentLocationCheck];
+    [self setupFriendsTableViewMenu];
     self.senderDisplayName = [PFUser currentUser][@"name"];
     self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
@@ -40,8 +47,6 @@
     self.xmppManager.chatOccupantDelegate = self;
     self.title = self.eventTitle;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
-    self.friendsAtEvent = [[NSMutableArray alloc]init];
-    
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -114,40 +119,9 @@
 
 - (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Return `nil` here if you do not want avatars.
-     *  If you do return `nil`, be sure to do the following in `viewDidLoad`:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize = CGSizeZero;
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize = CGSizeZero;
-     *
-     *  It is possible to have only outgoing avatars or only incoming avatars, too.
-     */
-    
-    /**
-     *  Return your previously created avatar image data objects.
-     *
-     *  Note: these the avatars will be sized according to these values:
-     *
-     *  self.collectionView.collectionViewLayout.incomingAvatarViewSize
-     *  self.collectionView.collectionViewLayout.outgoingAvatarViewSize
-     *
-     *  Override the defaults in `viewDidLoad`
-     //     */
+ 
     JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
-    //
-    //    if ([message.senderId isEqualToString:self.senderId]) {
-    //        if (![NSUserDefaults outgoingAvatarSetting]) {
-    //            return nil;
-    //        }
-    //    }
-    //    else {
-    //        if (![NSUserDefaults incomingAvatarSetting]) {
-    //            return nil;
-    //        }
-    //    }
-    //
-    //
+    
     if ([self.chatManager.avatars objectForKey:message.senderId]) {
         return [self.chatManager.avatars objectForKey:message.senderId];
     }
@@ -188,30 +162,6 @@
     return attributedName;
 }
 
-//- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    JSQMessage *message = [self.messages objectAtIndex:indexPath.item];
-//    
-//    /**
-//     *  iOS7-style sender name labels
-//     */
-//    if ([message.senderId isEqualToString:self.senderId]) {
-//        return nil;
-//    }
-//    
-//    if (indexPath.item - 1 > 0) {
-//        JSQMessage *previousMessage = [self.messages objectAtIndex:indexPath.item - 1];
-//        if ([[previousMessage senderId] isEqualToString:message.senderId]) {
-//            return nil;
-//        }
-//    }
-//    
-//    /**
-//     *  Don't specify attributes to use the defaults.
-//     */
-//    return [[NSAttributedString alloc] initWithString:message.senderDisplayName];
-//}
-
 - (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
 {
     return nil;
@@ -226,24 +176,8 @@
 
 - (UICollectionViewCell *)collectionView:(JSQMessagesCollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    /**
-     *  Override point for customizing cells
-     */
+
     JSQMessagesCollectionViewCell *cell = (JSQMessagesCollectionViewCell *)[super collectionView:collectionView cellForItemAtIndexPath:indexPath];
-    
-    /**
-     *  Configure almost *anything* on the cell
-     *
-     *  Text colors, label text, label colors, etc.
-     *
-     *
-     *  DO NOT set `cell.textView.font` !
-     *  Instead, you need to set `self.collectionView.collectionViewLayout.messageBubbleFont` to the font you want in `viewDidLoad`
-     *
-     *
-     *  DO NOT manipulate cell layout information!
-     *  Instead, override the properties you want on `self.collectionView.collectionViewLayout` from `viewDidLoad`
-     */
     
     JSQMessage *msg = [self.chatManager.messages objectAtIndex:indexPath.item];
     
@@ -350,13 +284,18 @@
             NSLog(@"Your friend %@ is in the chat",user[@"name"]);
             NSString *pushNotification = [NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up?", [PFUser currentUser][@"name"]];
             [PFPush sendPushMessageToChannelInBackground:user.objectId withMessage:pushNotification];
-            // send user a local push notification
-            [self.friendsAtEvent addObject:user[@"name"]];
+
+            Friend *friend = [[Friend alloc] initWithName:user[@"name"] FacebookId:user[@"facebookId"]];
+            [self.chatManager fetchUserProfilePictureWithFaceBookId:friend.facebookId Completion:^(UIImage *profileImage) {
+                friend.image = profileImage;
+            }];
+            [self.friendsAtEvent addObject:friend];
         }
     }
+    
     if (self.friendsAtEvent.count > 0 && self.friendsAtEvent.count <= 2){
-        for (NSString *friend in self.friendsAtEvent){
-            [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up? ",friend ]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
+        for (Friend *friend in self.friendsAtEvent){
+            [TSMessage showNotificationInViewController:self title:nil subtitle:[NSString stringWithFormat:@"Your friend %@ is currently at the event! Maybe you should meet up? ",friend.name]type:TSMessageNotificationTypeMessage duration:5 canBeDismissedByUser:YES];
         }
     }
     else if(self.friendsAtEvent.count > 3){
@@ -371,7 +310,7 @@
 
 -(void)userCurrentLocationCheck {
     CLLocationDistance distance = [self.currentUserLocation distanceFromLocation:self.eventLocation];
-    if (distance >= 5000.0) {
+    if (distance >= 50000.0) {
         [self currentUserOutsideOfBubble];
     } else {
         [self currentUserInsideOfBubble];
@@ -415,5 +354,90 @@
         [self.xmppManager joinOrCreateRoom:self.roomID];
     }
 }
+
+#pragma mark - Friends At Event
+
+- (void)setupFriendsTableViewMenu {
+    self.friendsAtEvent = [[NSMutableArray alloc]init];
+    self.friendTV = [[UITableView alloc] init];
+    self.friendTV.backgroundColor = [UIColor clearColor];
+    self.friendTV.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.friendTV.showsVerticalScrollIndicator = NO;
+    self.friendTV.showsHorizontalScrollIndicator = NO;
+    self.friendTV.delegate = self;
+    self.friendTV.dataSource = self;
+    self.friendTV.estimatedRowHeight = 200.0;
+    self.friendTV.rowHeight = UITableViewAutomaticDimension;
+    
+    [self.view addSubview:self.friendTV];
+    [self.friendTV mas_makeConstraints:^(MASConstraintMaker *make) {
+        self.rightConstraint = make.right.equalTo(self.view.mas_left);
+        make.top.equalTo(self.mas_topLayoutGuide);
+        make.width.equalTo(@100);
+        make.bottom.equalTo(self.inputToolbar.mas_top).offset(-1.0);
+    }];
+    
+    [self setTranslucentBackground];
+}
+
+- (void) setTranslucentBackground {
+    
+    ILTranslucentView *translucentView = [[ILTranslucentView alloc] init];
+    
+    translucentView.translucentAlpha = 1;
+    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    
+    [self.view insertSubview:translucentView belowSubview:self.friendTV];
+
+    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.size.equalTo(self.friendTV);
+        make.top.and.left.equalTo(self.friendTV);
+    }];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.friendsAtEvent.count;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    Friend *friend = self.friendsAtEvent[indexPath.row];
+    
+    FriendCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
+    
+    if (!cell) {
+        [tableView registerNib:[UINib nibWithNibName:@"FriendCell" bundle:nil] forCellReuseIdentifier:@"friendCell"];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell"];
+    }
+    cell.backgroundColor = [UIColor clearColor];
+    
+    cell.nameLabel.text = friend.name;
+    cell.friendImageView.image = friend.image;
+    cell.friendImageView.layer.cornerRadius = cell.friendImageView.frame.size.width / 2;
+    cell.friendImageView.clipsToBounds = YES;
+    
+    return cell;
+}
+
+- (IBAction)showFriends:(UIBarButtonItem *)sender {
+    if (!self.menuShown) {
+        [UIView animateWithDuration:.6 animations:^{
+            self.rightConstraint.offset(100.0);
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [self.friendTV reloadData];
+            self.menuShown = YES;
+        }];
+    } else {
+        [UIView animateWithDuration:.6 animations:^{
+            self.rightConstraint.offset(0);
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.menuShown = NO;
+        }];
+    }
+    
+}
+
 
 @end

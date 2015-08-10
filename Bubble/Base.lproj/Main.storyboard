@@ -417,7 +417,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qTX-H0-L7X" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="965.5" y="1194.5"/>
+            <point key="canvasLocation" x="999.5" y="1194.5"/>
         </scene>
         <!--Title-->
         <scene sceneID="jVK-NW-Gbo">
@@ -433,6 +433,11 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Title" id="5ZV-Mz-MH7">
+                        <barButtonItem key="leftBarButtonItem" title="Friends" id="yUZ-we-rVc">
+                            <connections>
+                                <action selector="showFriends:" destination="n0Y-rO-7M6" id="x3I-hS-wJ2"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="stop" id="WdB-1K-sKl">
                             <connections>
                                 <action selector="doneButtonPressed:" destination="n0Y-rO-7M6" id="4vG-6U-9QO"/>
