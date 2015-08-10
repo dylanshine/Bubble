@@ -100,9 +100,13 @@
 }
 
 - (IBAction)getTicketsTapped:(id)sender {
-    if ([self seatGeekInstalled]) {
+    if (![self.event.eventType isEqualToString:@"meetup"] && [self seatGeekInstalled]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
-    } else {
+    }
+    else if ([self.event.eventType isEqualToString:@"meetup"] &&[self meetupInstalled]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"meetup://events/%@",self.event.eventID]]];
+    }
+    else {
         WebViewController *webVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"webViewController"];
         webVC.ticketURL = self.event.ticketURL;
         
@@ -112,6 +116,10 @@
 
 - (BOOL) seatGeekInstalled {
     NSURL *url = [NSURL URLWithString:@"seatgeek://app"];
+    return [[UIApplication sharedApplication] canOpenURL:url];
+}
+- (BOOL) meetupInstalled {
+    NSURL *url = [NSURL URLWithString:@"meetup://app"];
     return [[UIApplication sharedApplication] canOpenURL:url];
 }
 
