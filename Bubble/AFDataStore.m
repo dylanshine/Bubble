@@ -132,7 +132,7 @@
         
         EventObject * eventItem = [[EventObject alloc]initWithMeetupDictionary:event];
         
-        if ([eventItem.eventScore intValue] > 20){
+        if ([eventItem.eventScore intValue] > 25){
             [self.eventsArray addObject:eventItem];
         }
     }
