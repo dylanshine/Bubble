@@ -133,6 +133,10 @@
 
 - (void) toggleScrollViewLocation {
     
+    if (self.selectedAnnotation == nil) {
+        return;
+    }
+    
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.4 animations:^{
