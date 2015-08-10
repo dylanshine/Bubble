@@ -103,7 +103,7 @@
     if (![self.event.eventType isEqualToString:@"meetup"] && [self seatGeekInstalled]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
     }
-   else if ([self.event.eventType isEqualToString:@"meetup"] &&[self meetupInstalled]) {
+    else if ([self.event.eventType isEqualToString:@"meetup"] &&[self meetupInstalled]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"meetup://events/%@",self.event.eventID]]];
     }
     else {
