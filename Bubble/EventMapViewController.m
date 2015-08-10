@@ -133,6 +133,10 @@
 
 - (void) toggleScrollViewLocation {
     
+    if (self.selectedAnnotation == nil) {
+        return;
+    }
+    
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.4 animations:^{
@@ -582,9 +586,9 @@
 
 - (void) mapSetup {
 
-    MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:1000];
+    MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:2500];
     mapCamera.pitch = 80;
-    mapCamera.heading = 28.5;
+    mapCamera.heading = 28.25;
     [self.mapView setCamera:mapCamera animated:NO];
 }
 
