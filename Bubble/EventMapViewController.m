@@ -52,11 +52,9 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (strong, nonatomic) IGLDropDownMenu *menu;
-@property (strong, nonatomic) NSMutableArray *menuItems;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
-@property (nonatomic, strong) NSMutableArray *subscribedEvents;
 
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
@@ -257,10 +255,12 @@
         } else {
             [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
         }
-        [UIView animateWithDuration:.5
-                         animations:^{
-                             self.chatBubbleButton.alpha = 1;
-                         }];
+        if (self.chatBubbleButton.alpha == 0) {
+            [UIView animateWithDuration:.5
+                             animations:^{
+                                 self.chatBubbleButton.alpha = 1;
+                             }];
+        }
     }
     [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
 }
@@ -326,7 +326,18 @@
 }
 
 - (IBAction)chatBubbleTapped:(id)sender {
-    [self createSubscriptionToEvent:self.eventDetailsVC.event];
+    
+    BOOL match = NO;
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
+            match = YES;
+            [self removeSubscriptionToEvent:self.eventDetailsVC.event];
+        }
+    }
+    if (match == NO) {
+        [self createSubscriptionToEvent:self.eventDetailsVC.event];
+    }
+
     if ([self.eventDetailsVC.event isToday]) {
         [self performSegueWithIdentifier:@"chatSegue" sender:self];
     }
@@ -577,7 +588,6 @@
     self.menu.menuText = @"Dismiss";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
-    self.menu.dropDownItems = self.subscribedEvents;
     self.menu.gutterY = 5;
     self.menu.paddingLeft = 15;
     self.menu.slidingInOffset = 0;
@@ -604,10 +614,13 @@
         NSLog(@"Unable to execute fetch request.");
         NSLog(@"%@, %@", error, error.localizedDescription);
     } else {
+        NSMutableArray *events = [[NSMutableArray alloc] init];
         for (SubscribedEvent *event in result) {
             BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
-            [self.subscribedEvents addObject:item];
+            [events addObject:item];
         }
+        self.menu.dropDownItems = [events copy];
+        [self.menu reloadView];
     }
 }
 
@@ -651,6 +664,12 @@
     [self dismissMenu];
     BBDropDownItem *item = dropDownMenu.dropDownItems[index];
     self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
+    if (self.chatBubbleButton.alpha == 0) {
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.chatBubbleButton.alpha = 1;
+                         }];
+    }
 }
 
 -(void) dismissMenu {
@@ -677,22 +696,36 @@
     
     [subEvent setPropertiesWithEvent:event];
     BBDropDownItem *dropDownItem = [[BBDropDownItem alloc] initWithEvent:subEvent];
-    [self.subscribedEvents addObject:dropDownItem];
-    
+    NSMutableArray *menuItems = [self.menu.dropDownItems mutableCopy];
+    [menuItems addObject:dropDownItem];
+    self.menu.dropDownItems = [menuItems copy];
+    [self.menu reloadView];
     NSError *error = nil;
     if (![subEvent.managedObjectContext save:&error]) {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
 
+}
+
+-(void)removeSubscriptionToEvent:(EventObject *)event {
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:event.eventID]) {
+            [[self.coreDataStack managedObjectContext] deleteObject:item.event];
+            NSError *error = nil;
+            if (![[self.coreDataStack managedObjectContext] save:&error]) {
+                NSLog(@"Unable to save managed object context.");
+                NSLog(@"%@, %@", error, error.localizedDescription);
+            }
+            NSMutableArray *items = [self.menu.dropDownItems mutableCopy];
+            [items removeObject:item];
+            self.menu.dropDownItems = [items copy];
+            [self.menu reloadView];
+        }
+        
+    }
     
 }
 
--(NSMutableArray *)subscribedEvents {
-    if (!_subscribedEvents) {
-        _subscribedEvents = [[NSMutableArray alloc] init];
-    }
-    return _subscribedEvents;
-}
 
 @end
