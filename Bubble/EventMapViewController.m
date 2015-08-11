@@ -172,8 +172,9 @@
             strongSelf.currentLocation = currentLocation;
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
-                [strongSelf.dataStore getSeatgeekEventsWithLocation:strongSelf.currentLocation];
-                [strongSelf.dataStore getMeetupEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
+                
+                [strongSelf.dataStore getAllEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
+                
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
                 [self mapSetup];
             }
@@ -488,8 +489,7 @@
 - (IBAction)previousDayTapped:(id)sender {
     self.date = [self.date dateByAddingTimeInterval:-(60*60*24)];
     [SVProgressHUD show];
-    [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
-    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getAllEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
     
 }
@@ -497,8 +497,7 @@
 - (IBAction)nextDayTapped:(id)sender {
     self.date = [self.date dateByAddingTimeInterval:(60*60*24)];
     [SVProgressHUD show];
-    [self.dataStore getSeatgeekEventsWithLocation:self.currentLocation date:self.date];
-    [self.dataStore getMeetupEventsWithLocation:self.currentLocation date:self.date];
+    [self.dataStore getAllEventsWithLocation:self.currentLocation date:self.date];
     [self setDateSelectorTitle];
 }
 
@@ -509,8 +508,7 @@
         
         if (![self.date isEqual:self.datePicker.date]) {
             self.date = self.datePicker.date;
-            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
-            [self.dataStore getMeetupEventsWithLocation:[self mapCenter] date:self.date];
+            [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
         }
         [self setDateSelectorTitle];
         [UIView animateWithDuration:0.5 animations:^{
@@ -551,7 +549,7 @@
         NSSet *visibleAnnotations = [self.mapView annotationsInMapRect:visibleRect];
         if (visibleAnnotations.count < 2) {
             NSLog(@"Making Seatgeek Call");
-            [self.dataStore getSeatgeekEventsWithLocation:[self mapCenter] date:self.date];
+            [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
         }
         
     }

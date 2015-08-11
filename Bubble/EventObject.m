@@ -159,7 +159,6 @@
     [dateFormat setDateFormat:@"h:mm a"];
     
     NSString *startTime = [dateFormat stringFromDate:eventTime];
-    NSLog(@"%@",startTime);
     
     // Set placeholder image.  Make dynamic for event types
     if ([eventImageURL isKindOfClass:[NSNull class]]) {

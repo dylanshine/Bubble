@@ -28,9 +28,6 @@
 
 - (void) searchEvents: (NSString *)searchTerm withScope:(NSInteger)index;
 
-- (void) getSeatgeekEventsWithLocation:(CLLocation*)currentLocation;
-
-- (void) getSeatgeekEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date;
-- (void) getMeetupEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date;
+- (void) getAllEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date;
 
 @end
