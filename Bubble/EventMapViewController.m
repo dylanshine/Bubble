@@ -137,9 +137,9 @@
 
 - (void) toggleScrollViewLocation {
     
-    if (self.selectedAnnotation == nil) {
-        return;
-    }
+//    if (self.selectedAnnotation == nil) {
+//        return;
+//    }
     
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
@@ -331,15 +331,17 @@
     for (BBDropDownItem *item in self.menu.dropDownItems) {
         if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
             match = YES;
-            [self removeSubscriptionToEvent:self.eventDetailsVC.event];
         }
     }
     if (match == NO) {
         [self createSubscriptionToEvent:self.eventDetailsVC.event];
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
     }
 
     if ([self.eventDetailsVC.event isToday]) {
         [self performSegueWithIdentifier:@"chatSegue" sender:self];
+    } else if (match == YES) {
+        [self removeSubscriptionToEvent:self.eventDetailsVC.event];
     }
 
 }
@@ -664,12 +666,14 @@
     [self dismissMenu];
     BBDropDownItem *item = dropDownMenu.dropDownItems[index];
     self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
+    [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
     if (self.chatBubbleButton.alpha == 0) {
         [UIView animateWithDuration:.5
                          animations:^{
                              self.chatBubbleButton.alpha = 1;
                          }];
     }
+    [self toggleScrollViewLocation];
 }
 
 -(void) dismissMenu {
@@ -720,6 +724,7 @@
             NSMutableArray *items = [self.menu.dropDownItems mutableCopy];
             [items removeObject:item];
             self.menu.dropDownItems = [items copy];
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
             [self.menu reloadView];
         }
         

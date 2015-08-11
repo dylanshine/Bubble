@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSNumber *eventPrice;
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLLocation *eventLocation;
+@property (nonatomic) BOOL subscribed;
 
 - (instancetype) initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
 - (instancetype) initWithMeetupDictionary:(NSDictionary *)jsonDict;

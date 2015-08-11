@@ -109,6 +109,7 @@
         _venueScore = venueScore;
         _eventLocation = eventLocation;
         _eventPrice = eventPrice;
+        _subscribed = NO;
     }
     
     return self;
@@ -178,6 +179,7 @@
         _eventLocation = eventLocation;
         _eventPrice = eventPrice;
         _eventImage = eventImage;
+        _subscribed = NO;
     }
     return self;
 }
@@ -201,6 +203,7 @@
 //        _eventLocation = event.eventLocation;
         _eventPrice = event.eventPrice;
         _eventImage = [UIImage imageWithData:event.eventImage];
+        _subscribed = YES;
         
     }
     return self;
