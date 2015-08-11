@@ -48,6 +48,19 @@
     if ([eventTime isEqualToString:@"3:30 AM"]) {
         eventTime = @"TBD";
     }
+
+    NSNumber *listingCountNumber = jsonDict[@"stats"][@"listing_count"];
+    NSString *listingCountString = @"No Tickets Available";
+    NSString *ticketAvgPrice = @"";
+    NSString *ticketHighPrice = @"";
+    NSString *ticketLowestPrice = @"";
+
+    if (![jsonDict[@"stats"][@"listing_count"] isKindOfClass:[NSNull class]] && ![listingCountNumber isEqual: @0]) {
+        listingCountString = [NSString stringWithFormat:@"Tickets Available: %@",listingCountNumber];
+        ticketAvgPrice = [NSString stringWithFormat:@"Average: $%@",jsonDict[@"stats"][@"average_price"]];
+        ticketHighPrice = [NSString stringWithFormat:@"High: $%@",jsonDict[@"stats"][@"highest_price"]];;
+        ticketLowestPrice = [NSString stringWithFormat:@"Low: $%@",jsonDict[@"stats"][@"lowest_price"]];;
+    }
     
     NSNumber *venueLat = jsonDict[@"venue"][@"location"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"location"][@"lon"];
@@ -65,11 +78,10 @@
     
     NSString *ticketURL = jsonDict[@"url"];
     NSString *eventImageURL = jsonDict[@"performers"][0][@"image"];
-    NSNumber * eventPrice = jsonDict[@"stats"][@"average_price"];
     
     // Set placeholder image.  Make dynamic for event types
     if ([eventImageURL isKindOfClass:[NSNull class]]) {
-    eventImageURL = @"https://placekitten.com/g/414/310";
+        eventImageURL = @"https://placekitten.com/g/414/310";
     }
     
     NSNumber *eventScore = jsonDict[@"score"];
@@ -99,11 +111,14 @@
         _addressState = addressState;
         _addressZip = addressZip;
         _ticketURL = ticketURL;
+        _ticketsAvailable = listingCountString;
+        _ticketPriceAvg = ticketAvgPrice;
+        _ticketPriceHigh = ticketHighPrice;
+        _ticketPriceLow = ticketLowestPrice;
         _eventImageURL = eventImageURL;
         _eventScore = eventScore;
         _venueScore = venueScore;
         _eventLocation = eventLocation;
-        _eventPrice = eventPrice;
     }
     
     return self;
@@ -116,7 +131,6 @@
     NSString *eventTitle = jsonDict[@"name"];
     NSString *eventID = jsonDict[@"id"];
     NSString *eventType = @"meetup";
-    NSString *eventTime = jsonDict[@"time"];
     NSNumber *venueLat = jsonDict[@"venue"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"lon"];
     NSString *venueName = jsonDict[@"venue"][@"name"];
@@ -126,8 +140,26 @@
     NSNumber *addressZip = jsonDict[@"venue"][@"zip"];
     NSString *ticketURL = jsonDict[@"event_url"];
     NSString *eventImageURL = jsonDict[@"group"][@"urlname"];
-    NSNumber * eventPrice = jsonDict[@"fee"][@"amount"];
+   
     UIImage *eventImage = [UIImage imageNamed:@"MeetupCover"];
+    
+    NSString *ticketPrice = @"Ticket Price: Free";
+    NSString *rsvpYes = @"No Attendees";
+    NSString *rsvpMaybe = @"No Attendees";
+
+    if (jsonDict[@"fee"][@"amount"] != nil) {
+        CGFloat floatPrice = ((NSNumber *)jsonDict[@"fee"][@"amount"]).floatValue;
+        ticketPrice = [NSString stringWithFormat:@"$%.f",floatPrice];
+    }
+    
+    NSNumber *eventTimeNumber = jsonDict[@"time"];
+    NSDate *eventTime = [NSDate dateWithTimeIntervalSince1970:eventTimeNumber.doubleValue/1000];
+
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setDateFormat:@"h:mm a"];
+    
+    NSString *startTime = [dateFormat stringFromDate:eventTime];
+    NSLog(@"%@",startTime);
     
     // Set placeholder image.  Make dynamic for event types
     if ([eventImageURL isKindOfClass:[NSNull class]]) {
@@ -150,7 +182,7 @@
         _eventID = eventID;
         _eventTitle = eventTitle;
         _eventType = eventType;
-        _eventTime = eventTime;
+        _eventTime = startTime;
         _coordinate = coordinate;
         _venueName = venueName;
         _eventPerformers = eventPerformers;
@@ -159,10 +191,13 @@
         _addressState = addressState;
         _addressZip = addressZip;
         _ticketURL = ticketURL;
+        _ticketsAvailable = @"";
+        _ticketPriceAvg = @"";
+        _ticketPriceHigh = @"";
+        _ticketPriceLow = @"";
         _eventImageURL = eventImageURL;
         _eventScore = eventScore;
         _eventLocation = eventLocation;
-        _eventPrice = eventPrice;
         _eventImage = eventImage;
     }
     return self;
@@ -171,7 +206,7 @@
 - (void) fetchEventImage {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-
+    
     manager.responseSerializer = [AFImageResponseSerializer serializer];
     
     [manager GET:self.eventImageURL

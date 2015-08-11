@@ -4,7 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -152,8 +151,8 @@
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
                                 <rect key="frame" x="0.0" y="20" width="375" height="667"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF" userLabel="Event Image">
-                                        <rect key="frame" x="0.0" y="118" width="375" height="282"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF" userLabel="Event Image">
+                                        <rect key="frame" x="-19" y="118" width="413" height="282"/>
                                     </imageView>
                                     <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Y4C-VX-sVI">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
@@ -162,10 +161,10 @@
                                         </connections>
                                     </containerView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S3G-Yy-LaT">
-                                        <rect key="frame" x="292" y="-36" width="71" height="71"/>
+                                        <rect key="frame" x="273" y="-45" width="90" height="90"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="S3G-Yy-LaT" secondAttribute="height" multiplier="1:1" id="5YH-Ed-TWj"/>
-                                            <constraint firstAttribute="width" constant="71" id="qJn-up-Rzl"/>
+                                            <constraint firstAttribute="width" constant="90" id="qJn-up-Rzl"/>
                                         </constraints>
                                         <state key="normal" title="Chat Button" image="Blue-Bubble">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -174,19 +173,26 @@
                                             <action selector="chatBubbleTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YxZ-c4-e8z"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="kHV-DV-5nP" userLabel="# of Participants">
+                                        <rect key="frame" x="318" y="49" width="0.0" height="0.0"/>
+                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Y4C-VX-sVI" secondAttribute="trailing" id="3Go-mA-S1c"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" id="84b-mO-xpM"/>
                                     <constraint firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="bottom" id="8Bt-Pj-MMr"/>
+                                    <constraint firstItem="kHV-DV-5nP" firstAttribute="centerX" secondItem="S3G-Yy-LaT" secondAttribute="centerX" id="Bx8-Tu-4Ws"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="top" constant="400" id="Dio-Bj-3Mt"/>
+                                    <constraint firstItem="kHV-DV-5nP" firstAttribute="top" secondItem="S3G-Yy-LaT" secondAttribute="bottom" constant="4" id="FgJ-Su-laB"/>
                                     <constraint firstItem="S3G-Yy-LaT" firstAttribute="trailing" secondItem="TCK-NK-859" secondAttribute="trailing" constant="-12" id="Wyc-oU-5Mm"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="ZCn-YJ-Zqk"/>
                                     <constraint firstItem="S3G-Yy-LaT" firstAttribute="centerY" secondItem="Y4C-VX-sVI" secondAttribute="top" id="cBK-t0-WJT"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="leading" secondItem="TCK-NK-859" secondAttribute="leading" id="cW5-ld-lKL"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="height" secondItem="TCK-NK-859" secondAttribute="width" multiplier="21:28" id="jg9-F7-aPK"/>
-                                    <constraint firstAttribute="width" secondItem="mZE-da-erF" secondAttribute="width" id="o3N-ve-mMQ"/>
+                                    <constraint firstItem="mZE-da-erF" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" multiplier="1.1" id="o3N-ve-mMQ"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
                                 </constraints>
                                 <connections>
@@ -225,6 +231,7 @@
                         <outlet property="mapView" destination="Axx-4m-T16" id="1MU-Ol-uL2"/>
                         <outlet property="menuButton" destination="bFM-2H-G4h" id="aTS-tB-XvE"/>
                         <outlet property="nextDayButton" destination="gWW-68-Y76" id="Fbj-TK-L93"/>
+                        <outlet property="numberParticipantsLabel" destination="kHV-DV-5nP" id="ogl-so-HHQ"/>
                         <outlet property="previousDayButton" destination="ReK-n8-q1k" id="Rv8-DR-wGw"/>
                         <outlet property="scrollView" destination="TCK-NK-859" id="EFU-XV-5Nk"/>
                         <outlet property="scrollViewTapRecognizer" destination="5QO-qA-ugj" id="KX6-kF-b6z"/>
@@ -248,46 +255,79 @@
                         <viewControllerLayoutGuide type="bottom" id="LYP-2D-z7r"/>
                     </layoutGuides>
                     <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="bDp-pf-5OZ">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Gp3-6h-8Go" customClass="BubbleAnimationView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="none" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
+                                <rect key="frame" x="16" y="8" width="208" height="88"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="bji-Jk-eVs" userLabel="Start Time">
+                                <rect key="frame" x="18" y="96" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Venue-Header" translatesAutoresizingMaskIntoConstraints="NO" id="QRt-py-L2y">
-                                <rect key="frame" x="20" y="80" width="343" height="30"/>
+                                <rect key="frame" x="16" y="100" width="288" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="R4d-rw-9Yb"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="bji-Jk-eVs" userLabel="Start Time">
-                                <rect key="frame" x="20" y="24" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3fP-Qw-xkh" userLabel="# of Participants">
-                                <rect key="frame" x="292" y="24" width="71" height="0.0"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue" lineBreakMode="wordWrap" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue">
+                                <rect key="frame" x="16" y="134" width="200" height="19"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="71" id="HL3-c4-Xwm"/>
+                                    <constraint firstAttribute="width" constant="200" id="m6a-Op-pdm"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" baselineAdjustment="none" minimumScaleFactor="0.35000000000000003" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
-                                <rect key="frame" x="20" y="18" width="300" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="18"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Madison Square Garden 285 6th Avenue New York, NY 10012" lineBreakMode="clip" numberOfLines="3" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="oyr-f8-fhw" userLabel="Venue Address">
+                                <rect key="frame" x="16" y="161" width="168" height="57"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="168" id="SdQ-g7-QjG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue Name">
-                                <rect key="frame" x="20" y="110" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="16"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcD-t3-qJn" userLabel="Get Directions Button">
+                                <rect key="frame" x="204" y="134" width="100" height="82"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="CHS-2L-vwh"/>
+                                    <constraint firstAttribute="width" secondItem="BcD-t3-qJn" secondAttribute="height" multiplier="285:233" id="U8T-Vw-bqe"/>
+                                </constraints>
+                                <state key="normal" image="Get-Directions">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get directions" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvV-fm-P5g" userLabel="Get Directions">
+                                <rect key="frame" x="215" y="221" width="78" height="16"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tickets" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-M8-LeK" userLabel="Tickets">
+                                <rect key="frame" x="16" y="242" width="52" height="19"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="5" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="aa1-Kp-ACE" userLabel="Ticket Info">
+                                <rect key="frame" x="16" y="269" width="141" height="95"/>
+                                <string key="text">Tickets Available: 43
+ Average: $120
+High: $290
+Low: $70</string>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHF-6j-GIq" userLabel="Get tickets">
-                                <rect key="frame" x="292" y="204" width="71" height="55"/>
+                                <rect key="frame" x="204" y="265" width="100" height="78"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="MHF-6j-GIq" secondAttribute="height" multiplier="753:584" id="ld7-FU-LYw"/>
+                                    <constraint firstAttribute="width" constant="100" id="twl-Px-N4F"/>
                                 </constraints>
                                 <state key="normal" image="Ticket-Black">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -296,78 +336,68 @@
                                     <action selector="getTicketsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="ioK-af-yzH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcD-t3-qJn" userLabel="Get Directions Button">
-                                <rect key="frame" x="292" y="89" width="71" height="58"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="BcD-t3-qJn" secondAttribute="height" multiplier="285:233" id="U8T-Vw-bqe"/>
-                                </constraints>
-                                <state key="normal" image="Get-Directions">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                            </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" numberOfLines="3" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="oyr-f8-fhw" userLabel="Venue Address">
-                                <rect key="frame" x="20" y="118" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get directions" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvV-fm-P5g" userLabel="Get Directions">
-                                <rect key="frame" x="292" y="149" width="71" height="13"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Buy Tickets" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8c-yp-a60" userLabel="Buy Tickets">
-                                <rect key="frame" x="292" y="263" width="71" height="13"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find Tickets" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8c-yp-a60" userLabel="Buy Tickets">
+                                <rect key="frame" x="220" y="347" width="68" height="16"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="MHF-6j-GIq" firstAttribute="trailing" secondItem="BcD-t3-qJn" secondAttribute="trailing" id="8ja-Lw-jSO"/>
-                            <constraint firstItem="QRt-py-L2y" firstAttribute="trailing" secondItem="3fP-Qw-xkh" secondAttribute="trailing" id="9f8-8A-mu1"/>
-                            <constraint firstItem="MHF-6j-GIq" firstAttribute="width" secondItem="3fP-Qw-xkh" secondAttribute="width" id="CVg-GL-Cww"/>
-                            <constraint firstItem="3fP-Qw-xkh" firstAttribute="width" secondItem="k8c-yp-a60" secondAttribute="width" id="IFF-mH-Z9v"/>
-                            <constraint firstItem="hvV-fm-P5g" firstAttribute="width" secondItem="3fP-Qw-xkh" secondAttribute="width" id="JLz-nx-ivZ"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leadingMargin" constant="4" id="Jwc-G0-2cf"/>
+                            <constraint firstItem="k8c-yp-a60" firstAttribute="top" secondItem="MHF-6j-GIq" secondAttribute="bottom" constant="4" id="1Mm-YZ-yrt"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="top" secondItem="bji-Jk-eVs" secondAttribute="bottom" constant="4" id="1jA-Gk-Tk8"/>
+                            <constraint firstItem="BcD-t3-qJn" firstAttribute="trailing" secondItem="QRt-py-L2y" secondAttribute="trailing" id="6Wd-bs-LSU"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="DTi-t2-hEB"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" relation="lessThanOrEqual" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="8" id="FSH-x2-3jn"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.9" id="I38-kh-ymq"/>
                             <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="LXX-X5-ANp"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="bji-Jk-eVs" secondAttribute="leading" id="Lil-5J-pDQ"/>
-                            <constraint firstItem="bji-Jk-eVs" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" constant="6" id="Lwf-Lh-6GG"/>
-                            <constraint firstItem="3fP-Qw-xkh" firstAttribute="bottom" secondItem="bji-Jk-eVs" secondAttribute="bottom" id="O9r-e3-pyf"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.8" id="PPN-sK-fwt"/>
-                            <constraint firstItem="hvV-fm-P5g" firstAttribute="top" secondItem="BcD-t3-qJn" secondAttribute="bottom" constant="2" id="QJE-Ad-3kU"/>
-                            <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="bji-Jk-eVs" secondAttribute="leading" id="Tb0-n0-2E3"/>
-                            <constraint firstItem="BcD-t3-qJn" firstAttribute="centerX" secondItem="3fP-Qw-xkh" secondAttribute="centerX" id="WcE-vF-qPb"/>
-                            <constraint firstItem="k8c-yp-a60" firstAttribute="top" secondItem="MHF-6j-GIq" secondAttribute="bottom" constant="4" id="ZYQ-sV-izd"/>
-                            <constraint firstItem="BcD-t3-qJn" firstAttribute="width" secondItem="3fP-Qw-xkh" secondAttribute="width" id="Zxo-57-S8D"/>
-                            <constraint firstItem="hvV-fm-P5g" firstAttribute="centerX" secondItem="BcD-t3-qJn" secondAttribute="centerX" id="e9x-aI-Tjr"/>
-                            <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="18" id="gVA-WE-MQI"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="top" secondItem="BcD-t3-qJn" secondAttribute="top" id="Mwy-pG-brF"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="QRt-py-L2y" secondAttribute="leading" id="N6N-ey-qFT"/>
+                            <constraint firstItem="oyr-f8-fhw" firstAttribute="leading" secondItem="IgD-M8-LeK" secondAttribute="leading" id="QVQ-e6-Csq"/>
+                            <constraint firstItem="hvV-fm-P5g" firstAttribute="top" secondItem="BcD-t3-qJn" secondAttribute="bottom" constant="5" id="WrB-RP-4SZ"/>
+                            <constraint firstItem="QRt-py-L2y" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="100" id="du1-7t-3NG"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="QRt-py-L2y" secondAttribute="leading" id="eeF-z3-S9J"/>
+                            <constraint firstItem="aa1-Kp-ACE" firstAttribute="top" secondItem="MHF-6j-GIq" secondAttribute="top" constant="4" id="fdg-jB-zoV"/>
                             <constraint firstAttribute="height" secondItem="Gp3-6h-8Go" secondAttribute="height" id="hIy-h1-tGL"/>
-                            <constraint firstItem="MHF-6j-GIq" firstAttribute="top" secondItem="BcD-t3-qJn" secondAttribute="bottom" constant="57" id="iZu-WN-TlJ"/>
-                            <constraint firstItem="QRt-py-L2y" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="80" id="maI-Sh-z8X"/>
+                            <constraint firstItem="aa1-Kp-ACE" firstAttribute="top" secondItem="IgD-M8-LeK" secondAttribute="bottom" constant="8" id="hoS-hm-Cvc"/>
+                            <constraint firstItem="bji-Jk-eVs" firstAttribute="leading" secondItem="52e-vu-Pwx" secondAttribute="leading" constant="2" id="ht7-HV-Fcg"/>
+                            <constraint firstItem="IgD-M8-LeK" firstAttribute="leading" secondItem="aa1-Kp-ACE" secondAttribute="leading" id="jRa-eR-Bqq"/>
+                            <constraint firstItem="bji-Jk-eVs" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" priority="999" id="l9N-PD-2ie"/>
+                            <constraint firstItem="IgD-M8-LeK" firstAttribute="top" secondItem="oyr-f8-fhw" secondAttribute="bottom" constant="24" id="mCd-cQ-Nz1"/>
                             <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerY" secondItem="bDp-pf-5OZ" secondAttribute="centerY" id="mo3-4Y-fF1"/>
-                            <constraint firstItem="QRt-py-L2y" firstAttribute="leading" secondItem="bji-Jk-eVs" secondAttribute="leading" id="n8o-AU-jeT"/>
-                            <constraint firstItem="ulE-cu-9zb" firstAttribute="top" secondItem="QRt-py-L2y" secondAttribute="bottom" id="pUo-VO-q3P"/>
+                            <constraint firstItem="aa1-Kp-ACE" firstAttribute="bottom" secondItem="k8c-yp-a60" secondAttribute="bottom" constant="5" id="nUR-jK-9fi"/>
+                            <constraint firstItem="ulE-cu-9zb" firstAttribute="top" secondItem="QRt-py-L2y" secondAttribute="bottom" constant="4" id="pUo-VO-q3P"/>
                             <constraint firstItem="oyr-f8-fhw" firstAttribute="top" secondItem="ulE-cu-9zb" secondAttribute="bottom" constant="8" id="plP-Kn-db0"/>
-                            <constraint firstItem="3fP-Qw-xkh" firstAttribute="trailing" secondItem="bDp-pf-5OZ" secondAttribute="trailing" constant="-12" id="rjh-rc-pbu"/>
+                            <constraint firstItem="MHF-6j-GIq" firstAttribute="centerX" secondItem="k8c-yp-a60" secondAttribute="centerX" id="qhy-dO-Pw5"/>
                             <constraint firstAttribute="width" secondItem="Gp3-6h-8Go" secondAttribute="width" id="rxb-Rg-ZOQ"/>
-                            <constraint firstItem="MHF-6j-GIq" firstAttribute="centerX" secondItem="k8c-yp-a60" secondAttribute="centerX" id="vKL-aM-ekI"/>
+                            <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.65" id="wmu-96-p0y"/>
                             <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="oyr-f8-fhw" secondAttribute="leading" id="xdD-31-cZg"/>
-                            <constraint firstItem="BcD-t3-qJn" firstAttribute="centerY" secondItem="oyr-f8-fhw" secondAttribute="top" id="zqe-IS-BO8"/>
+                            <constraint firstItem="BcD-t3-qJn" firstAttribute="centerX" secondItem="hvV-fm-P5g" secondAttribute="centerX" id="yW7-jH-ffw"/>
+                            <constraint firstItem="BcD-t3-qJn" firstAttribute="leading" secondItem="MHF-6j-GIq" secondAttribute="leading" id="zK2-fq-rSI"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="nUR-jK-9fi"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <outlet property="eventAddress" destination="oyr-f8-fhw" id="jW4-5g-DsP"/>
-                        <outlet property="eventParticipants" destination="3fP-Qw-xkh" id="YJP-9m-Zdx"/>
                         <outlet property="eventStartTime" destination="bji-Jk-eVs" id="Lv5-YQ-yPA"/>
+                        <outlet property="eventTickets" destination="aa1-Kp-ACE" id="0Tr-sm-TuI"/>
+                        <outlet property="eventTicketsTitle" destination="IgD-M8-LeK" id="sq7-sD-Xco"/>
                         <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
                         <outlet property="eventVenueName" destination="ulE-cu-9zb" id="E1f-8N-kfc"/>
+                        <outlet property="getDirectionsIconWidth" destination="CHS-2L-vwh" id="QeY-ZX-3Oa"/>
+                        <outlet property="getTicketsIconWidth" destination="twl-Px-N4F" id="6lf-CM-r6k"/>
+                        <outlet property="ticketHeaderTop" destination="mCd-cQ-Nz1" id="EhY-PV-mvt"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hd-w8-2QO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="564.5" y="1194.5"/>
+            <point key="canvasLocation" x="564" y="1194"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="wVS-0c-NzR">

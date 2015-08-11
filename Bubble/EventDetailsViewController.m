@@ -11,14 +11,20 @@
 #import <Masonry/Masonry.h>
 #import <Parse.h>
 #import "WebViewController.h"
+#import "UILabel+AutoresizeFontMultiLine.h"
 
 @interface EventDetailsViewController ()
 
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
 @property (weak, nonatomic) IBOutlet UILabel *eventStartTime;
-@property (weak, nonatomic) IBOutlet UILabel *eventParticipants;
 @property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
 @property (weak, nonatomic) IBOutlet UILabel *eventAddress;
+@property (weak, nonatomic) IBOutlet UILabel *eventTicketsTitle;
+@property (weak, nonatomic) IBOutlet UILabel *eventTickets;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *getDirectionsIconWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *getTicketsIconWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *ticketHeaderTop;
 
 - (IBAction)getTicketsTapped:(id)sender;
 
@@ -36,7 +42,6 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:YES];
-    [self fetchChatParticipantCount];
 }
 
 - (void) makeTranslucentBackground {
@@ -55,13 +60,51 @@
 }
 
 - (void) adjustFontForDeviceSize {
-
+    
+    if (self.eventTitle.text.length > 20) {
+        self.eventTitle.numberOfLines = 2;
+        self.eventTitle.minimumScaleFactor = 0.8;
+        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
+        
+    } else {
+        self.eventTitle.numberOfLines = 1;
+        self.eventTitle.minimumScaleFactor = .7;
+        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
+    }
+    
     if (self.view.frame.size.width == 320) {
-        self.eventTitle.font = [self.eventTitle.font fontWithSize:28];
+        [self.eventTitle adjustFontSizeToFitWithMaxSize:26];
+        self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
+        self.eventAddress.font = [self.eventAddress.font fontWithSize:14];
+        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:16];
+        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:16];
+        self.eventTickets.font = [self.eventTickets.font fontWithSize:14];
+        
+        self.ticketHeaderTop.constant = 14;
+        self.getTicketsIconWidth.constant = 80;
+        self.getDirectionsIconWidth.constant = 80;
         
     } else if (self.view.frame.size.width == 375) {
-        self.eventTitle.font = [self.eventTitle.font fontWithSize:34];
+        [self.eventTitle adjustFontSizeToFitWithMaxSize:36];
+        self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
+        self.eventAddress.font = [self.eventAddress.font fontWithSize:16];
+        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:22];
+        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:22];
+        self.eventTickets.font = [self.eventTickets.font fontWithSize:16];
+
+        self.getTicketsIconWidth.constant = 110;
+        self.getDirectionsIconWidth.constant = 110;
         
+    } else {
+        [self.eventTitle adjustFontSizeToFitWithMaxSize:40];
+        self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
+        self.eventAddress.font = [self.eventAddress.font fontWithSize:18];
+        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:24];
+        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:24];
+        self.eventTickets.font = [self.eventTickets.font fontWithSize:18];
+        
+        self.getTicketsIconWidth.constant = 100;
+        self.getDirectionsIconWidth.constant = 110;
     }
 }
 
@@ -73,26 +116,16 @@
 
 - (void) updateEventLabels {
     self.eventTitle.text = self.event.eventTitle;
-    self.eventStartTime.text = [NSString stringWithFormat:@"Start time: %@",self.event.eventTime];
-    self.eventVenueName.text = self.event.venueName;
-    self.eventAddress.text = [NSString stringWithFormat:@"%@\n%@, %@ %@",self.event.addressStreet,self.event.addressCity,self.event.addressState,self.event.addressZip];
     
-    [self fetchChatParticipantCount];
-}
+    self.eventStartTime.text = [NSString stringWithFormat:@"Start time: %@",self.event.eventTime];
+    
+    self.eventVenueName.text = self.event.venueName;
+    
+    self.eventAddress.text = [NSString stringWithFormat:@"%@\n%@, %@ %@",self.event.addressStreet,self.event.addressCity,self.event.addressState,self.event.addressZip];
 
-- (void) fetchChatParticipantCount {
-
-    if (self.event.eventID) {
-        PFQuery *query = [PFUser query];
-        [query whereKey:@"eventID" equalTo:self.event.eventID];
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (!error) {
-                self.eventParticipants.text = [NSString stringWithFormat:@"%lu participants",objects.count];
-            } else {
-                NSLog(@"Error fetching users in event");
-            }
-        }];
-    }
+    self.eventTickets.text = [NSString stringWithFormat:@"%@\n\n%@\n%@\n%@",self.event.ticketsAvailable,self.event.ticketPriceAvg,self.event.ticketPriceHigh,self.event.ticketPriceLow];
+    
+    [self adjustFontForDeviceSize];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -100,8 +133,10 @@
 }
 
 - (IBAction)getTicketsTapped:(id)sender {
+    
     if ([self seatGeekInstalled]) {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"seatgeek://events/%@",self.event.eventID]]];
+        
     } else {
         WebViewController *webVC = [[self storyboard] instantiateViewControllerWithIdentifier:@"webViewController"];
         webVC.ticketURL = self.event.ticketURL;

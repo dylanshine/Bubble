@@ -23,11 +23,15 @@
 @property (nonatomic, strong) NSString *addressState;
 @property (nonatomic, strong) NSNumber *addressZip;
 @property (nonatomic, strong) NSString *ticketURL;
+@property (nonatomic, strong) NSString *ticketsAvailable;
+@property (nonatomic, strong) NSString *ticketPriceAvg;
+@property (nonatomic, strong) NSString *ticketPriceHigh;
+@property (nonatomic, strong) NSString *ticketPriceLow;
 @property (nonatomic, strong) NSNumber *eventScore;
 @property (nonatomic, strong) NSNumber *venueScore;
 @property (nonatomic, strong) NSString *eventImageURL;
 @property (nonatomic, strong) UIImage *eventImage;
-@property (nonatomic, strong) NSNumber *eventPrice;
+
 
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLLocation *eventLocation;
