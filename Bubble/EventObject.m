@@ -34,13 +34,17 @@
     NSString *eventType = jsonDict[@"type"];
     
     NSString *eventTime = jsonDict[@"datetime_local"];
-    eventTime = [eventTime substringWithRange:NSMakeRange(11, eventTime.length-11)];
+//    eventTime = [eventTime substringWithRange:NSMakeRange(11, eventTime.length-11)];
+    NSString *date = [eventTime substringToIndex:10];
+    NSString *time = [eventTime substringFromIndex:11];
+    NSString *dateTime = [NSString stringWithFormat:@"%@ %@", date, time];
+    NSLog(@"%@", dateTime);
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
-    [dateFormat setDateFormat:@"HH:mm:ss"];
+    [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     NSDate *eventTimeAsDate = [[NSDate alloc] init];
-    eventTimeAsDate = [dateFormat dateFromString:eventTime];
+    eventTimeAsDate = [dateFormat dateFromString:dateTime];
 
     [dateFormat setDateFormat:@"h:mm a"];
     eventTime = [dateFormat stringFromDate:eventTimeAsDate];
@@ -91,6 +95,7 @@
         _eventTitle = eventTitle;
         _eventType = eventType;
         _eventTime = eventTime;
+        _date = eventTimeAsDate;
         _coordinate = coordinate;
         _venueName = venueName;
         _eventPerformers = eventPerformers;
@@ -116,7 +121,15 @@
     NSString *eventTitle = jsonDict[@"name"];
     NSString *eventID = jsonDict[@"id"];
     NSString *eventType = @"meetup";
-    NSString *eventTime = jsonDict[@"time"];
+    
+    NSString *eventTime = [jsonDict[@"time"] stringValue];
+    NSString *eventTimeSeconds = [eventTime substringToIndex:10];
+    NSTimeInterval eventTimeInterval = [eventTimeSeconds doubleValue];
+    NSDate *eventDate = [NSDate dateWithTimeIntervalSince1970:eventTimeInterval];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"h:mm a"];
+    NSString *eventTimeString = [formatter stringFromDate:eventDate];
+    
     NSNumber *venueLat = jsonDict[@"venue"][@"lat"];
     NSNumber *venueLon = jsonDict[@"venue"][@"lon"];
     NSString *venueName = jsonDict[@"venue"][@"name"];
@@ -150,7 +163,8 @@
         _eventID = eventID;
         _eventTitle = eventTitle;
         _eventType = eventType;
-        _eventTime = eventTime;
+        _eventTime = eventTimeString;
+        _date = eventDate;
         _coordinate = coordinate;
         _venueName = venueName;
         _eventPerformers = eventPerformers;
@@ -168,6 +182,30 @@
     return self;
 }
 
+-(instancetype) initWithSubscribedEvent: (SubscribedEvent *)event {
+    self = [super init];
+    if (self) {
+        _eventID = event.eventID;
+        _eventTitle = event.eventTitle;
+        _eventType = event.eventType;
+        _eventTime = event.eventTime;
+        _date = event.date;
+        _coordinate = CLLocationCoordinate2DMake([event.latitude doubleValue], [event.longitude doubleValue]);
+        _venueName = event.venueName;
+        _addressStreet = event.addressStreet;
+        _addressCity = event.addressCity;
+        _addressState = event.addressState;
+        _addressZip = event.addressZip;
+        _ticketURL = event.ticketURL;
+        _eventScore = event.eventScore;
+//        _eventLocation = event.eventLocation;
+        _eventPrice = event.eventPrice;
+        _eventImage = [UIImage imageWithData:event.eventImage];
+        
+    }
+    return self;
+}
+
 - (void) fetchEventImage {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -181,6 +219,17 @@
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"%@",error.description);
          }];
+}
+
+
+
+- (BOOL) isToday {
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"yyyy-MM-dd"];
+    if ([[formatter stringFromDate:self.date] isEqual:[formatter stringFromDate:[NSDate date]]]) {
+        return YES;
+    }
+    return  NO;
 }
 
 @end

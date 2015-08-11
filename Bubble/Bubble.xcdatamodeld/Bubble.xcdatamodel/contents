@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14E46" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7701" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="SubscribedEvent" representedClassName="SubscribedEvent" syncable="YES">
         <attribute name="addressCity" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addressState" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addressStreet" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="addressZip" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="eventID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="eventImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="eventPrice" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -19,6 +20,6 @@
         <attribute name="venueScore" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="SubscribedEvent" positionX="-63" positionY="-18" width="128" height="285"/>
+        <element name="SubscribedEvent" positionX="-63" positionY="-18" width="128" height="300"/>
     </elements>
 </model>

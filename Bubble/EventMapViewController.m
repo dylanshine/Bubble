@@ -251,7 +251,12 @@
         self.selectedAnnotation = annotation;
         self.eventDetailsVC.event = annotation.event;
         self.eventImage.image = annotation.event.eventImage;
-        
+        NSLog(@"Annotation Date: %@, Current Date: %@", annotation.event.date.description, [NSDate date].description);
+        if (![annotation.event isToday]) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark.png"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        }
         [UIView animateWithDuration:.5
                          animations:^{
                              self.chatBubbleButton.alpha = 1;
@@ -321,8 +326,11 @@
 }
 
 - (IBAction)chatBubbleTapped:(id)sender {
-    
-    [self performSegueWithIdentifier:@"chatSegue" sender:self];
+    [self createSubscriptionToEvent:self.eventDetailsVC.event];
+    if ([self.eventDetailsVC.event isToday]) {
+        [self performSegueWithIdentifier:@"chatSegue" sender:self];
+    }
+
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -641,7 +649,8 @@
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
     
     [self dismissMenu];
-    //    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
+    BBDropDownItem *item = dropDownMenu.dropDownItems[index];
+    self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
 }
 
 -(void) dismissMenu {

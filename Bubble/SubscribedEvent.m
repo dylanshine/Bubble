@@ -2,31 +2,33 @@
 //  SubscribedEvent.m
 //  
 //
-//  Created by Dylan Shine on 8/11/15.
+//  Created by Lukas Thoms on 8/11/15.
 //
 //
 
 #import "SubscribedEvent.h"
+#import "EventObject.h"
 
 
 @implementation SubscribedEvent
 
-@dynamic eventID;
-@dynamic eventTitle;
-@dynamic eventType;
-@dynamic eventTime;
-@dynamic venueName;
 @dynamic addressCity;
 @dynamic addressState;
-@dynamic addressZip;
 @dynamic addressStreet;
-@dynamic ticketURL;
-@dynamic eventScore;
-@dynamic venueScore;
+@dynamic addressZip;
+@dynamic eventID;
 @dynamic eventImage;
 @dynamic eventPrice;
+@dynamic eventScore;
+@dynamic eventTime;
+@dynamic eventTitle;
+@dynamic eventType;
 @dynamic latitude;
 @dynamic longitude;
+@dynamic ticketURL;
+@dynamic venueName;
+@dynamic venueScore;
+@dynamic date;
 
 -(void)setPropertiesWithEvent:(EventObject *)event {
     self.eventID = event.eventID;
@@ -53,6 +55,7 @@
     }
     self.latitude = @(event.coordinate.latitude);
     self.longitude = @(event.coordinate.longitude);
+    self.date = event.date;
 }
 
 @end
