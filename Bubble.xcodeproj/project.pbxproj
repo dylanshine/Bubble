@@ -46,6 +46,7 @@
 		FC688EDA1B790165003B46A9 /* FriendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FC688ED91B790165003B46A9 /* FriendCell.xib */; };
 		FC688EDD1B7901E2003B46A9 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688EDC1B7901E2003B46A9 /* FriendCell.m */; };
 		FC688EE01B79271A003B46A9 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688EDF1B79271A003B46A9 /* Friend.m */; };
+		FC688F071B7A3820003B46A9 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688F061B7A3820003B46A9 /* CoreDataStack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +118,8 @@
 		FC688EDC1B7901E2003B46A9 /* FriendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendCell.m; sourceTree = "<group>"; };
 		FC688EDE1B79271A003B46A9 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		FC688EDF1B79271A003B46A9 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
+		FC688F051B7A3820003B46A9 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
+		FC688F061B7A3820003B46A9 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +190,8 @@
 				CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */,
 				FC688E4F1B7425F0003B46A9 /* ChatDataManager.h */,
 				FC688E501B7425F0003B46A9 /* ChatDataManager.m */,
+				FC688F051B7A3820003B46A9 /* CoreDataStack.h */,
+				FC688F061B7A3820003B46A9 /* CoreDataStack.m */,
 			);
 			name = "Data Managers";
 			sourceTree = "<group>";
@@ -430,6 +435,7 @@
 				178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */,
 				FC688EE01B79271A003B46A9 /* Friend.m in Sources */,
 				FC688E511B7425F0003B46A9 /* ChatDataManager.m in Sources */,
+				FC688F071B7A3820003B46A9 /* CoreDataStack.m in Sources */,
 				175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */,
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
