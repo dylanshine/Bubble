@@ -24,6 +24,9 @@
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
 #import "ILTranslucentView.h"
+#import "CoreDataStack.h"
+#import "SubscribedEvent.h"
+#import "BBDropDownItem.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
@@ -53,10 +56,12 @@
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
+@property (nonatomic, strong) NSMutableArray *subscribedEvents;
 
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
 @property (nonatomic) ChatDataManager *chatManager;
+@property (nonatomic) CoreDataStack *coreDataStack;
 
 @property (nonatomic) CLLocation *currentLocation;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
@@ -83,6 +88,7 @@
     
     self.xmppManager = [XMPPManager sharedManager];
     self.chatManager = [ChatDataManager sharedManager];
+    self.coreDataStack = [CoreDataStack sharedStack];
     
     self.mapView.delegate = self;
     
@@ -413,7 +419,6 @@
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
     
-    
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
         self.scrollViewStartingPosition = self.view.frame.size.height - 70;
@@ -558,19 +563,13 @@
 }
 
 -(void) menuSetup {
-    self.menuItems = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i<4; i++) {
-        IGLDropDownItem *preferences = [[IGLDropDownItem alloc] init];
-        [preferences setText:@"Menu Item"];
-        [self.menuItems addObject:preferences];
-    }
-    
     self.menu = [[IGLDropDownMenu alloc] init];
+    [self fetchSubscribedEvents];
     [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
     self.menu.menuText = @"Dismiss";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
-    self.menu.dropDownItems = self.menuItems;
+    self.menu.dropDownItems = self.subscribedEvents;
     self.menu.gutterY = 5;
     self.menu.paddingLeft = 15;
     self.menu.slidingInOffset = 0;
@@ -580,6 +579,28 @@
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
+}
+
+-(void)fetchSubscribedEvents {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SubscribedEvent"
+                                              inManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *result = [[self.coreDataStack managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    if (error) {
+        NSLog(@"Unable to execute fetch request.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    } else {
+        for (SubscribedEvent *event in result) {
+            BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
+            [self.subscribedEvents addObject:item];
+        }
+    }
 }
 
 - (void) mapSetup {
@@ -636,6 +657,33 @@
 - (void)didReceiveMemoryWarning {
     
     [super didReceiveMemoryWarning];
+}
+
+-(void)createSubscriptionToEvent:(EventObject *)event {
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SubscribedEvent"
+                                                         inManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    SubscribedEvent *subEvent = [[SubscribedEvent alloc] initWithEntity:entityDescription
+                                         insertIntoManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    [subEvent setPropertiesWithEvent:event];
+    BBDropDownItem *dropDownItem = [[BBDropDownItem alloc] initWithEvent:subEvent];
+    [self.subscribedEvents addObject:dropDownItem];
+    
+    NSError *error = nil;
+    if (![subEvent.managedObjectContext save:&error]) {
+        NSLog(@"Unable to save managed object context.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
+
+    
+}
+
+-(NSMutableArray *)subscribedEvents {
+    if (!_subscribedEvents) {
+        _subscribedEvents = [[NSMutableArray alloc] init];
+    }
+    return _subscribedEvents;
 }
 
 @end

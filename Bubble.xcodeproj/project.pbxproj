@@ -20,7 +20,6 @@
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
 		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
-		807B38E21B73E69200B591AA /* menu.png in Resources */ = {isa = PBXBuildFile; fileRef = 807B38E11B73E69200B591AA /* menu.png */; };
 		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
@@ -47,6 +46,9 @@
 		FC688EDD1B7901E2003B46A9 /* FriendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688EDC1B7901E2003B46A9 /* FriendCell.m */; };
 		FC688EE01B79271A003B46A9 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688EDF1B79271A003B46A9 /* Friend.m */; };
 		FC688F071B7A3820003B46A9 /* CoreDataStack.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688F061B7A3820003B46A9 /* CoreDataStack.m */; };
+		FC688F0A1B7A614F003B46A9 /* Bubble.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FC688F081B7A614F003B46A9 /* Bubble.xcdatamodeld */; };
+		FC688F101B7A68DB003B46A9 /* BBDropDownItem.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */; };
+		FC688F161B7A6D89003B46A9 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = FC688F151B7A6D89003B46A9 /* SubscribedEvent.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -76,7 +78,6 @@
 		802273851B6A805A00C62E50 /* BBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessage.m; sourceTree = "<group>"; };
 		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
-		807B38E11B73E69200B591AA /* menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = menu.png; sourceTree = "<group>"; };
 		80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+EnableReturnKey.h"; sourceTree = "<group>"; };
 		80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+EnableReturnKey.m"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -120,6 +121,11 @@
 		FC688EDF1B79271A003B46A9 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
 		FC688F051B7A3820003B46A9 /* CoreDataStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStack.h; sourceTree = "<group>"; };
 		FC688F061B7A3820003B46A9 /* CoreDataStack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStack.m; sourceTree = "<group>"; };
+		FC688F091B7A614F003B46A9 /* Bubble.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Bubble.xcdatamodel; sourceTree = "<group>"; };
+		FC688F0E1B7A68DB003B46A9 /* BBDropDownItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBDropDownItem.h; sourceTree = "<group>"; };
+		FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBDropDownItem.m; sourceTree = "<group>"; };
+		FC688F141B7A6D89003B46A9 /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
+		FC688F151B7A6D89003B46A9 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -199,6 +205,8 @@
 		803185C71B7018A30046CF79 /* Model Classes */ = {
 			isa = PBXGroup;
 			children = (
+				FC688F141B7A6D89003B46A9 /* SubscribedEvent.h */,
+				FC688F151B7A6D89003B46A9 /* SubscribedEvent.m */,
 				17A915FA1B67E568000821E2 /* BBAnnotation.h */,
 				17A915FB1B67E568000821E2 /* BBAnnotation.m */,
 				CCDD860D1B69125400E6B6B0 /* EventObject.h */,
@@ -207,6 +215,8 @@
 				802273851B6A805A00C62E50 /* BBMessage.m */,
 				FC688EDE1B79271A003B46A9 /* Friend.h */,
 				FC688EDF1B79271A003B46A9 /* Friend.m */,
+				FC688F0E1B7A68DB003B46A9 /* BBDropDownItem.h */,
+				FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -266,11 +276,11 @@
 		8087EE1B1B66D28C009258E5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				807B38E11B73E69200B591AA /* menu.png */,
 				8087EE1C1B66D28C009258E5 /* Info.plist */,
 				8087EE1D1B66D28C009258E5 /* main.m */,
 				FC4259C11B66D63500011956 /* Constants.h */,
 				FC5A230B1B70625300C5061E /* Constants.m */,
+				FC688F081B7A614F003B46A9 /* Bubble.xcdatamodeld */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -375,7 +385,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				807B38E21B73E69200B591AA /* menu.png in Resources */,
 				FC688EDA1B790165003B46A9 /* FriendCell.xib in Resources */,
 				8087EE271B66D28C009258E5 /* Main.storyboard in Resources */,
 				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
@@ -446,8 +455,11 @@
 				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				FC688EDD1B7901E2003B46A9 /* FriendCell.m in Sources */,
+				FC688F101B7A68DB003B46A9 /* BBDropDownItem.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
+				FC688F0A1B7A614F003B46A9 /* Bubble.xcdatamodeld in Sources */,
 				FC5A230C1B70625300C5061E /* Constants.m in Sources */,
+				FC688F161B7A6D89003B46A9 /* SubscribedEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +681,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FC688F081B7A614F003B46A9 /* Bubble.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FC688F091B7A614F003B46A9 /* Bubble.xcdatamodel */,
+			);
+			currentVersion = FC688F091B7A614F003B46A9 /* Bubble.xcdatamodel */;
+			path = Bubble.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 8087EE101B66D28B009258E5 /* Project object */;
 }

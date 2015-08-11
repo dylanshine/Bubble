@@ -28,7 +28,6 @@
 @property (nonatomic, strong) NSString *eventImageURL;
 @property (nonatomic, strong) UIImage *eventImage;
 @property (nonatomic, strong) NSNumber *eventPrice;
-
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLLocation *eventLocation;
 
