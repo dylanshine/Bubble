@@ -335,7 +335,6 @@
     }
     if (match == NO) {
         [self createSubscriptionToEvent:self.eventDetailsVC.event];
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
     }
 
     if ([self.eventDetailsVC.event isToday]) {
@@ -709,7 +708,11 @@
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }
-
+    if ([self.eventDetailsVC.event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+    } else {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+    }
 }
 
 -(void)removeSubscriptionToEvent:(EventObject *)event {

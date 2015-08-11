@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -86,7 +86,7 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="bFM-2H-G4h" secondAttribute="height" id="qZH-PK-yzn"/>
                                         </constraints>
-                                        <state key="normal" title="MenuButton" image="menu.png">
+                                        <state key="normal" title="MenuButton" image="bookmark-filled">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -473,6 +473,6 @@
         <image name="Get-Directions" width="855" height="699"/>
         <image name="Ticket-Black" width="753" height="584"/>
         <image name="Venue-Header" width="2192" height="144"/>
-        <image name="menu.png" width="512" height="512"/>
+        <image name="bookmark-filled" width="266" height="265"/>
     </resources>
 </document>
