@@ -26,7 +26,7 @@
 #import "ILTranslucentView.h"
 #import <Parse.h>
 #import "CoreDataStack.h"
-#import "SubscribedEvent.h"
+#import "SubscribedEvent+setPropertiesWithEvent.h"
 #import "BBDropDownItem.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
@@ -685,9 +685,21 @@
         NSLog(@"%@, %@", error, error.localizedDescription);
     } else {
         NSMutableArray *events = [[NSMutableArray alloc] init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyMMdd";
+        BOOL saveNeeded = NO;
         for (SubscribedEvent *event in result) {
-            BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
-            [events addObject:item];
+            if ([[formatter stringFromDate:event.date] integerValue] < [[formatter stringFromDate:[NSDate date]] integerValue]) {
+                [[self.coreDataStack managedObjectContext] deleteObject:event];
+                saveNeeded = YES;
+            } else {
+                BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
+                [events addObject:item];
+            }
+        }
+        if (saveNeeded) {
+            NSError *error = nil;
+            [[self.coreDataStack managedObjectContext] save:&error];
         }
         self.menu.dropDownItems = [events copy];
         [self.menu reloadView];
@@ -750,6 +762,11 @@
 
 -(void)eventDetailChanged {
     EventObject *event = self.eventDetailsVC.event;
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
+            self.eventDetailsVC.event.subscribed = YES;
+        }
+    }
     if ([event isToday]) {
         [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
         self.chatBubbleBookmarkButton.hidden = NO;

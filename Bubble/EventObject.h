@@ -1,4 +1,4 @@
-#import "SubscribedEvent.h"
+#import "SubscribedEvent+setPropertiesWithEvent.h"
 #import <AFNetworking/AFNetworking.h>
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
