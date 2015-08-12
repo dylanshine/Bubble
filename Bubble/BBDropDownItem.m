@@ -11,7 +11,10 @@
 }
 
 -(void)commonInit {
-    [self setText:self.event.eventTitle];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MM/d";
+    NSString *eventTitle = [NSString stringWithFormat:@"  %@ %@", [formatter stringFromDate:self.event.date], self.event.eventTitle];
+    [self setText:eventTitle];
 }
 
 @end

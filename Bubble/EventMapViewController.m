@@ -52,13 +52,15 @@
 @property (strong, nonatomic) NSDate *date;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (strong, nonatomic) IGLDropDownMenu *menu;
+@property (nonatomic, getter=isMenuOpen) BOOL menuOpen;
+@property (weak, nonatomic) IBOutlet UIButton *chatBubbleBookmarkButton;
+@property (nonatomic) CLLocation *currentLocation;
 @property (strong, nonatomic) EventDetailsViewController *eventDetailsVC;
 @property (strong, nonatomic) NSArray *eventsArray;
 @property (strong, nonatomic) AFDataStore *dataStore;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) ChatDataManager *chatManager;
 @property (strong, nonatomic) CoreDataStack *coreDataStack;
-@property (strong, nonatomic) CLLocation *currentLocation;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
 @property (assign, nonatomic) BOOL loaded;
 @property (strong, nonatomic) BBAnnotation *selectedAnnotation;
@@ -95,6 +97,74 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventDetailChanged)
+                                                 name:@"EventChanged"
+                                               object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+    if (velocity.y >= 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+        
+    } else if (velocity.y < 0) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+    }
+}
+
+
+- (void) toggleScrollViewLocation {
+    
+//    if (self.selectedAnnotation == nil) {
+//        return;
+//    }
+    
+    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+        
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.4 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+    }
 }
 
 #pragma mark - Location Manager & Events
@@ -164,8 +234,8 @@
     if ([segue.identifier isEqualToString:@"chatSegue"]) {
         UINavigationController *destination = [segue destinationViewController];
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
-        chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
-        chatVC.roomID = self.selectedAnnotation.event.eventID;
+        chatVC.eventTitle = self.eventDetailsVC.event.eventTitle;
+        chatVC.roomID = self.eventDetailsVC.event.eventID;
         if (![chatVC.roomID isEqualToString:self.xmppManager.currentRoomId]) {
             [self.chatManager.messages removeAllObjects];
         }
@@ -417,10 +487,10 @@
 - (IBAction)dateSelectorTapped:(id)sender {
     
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
-        [SVProgressHUD show];
         
         if (![self.date isEqual:self.datePicker.date]) {
             self.date = self.datePicker.date;
+            [SVProgressHUD show];
             [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
         }
         [self setDateSelectorTitle];
@@ -457,29 +527,41 @@
 -(void) menuSetup {
     self.menu = [[IGLDropDownMenu alloc] init];
     [self fetchSubscribedEvents];
-    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
-    self.menu.menuText = @"Dismiss";
+    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
+    self.menu.menuText = @"  Bookmarked Events";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
     self.menu.gutterY = 5;
-    self.menu.paddingLeft = 15;
     self.menu.slidingInOffset = 0;
     self.menu.delegate = self;
     [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
+    self.menuOpen = NO;
     
 }
 
-- (IBAction)menuButtonTapped:(id)sender {
+- (void) translucentHeaderSetup {
     
-    [UIView animateWithDuration:.6 animations:^{
-        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
-        self.datePickerXConstraint.constant = -400;
-        self.searchBarXConstraint.constant = -400;
-        [self.view layoutIfNeeded];
+    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
+    
+    translucentView.translucentAlpha = 1;
+    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    
+    [self.view insertSubview:translucentView aboveSubview:self.mapView];
+    
+    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.right.left.equalTo(@0);
+        make.height.equalTo(@65);
     }];
-    self.menu.expanding = YES;
+}
+
+- (IBAction)menuButtonTapped:(id)sender {
+    if (self.isMenuOpen) {
+        [self dismissMenu];
+    } else {
+        [self openMenu];
+    }
 }
 
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
@@ -487,7 +569,7 @@
     [self dismissMenu];
     BBDropDownItem *item = dropDownMenu.dropDownItems[index];
     self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
-    [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+    [self eventDetailChanged];
     if (self.chatBubbleButton.alpha == 0) {
         [UIView animateWithDuration:.5
                          animations:^{
@@ -499,12 +581,23 @@
 
 -(void) dismissMenu {
     [UIView animateWithDuration:.6 animations:^{
-        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 200, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = 0;
-        self.searchBarXConstraint.constant = -20;
         [self.view layoutIfNeeded];
     }];
-    self.menu.menuText = @"Dismiss";
+    self.menu.menuText = @"  Bookmarked Events";
+    self.menuOpen = NO;
+}
+
+-(void) openMenu {
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = -400;
+        [self.view layoutIfNeeded];
+    }];
+    
+    self.menu.expanding = YES;
+    self.menuOpen = YES;
 }
 
 - (IBAction)chatBubbleTapped:(id)sender {
@@ -557,20 +650,6 @@
     self.chatBubbleButton.alpha = 0;
 }
 
-- (void) translucentHeaderSetup {
-    
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
-    
-    translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIStatusBarStyleDefault;
-    
-    [self.view insertSubview:translucentView aboveSubview:self.mapView];
-    
-    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.left.equalTo(@0);
-        make.height.equalTo(@65);
-    }];
-}
 
 - (void) fetchChatParticipantCount {
     
@@ -587,55 +666,6 @@
     }
 }
 
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    
-    if (velocity.y >= 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-        
-    } else if (velocity.y < 0) {
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-    }
-}
-
-
-- (void)toggleScrollViewLocation {
-    
-    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-        
-    } else {
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
-                
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-    }
-}
 
 #pragma mark - Core Data Event Subscription Methods
 
@@ -679,14 +709,11 @@
     self.menu.dropDownItems = [menuItems copy];
     [self.menu reloadView];
     NSError *error = nil;
+    event.subscribed = YES;
+    [self eventDetailChanged];
     if (![subEvent.managedObjectContext save:&error]) {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
-    }
-    if ([self.eventDetailsVC.event isToday]) {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
-    } else {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
     }
 }
 
@@ -702,10 +729,45 @@
             NSMutableArray *items = [self.menu.dropDownItems mutableCopy];
             [items removeObject:item];
             self.menu.dropDownItems = [items copy];
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
             [self.menu reloadView];
         }
     }
+    event.subscribed = NO;
+    [self eventDetailChanged];
+    
 }
+
+- (IBAction)chatBubbleBookmarkTapped:(id)sender {
+    if (self.eventDetailsVC.event.subscribed) {
+        [self removeSubscriptionToEvent:self.eventDetailsVC.event];
+        [self eventDetailChanged];
+    } else {
+        [self createSubscriptionToEvent:self.eventDetailsVC.event];
+        [self eventDetailChanged];
+    }
+    
+}
+
+-(void)eventDetailChanged {
+    EventObject *event = self.eventDetailsVC.event;
+    if ([event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        self.chatBubbleBookmarkButton.hidden = NO;
+        if (event.subscribed) {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+    } else {
+        self.chatBubbleBookmarkButton.hidden = YES;
+        if (event.subscribed) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
 
 @end
