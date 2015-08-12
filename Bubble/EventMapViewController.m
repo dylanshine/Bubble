@@ -588,7 +588,7 @@
 - (void) mapSetup {
 
     MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:2500];
-    mapCamera.pitch = 80;
+//    mapCamera.pitch = 80;
     mapCamera.heading = 28.25;
     [self.mapView setCamera:mapCamera animated:NO];
 }
