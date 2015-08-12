@@ -1,52 +1,41 @@
-
 #import "BubbleAnimationView.h"
 
 
 @interface BubbleAnimationView ()
-
-@property (nonatomic, strong) UIImage *dot;
-
+@property (strong, nonatomic) UIImage *dot;
 @end
 
 
 @implementation BubbleAnimationView
 
-+(Class)layerClass
-{
++(Class)layerClass {
     return [CAEmitterLayer class];
 }
 
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if(self)
+- (id)initWithFrame:(CGRect)frame {
+    if(self = [super initWithFrame:frame])
         [self reallyInit];
     
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if(self)
+-(id)initWithCoder:(NSCoder *)aDecoder {
+    if(self = [super initWithCoder:aDecoder])
         [self reallyInit];
     
     return self;
 }
 
--(void)reallyInit
-{
+-(void)reallyInit {
     [self initLayer];
     self.userInteractionEnabled = YES;
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     ((CAEmitterLayer *)self.layer).birthRate += 0.5;
 }
 
--(void)createDot
-{
+-(void)createDot {
     // Circle for the emitter cell. We make it slightly off-center, so that the
     // spin on the particle makes it wobble a bit.
     UIGraphicsBeginImageContextWithOptions(CGSizeMake(80.0, 80.0), NO, 0.0);
@@ -57,13 +46,7 @@
     UIGraphicsEndImageContext();
 }
 
--(void)drawRect:(CGRect)rect
-{
-    
-}
-
--(void)initLayer
-{
+-(void)initLayer {
     [self createDot];
     
     // Exported from ParticlePlayground, with minor edits.
