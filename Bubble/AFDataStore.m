@@ -62,7 +62,7 @@
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     // create API URL and make the call
-    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=15mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:date], [formatter stringFromDate:nextDay]];
+    NSString *url = [NSString stringWithFormat:@"http://api.seatgeek.com/2/events?lat=%f&lon=%f&range=15mi&datetime_local.gte=%@&datetime_local.lt=%@&per_page=1000&aid=11510",currentLocation.coordinate.latitude, currentLocation.coordinate.longitude, [formatter stringFromDate:date], [formatter stringFromDate:nextDay]];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
