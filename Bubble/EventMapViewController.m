@@ -658,7 +658,7 @@
     
     if (velocity.y >= 0) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
+            [UIView animateWithDuration:.3 animations:^{
                 [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
                 
                 self.eventImageTopConstraint.constant = 0;
@@ -669,7 +669,7 @@
     } else {
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
+            [UIView animateWithDuration:.3 animations:^{
                 [scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
                 self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
                 [self.eventImage layoutIfNeeded];
@@ -682,7 +682,7 @@
     
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
+            [UIView animateWithDuration:.3 animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
                 
                 self.eventImageTopConstraint.constant = 0;
@@ -693,7 +693,7 @@
     } else {
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
+            [UIView animateWithDuration:.3 animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
                 
                 self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
