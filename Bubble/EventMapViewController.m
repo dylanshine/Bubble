@@ -24,6 +24,9 @@
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
 #import "ILTranslucentView.h"
+#import "CoreDataStack.h"
+#import "SubscribedEvent.h"
+#import "BBDropDownItem.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 
@@ -49,7 +52,6 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (strong, nonatomic) IGLDropDownMenu *menu;
-@property (strong, nonatomic) NSMutableArray *menuItems;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
@@ -57,6 +59,7 @@
 @property (nonatomic) AFDataStore *dataStore;
 @property (nonatomic) XMPPManager *xmppManager;
 @property (nonatomic) ChatDataManager *chatManager;
+@property (nonatomic) CoreDataStack *coreDataStack;
 
 @property (nonatomic) CLLocation *currentLocation;
 @property (assign, nonatomic) INTULocationRequestID locationRequestID;
@@ -83,6 +86,7 @@
     
     self.xmppManager = [XMPPManager sharedManager];
     self.chatManager = [ChatDataManager sharedManager];
+    self.coreDataStack = [CoreDataStack sharedStack];
     
     self.mapView.delegate = self;
     
@@ -133,9 +137,9 @@
 
 - (void) toggleScrollViewLocation {
     
-    if (self.selectedAnnotation == nil) {
-        return;
-    }
+//    if (self.selectedAnnotation == nil) {
+//        return;
+//    }
     
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
@@ -245,11 +249,18 @@
         self.selectedAnnotation = annotation;
         self.eventDetailsVC.event = annotation.event;
         self.eventImage.image = annotation.event.eventImage;
-        
-        [UIView animateWithDuration:.5
-                         animations:^{
-                             self.chatBubbleButton.alpha = 1;
-                         }];
+        NSLog(@"Annotation Date: %@, Current Date: %@", annotation.event.date.description, [NSDate date].description);
+        if (![annotation.event isToday]) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark.png"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        }
+        if (self.chatBubbleButton.alpha == 0) {
+            [UIView animateWithDuration:.5
+                             animations:^{
+                                 self.chatBubbleButton.alpha = 1;
+                             }];
+        }
     }
     [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
 }
@@ -316,7 +327,22 @@
 
 - (IBAction)chatBubbleTapped:(id)sender {
     
-    [self performSegueWithIdentifier:@"chatSegue" sender:self];
+    BOOL match = NO;
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
+            match = YES;
+        }
+    }
+    if (match == NO) {
+        [self createSubscriptionToEvent:self.eventDetailsVC.event];
+    }
+
+    if ([self.eventDetailsVC.event isToday]) {
+        [self performSegueWithIdentifier:@"chatSegue" sender:self];
+    } else if (match == YES) {
+        [self removeSubscriptionToEvent:self.eventDetailsVC.event];
+    }
+
 }
 
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -412,7 +438,6 @@
 
 -(void)setupMenuScrollView {
     self.scrollView.delegate = self;
-    
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
@@ -558,19 +583,12 @@
 }
 
 -(void) menuSetup {
-    self.menuItems = [[NSMutableArray alloc] init];
-    for (NSInteger i = 0; i<4; i++) {
-        IGLDropDownItem *preferences = [[IGLDropDownItem alloc] init];
-        [preferences setText:@"Menu Item"];
-        [self.menuItems addObject:preferences];
-    }
-    
     self.menu = [[IGLDropDownMenu alloc] init];
+    [self fetchSubscribedEvents];
     [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
     self.menu.menuText = @"Dismiss";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
-    self.menu.dropDownItems = self.menuItems;
     self.menu.gutterY = 5;
     self.menu.paddingLeft = 15;
     self.menu.slidingInOffset = 0;
@@ -580,6 +598,31 @@
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     
+}
+
+-(void)fetchSubscribedEvents {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SubscribedEvent"
+                                              inManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    [fetchRequest setEntity:entity];
+    
+    NSError *error = nil;
+    NSArray *result = [[self.coreDataStack managedObjectContext] executeFetchRequest:fetchRequest error:&error];
+    
+    if (error) {
+        NSLog(@"Unable to execute fetch request.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    } else {
+        NSMutableArray *events = [[NSMutableArray alloc] init];
+        for (SubscribedEvent *event in result) {
+            BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
+            [events addObject:item];
+        }
+        self.menu.dropDownItems = [events copy];
+        [self.menu reloadView];
+    }
 }
 
 - (void) mapSetup {
@@ -620,7 +663,16 @@
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
     
     [self dismissMenu];
-    //    IGLDropDownItem *item = dropDownMenu.dropDownItems[index];
+    BBDropDownItem *item = dropDownMenu.dropDownItems[index];
+    self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
+    [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+    if (self.chatBubbleButton.alpha == 0) {
+        [UIView animateWithDuration:.5
+                         animations:^{
+                             self.chatBubbleButton.alpha = 1;
+                         }];
+    }
+    [self toggleScrollViewLocation];
 }
 
 -(void) dismissMenu {
@@ -637,5 +689,51 @@
     
     [super didReceiveMemoryWarning];
 }
+
+-(void)createSubscriptionToEvent:(EventObject *)event {
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SubscribedEvent"
+                                                         inManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    SubscribedEvent *subEvent = [[SubscribedEvent alloc] initWithEntity:entityDescription
+                                         insertIntoManagedObjectContext:[self.coreDataStack managedObjectContext]];
+    
+    [subEvent setPropertiesWithEvent:event];
+    BBDropDownItem *dropDownItem = [[BBDropDownItem alloc] initWithEvent:subEvent];
+    NSMutableArray *menuItems = [self.menu.dropDownItems mutableCopy];
+    [menuItems addObject:dropDownItem];
+    self.menu.dropDownItems = [menuItems copy];
+    [self.menu reloadView];
+    NSError *error = nil;
+    if (![subEvent.managedObjectContext save:&error]) {
+        NSLog(@"Unable to save managed object context.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    }
+    if ([self.eventDetailsVC.event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+    } else {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+    }
+}
+
+-(void)removeSubscriptionToEvent:(EventObject *)event {
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:event.eventID]) {
+            [[self.coreDataStack managedObjectContext] deleteObject:item.event];
+            NSError *error = nil;
+            if (![[self.coreDataStack managedObjectContext] save:&error]) {
+                NSLog(@"Unable to save managed object context.");
+                NSLog(@"%@, %@", error, error.localizedDescription);
+            }
+            NSMutableArray *items = [self.menu.dropDownItems mutableCopy];
+            [items removeObject:item];
+            self.menu.dropDownItems = [items copy];
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+            [self.menu reloadView];
+        }
+        
+    }
+    
+}
+
 
 @end

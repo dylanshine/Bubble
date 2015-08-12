@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <AFNetworking/AFNetworking.h>
+#import "SubscribedEvent.h"
 
 @interface EventObject : NSObject
 
@@ -16,6 +17,7 @@
 @property (nonatomic, strong) NSString *eventTitle;
 @property (nonatomic, strong) NSString *eventType;
 @property (nonatomic, strong) NSString *eventTime;
+@property (nonatomic, strong) NSDate *date;
 @property (nonatomic, strong) NSString *venueName;
 @property (nonatomic, strong) NSMutableArray *eventPerformers;
 @property (nonatomic, strong) NSString *addressStreet;
@@ -28,13 +30,16 @@
 @property (nonatomic, strong) NSString *eventImageURL;
 @property (nonatomic, strong) UIImage *eventImage;
 @property (nonatomic, strong) NSNumber *eventPrice;
-
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 @property (nonatomic, strong) CLLocation *eventLocation;
+@property (nonatomic) BOOL subscribed;
 
 - (instancetype) initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
 - (instancetype) initWithMeetupDictionary:(NSDictionary *)jsonDict;
+-(instancetype) initWithSubscribedEvent: (SubscribedEvent *)event;
 
 - (void) fetchEventImage;
+
+- (BOOL) isToday;
 
 @end
