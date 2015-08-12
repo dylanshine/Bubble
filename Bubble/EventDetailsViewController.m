@@ -94,6 +94,7 @@
 - (void)setEvent:(EventObject *)event{
     _event = event;
     [self updateEventLabels];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChanged" object:self];
 }
 
 - (void)updateEventLabels {
