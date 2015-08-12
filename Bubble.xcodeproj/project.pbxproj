@@ -224,8 +224,6 @@
 				FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */,
 				8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */,
 				8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */,
-				809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */,
-				809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -233,6 +231,8 @@
 		803185C81B7018B40046CF79 /* Extensions & Overrides */ = {
 			isa = PBXGroup;
 			children = (
+				809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */,
+				809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */,
 				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
 				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
 				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,

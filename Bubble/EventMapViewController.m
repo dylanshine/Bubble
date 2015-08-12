@@ -666,6 +666,32 @@
     }
 }
 
+-(void)eventDetailChanged {
+    EventObject *event = self.eventDetailsVC.event;
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
+            self.eventDetailsVC.event.subscribed = YES;
+        }
+    }
+    if ([event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        self.chatBubbleBookmarkButton.hidden = NO;
+        if (event.subscribed) {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+    } else {
+        self.chatBubbleBookmarkButton.hidden = YES;
+        if (event.subscribed) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
 
 #pragma mark - Core Data Event Subscription Methods
 
@@ -766,31 +792,7 @@
     
 }
 
--(void)eventDetailChanged {
-    EventObject *event = self.eventDetailsVC.event;
-    for (BBDropDownItem *item in self.menu.dropDownItems) {
-        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
-            self.eventDetailsVC.event.subscribed = YES;
-        }
-    }
-    if ([event isToday]) {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
-        self.chatBubbleBookmarkButton.hidden = NO;
-        if (event.subscribed) {
-            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
-        } else {
-            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
-        }
-    } else {
-        self.chatBubbleBookmarkButton.hidden = YES;
-        if (event.subscribed) {
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
-        } else {
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
-        }
-        
-    }
-}
+
 
 
 @end
