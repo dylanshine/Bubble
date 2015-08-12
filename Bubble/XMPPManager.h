@@ -1,15 +1,7 @@
-//
-//  XMPPManager.h
-//  Bubble
-//
-//  Created by Dylan Shine on 7/30/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
-#import <Foundation/Foundation.h>
+#import "BBMessage.h"
 #import "XMPP.h"
 #import "XMPPRoomMemoryStorage.h"
-#import "BBMessage.h"
+#import <Foundation/Foundation.h>
 
 @protocol MessageDelegate <NSObject>
 @required
@@ -23,17 +15,15 @@
 @end
 
 @interface XMPPManager : NSObject
+@property (weak, nonatomic) id<MessageDelegate>messageDelegate;
+@property (weak, nonatomic) id<ChatOccupantDelegate>chatOccupantDelegate;
+@property (strong, nonatomic) XMPPStream *xmppStream;
+@property (strong, nonatomic) XMPPRoom *xmppRoom;
+@property (strong, nonatomic) NSString *currentRoomId;
 
-@property (nonatomic, weak) id<MessageDelegate>messageDelegate;
-@property (nonatomic, weak) id<ChatOccupantDelegate>chatOccupantDelegate;
-@property (nonatomic) XMPPStream *xmppStream;
-@property (nonatomic) XMPPRoom *xmppRoom;
-@property (nonatomic) NSString *currentRoomId;
-
-+(instancetype)sharedManager;
--(BOOL)connect;
--(void)disconnect;
--(void)joinOrCreateRoom:(NSString *)room;
++ (instancetype)sharedManager;
+- (BOOL)connect;
+- (void)disconnect;
+- (void)joinOrCreateRoom:(NSString *)room;
 - (void) sendMessage: (BBMessage *)message;
-
 @end
