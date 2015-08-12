@@ -214,6 +214,7 @@
     if (self.mapView.annotations.count > 1){
         [self moveMapToClosestAnnotation];
     }
+    [self.view endEditing:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
