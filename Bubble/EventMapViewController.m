@@ -28,6 +28,7 @@
 #import "CoreDataStack.h"
 #import "SubscribedEvent.h"
 #import "BBDropDownItem.h"
+#import "MKMapView+ZoomLevel.h"
 
 @interface EventMapViewController () <MKMapViewDelegate, AFDataStoreDelegate, UIScrollViewDelegate, UISearchBarDelegate, UIGestureRecognizerDelegate, IGLDropDownMenuDelegate>
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
@@ -102,6 +103,9 @@
                                              selector:@selector(eventDetailChanged)
                                                  name:@"EventChanged"
                                                object:nil];
+    UIPinchGestureRecognizer *pinchRecognizer = [[UIPinchGestureRecognizer alloc]initWithTarget:self action:@selector(didPinchMap:)];
+    [pinchRecognizer setDelegate:self];
+    [self.mapView addGestureRecognizer:pinchRecognizer];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
@@ -224,6 +228,7 @@
         annotation.event = event;
         annotation.title = event.eventTitle;
         annotation.eventImageName = [annotation getEventImageName:annotation.event];
+        annotation.eventScore = event.eventScore;
         
         [self.mapView addAnnotation:annotation];
     }
@@ -303,7 +308,7 @@
 #pragma mark - Map
 
 - (void) mapSetup {
-    MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:2500];
+    MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:9500];
     mapCamera.heading = 28.25;
     [self.mapView setCamera:mapCamera animated:NO];
 }
@@ -321,6 +326,40 @@
             [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
         }
         
+    }
+}
+-(void)didPinchMap:(UIGestureRecognizer*)gestureRecognizer{
+    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+//        NSLog(@"%d", [self.mapView currentZoomLevel]);
+        double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
+        double sizeMultiplier;
+        if (newAnnotationSize/2 > 13){
+            newAnnotationSize = newAnnotationSize * 1.25;
+        }
+        else if(newAnnotationSize/2 < 13){
+            newAnnotationSize = newAnnotationSize * 0.7;
+        }
+        
+        for (id <MKAnnotation>annotation in self.mapView.annotations) {
+            
+            if ([annotation isKindOfClass:[MKUserLocation class]])
+                continue;
+            if ([annotation isKindOfClass:[BBAnnotation class]])
+            {
+                BBAnnotation * annon = annotation;
+                if ([annon.eventScore doubleValue] > 100){
+                    sizeMultiplier = 1.25;
+                }
+                else if ([annon.eventScore doubleValue] < 1 && [annon.eventScore doubleValue] > 0.65){
+                    sizeMultiplier = 1.25;
+                }
+                else{
+                    sizeMultiplier = 1;
+                }
+                MKAnnotationView *pinView = [self.mapView viewForAnnotation:annotation];
+                pinView.frame = CGRectMake(0,0,newAnnotationSize * sizeMultiplier,newAnnotationSize * sizeMultiplier);
+            }
+        }
     }
 }
 
@@ -407,6 +446,8 @@
     if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
     }
+    double mapZoomLevel = [self.mapView currentZoomLevel] * 2;
+    double sizeMultiplier = 1.25;
     
     if (!annotationView) {
         
@@ -416,7 +457,15 @@
         
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
-        annotationView.frame = CGRectMake(0,0,30,30);
+        if ([eventAnnotation.eventScore doubleValue] > 100){
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier);
+        }
+        else if ([eventAnnotation.eventScore doubleValue] < 1 && [eventAnnotation.eventScore doubleValue] > 0.65){
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier);
+        }
+        else{
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel, mapZoomLevel);
+        }
         
     } else {
         annotationView.annotation = annotation;
