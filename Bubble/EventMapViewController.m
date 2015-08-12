@@ -720,6 +720,9 @@
     [menuItems addObject:dropDownItem];
     self.menu.dropDownItems = [menuItems copy];
     [self.menu reloadView];
+    if (self.menuOpen) {
+        [self openMenu];
+    }
     NSError *error = nil;
     event.subscribed = YES;
     [self eventDetailChanged];
@@ -742,6 +745,9 @@
             [items removeObject:item];
             self.menu.dropDownItems = [items copy];
             [self.menu reloadView];
+            if (self.menuOpen) {
+                [self openMenu];
+            }
         }
     }
     event.subscribed = NO;
