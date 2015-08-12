@@ -1,50 +1,33 @@
-//
-//  EventDetailsViewController.m
-//  Bubble
-//
-//  Created by Jordan Guggenheim on 7/29/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "EventDetailsViewController.h"
 #import "ILTranslucentView.h"
+#import "UILabel+AutoresizeFontMultiLine.h"
+#import "WebViewController.h"
 #import <Masonry/Masonry.h>
 #import <Parse.h>
-#import "WebViewController.h"
-#import "UILabel+AutoresizeFontMultiLine.h"
+
 
 @interface EventDetailsViewController ()
-
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
 @property (weak, nonatomic) IBOutlet UILabel *eventStartTime;
 @property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
 @property (weak, nonatomic) IBOutlet UILabel *eventAddress;
 @property (weak, nonatomic) IBOutlet UILabel *eventTicketsTitle;
 @property (weak, nonatomic) IBOutlet UILabel *eventTickets;
-
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *getDirectionsIconWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *getTicketsIconWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *ticketHeaderTop;
-
-- (IBAction)getTicketsTapped:(id)sender;
-
 @end
 
 @implementation EventDetailsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self makeTranslucentBackground];
     [self adjustFontForDeviceSize];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    [super viewDidAppear:YES];
-}
 
-- (void) makeTranslucentBackground {
+- (void)makeTranslucentBackground {
     
     ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
     
@@ -59,7 +42,7 @@
     }];
 }
 
-- (void) adjustFontForDeviceSize {
+- (void)adjustFontForDeviceSize {
     
     if (self.eventTitle.text.length > 20) {
         self.eventTitle.numberOfLines = 2;
@@ -109,13 +92,12 @@
 }
 
 - (void)setEvent:(EventObject *)event{
-    
     _event = event;
     [self updateEventLabels];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"EventChanged" object:self];
 }
 
-- (void) updateEventLabels {
+- (void)updateEventLabels {
     self.eventTitle.text = self.event.eventTitle;
     
     self.eventStartTime.text = [NSString stringWithFormat:@"Start time: %@",self.event.eventTime];
@@ -127,10 +109,6 @@
     self.eventTickets.text = [NSString stringWithFormat:@"%@\n\n%@\n%@\n%@",self.event.ticketsAvailable,self.event.ticketPriceAvg,self.event.ticketPriceHigh,self.event.ticketPriceLow];
     
     [self adjustFontForDeviceSize];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
 }
 
 - (IBAction)getTicketsTapped:(id)sender {
@@ -154,6 +132,7 @@
     NSURL *url = [NSURL URLWithString:@"seatgeek://app"];
     return [[UIApplication sharedApplication] canOpenURL:url];
 }
+
 - (BOOL) meetupInstalled {
     NSURL *url = [NSURL URLWithString:@"meetup://app"];
     return [[UIApplication sharedApplication] canOpenURL:url];

@@ -1,22 +1,11 @@
-//
-//  ApplicationViewController.m
-//  Bubble
-//
-//  Created by Jordan Guggenheim on 7/31/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
-#import <Masonry/Masonry.h>
-
 #import "ApplicationViewController.h"
 #import "EventMapViewController.h"
+#import <Masonry/Masonry.h>
 #import <Parse.h>
 #import <SVProgressHUD.h>
 
 @interface ApplicationViewController ()
-
 @property (weak, nonatomic) IBOutlet UIView *containerView;
-
 @end
 
 @implementation ApplicationViewController
@@ -28,15 +17,8 @@
                                              selector:@selector(queueViewController)
                                                  name:@"loginComplete"
                                                object:nil];
-    
     [self queueViewController];
 }
-
-
-- (void)viewDidAppear:(BOOL)animated{
-    
-}
-
 
 - (void) queueViewController {
     [SVProgressHUD dismiss];
@@ -53,11 +35,6 @@
         [self displayViewController:mainVC];
     }
 }
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-}
-
 
 - (void) displayViewController:(UIViewController *) vc {
     
@@ -92,14 +69,5 @@
     
     [vc didMoveToParentViewController:self];
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

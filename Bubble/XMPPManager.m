@@ -1,19 +1,11 @@
-//
-//  XMPPManager.m
-//  Bubble
-//
-//  Created by Dylan Shine on 7/30/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "XMPPManager.h"
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import <Parse.h>
 #import <XMPPReconnect.h>
 
-@interface XMPPManager()
-@property (nonatomic) XMPPReconnect *xmppReconnect;
+@interface XMPPManager ()
+@property (strong, nonatomic) XMPPReconnect *xmppReconnect;
 @end
 
 @implementation XMPPManager
@@ -27,6 +19,8 @@
     
     return _sharedManager;
 }
+
+#pragma mark - Setup Stream and Connect to Server
 
 - (void)setupStream {
     self.xmppStream = [[XMPPStream alloc] init];
@@ -67,6 +61,32 @@
     return YES;
 }
 
+- (void)xmppStreamDidConnect:(XMPPStream *)sender {
+    NSError *error = nil;
+    if(![self.xmppStream authenticateAnonymously:&error]) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                            message:[NSString stringWithFormat:@"Can't connect to server %@", [error localizedDescription]]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"Ok"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    }
+}
+
+- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
+    NSLog(@"User Authenticated.");
+    self.xmppReconnect = [[XMPPReconnect alloc] init];
+    [self.xmppReconnect activate:self.xmppStream];
+    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
+    [self goOnline];
+    
+    if (self.currentRoomId && ![self.xmppRoom isJoined]) {
+        [self joinOrCreateRoom:self.currentRoomId];
+    }
+}
+
+#pragma mark - XMPP Presence
+
 - (void)xmppStream:(XMPPStream *)sender didReceivePresence:(XMPPPresence *)presence {
     
     NSString *presenceType = [presence type]; // online/offline
@@ -102,36 +122,12 @@
     [self.xmppStream disconnect];
 }
 
-- (void)xmppStreamDidConnect:(XMPPStream *)sender {
-    NSError *error = nil;
-    if(![self.xmppStream authenticateAnonymously:&error]) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
-                                                            message:[NSString stringWithFormat:@"Can't connect to server %@", [error localizedDescription]]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"Ok"
-                                                  otherButtonTitles:nil];
-        [alertView show];
-    }
-}
-
-- (void)xmppStreamDidAuthenticate:(XMPPStream *)sender {
-    NSLog(@"User Authenticated.");
-    self.xmppReconnect = [[XMPPReconnect alloc] init];
-    [self.xmppReconnect activate:self.xmppStream];
-    [self.xmppReconnect addDelegate:self delegateQueue:dispatch_get_main_queue()];
-    [self goOnline];
-    
-    if (self.currentRoomId && ![self.xmppRoom isJoined]) {
-        [self joinOrCreateRoom:self.currentRoomId];
-    }
-}
-
-
 - (BOOL)xmppStream:(XMPPStream *)sender didReceiveIQ:(XMPPIQ *)iq {
     NSLog(@"%@",iq.description);
     return NO;
 }
 
+#pragma mark - XMPP Room
 
 - (void)joinOrCreateRoom:(NSString *)room {
     self.currentRoomId = room;
@@ -167,18 +163,11 @@
     [self.chatOccupantDelegate newUserJoinedChatroom];
 }
 
-- (void)xmppRoomDidCreate:(XMPPRoom *)sender{
-    NSLog(@"%@: %@", @"xmppRoomDidCreate", sender);
-}
-
 - (void)xmppRoomDidJoin:(XMPPRoom *)sender{
     [self.chatOccupantDelegate currentUserConnectedToChatroom];
 }
 
-- (void)dealloc {
-    [self.xmppStream removeDelegate:self];
-    [self.xmppRoom removeDelegate:self];
-}
+#pragma mark - Send Message
 
 - (void) sendMessage: (BBMessage *)message {
     if([message.text length] > 0) {
@@ -193,4 +182,9 @@
     }
 }
 
+#pragma mark - Dealloc
+- (void)dealloc {
+    [self.xmppStream removeDelegate:self];
+    [self.xmppRoom removeDelegate:self];
+}
 @end

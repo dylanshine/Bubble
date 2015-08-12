@@ -1,36 +1,26 @@
-//
-//  BBChatViewController.m
-//  Bubble
-//
-//  Created by Lukas Thoms on 7/30/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "BBChatViewController.h"
 #import "BBMessage.h"
-#import <JSQMessages.h>
-#import <JSQMessagesBubbleImageFactory.h>
-#import <Parse.h>
-#import "XMPPManager.h"
 #import "ChatDataManager.h"
-#import <Masonry.h>
-#import <SKPolygraph.h>
-#import <TSMessages/TSMessageView.h>
 #import "Friend.h"
 #import "FriendCell.h"
 #import "ILTranslucentView.h"
+#import "XMPPManager.h"
+#import <JSQMessages.h>
+#import <JSQMessagesBubbleImageFactory.h>
+#import <Masonry.h>
+#import <Parse.h>
+#import <SKPolygraph.h>
+#import <TSMessages/TSMessageView.h>
 
 
 @interface BBChatViewController () <MessageDelegate,ChatOccupantDelegate, UITableViewDelegate, UITableViewDataSource>
-
 @property (strong, nonatomic) UITableView *friendTV;
-@property (nonatomic, assign) BOOL menuShown;
+@property (assign, nonatomic) BOOL menuShown;
 @property (strong, nonatomic) MASConstraint *rightConstraint;
 @property (strong, nonatomic) XMPPManager *xmppManager;
 @property (strong, nonatomic) ChatDataManager *chatManager;
 @property (strong, nonatomic) JSQMessagesAvatarImage *chatAvatar;
-@property (nonatomic, assign) BOOL pushNotificationsSent;
-
+@property (assign, nonatomic) BOOL pushNotificationsSent;
 @end
 
 @implementation BBChatViewController
@@ -39,15 +29,30 @@
     [super viewDidLoad];
     [self userCurrentLocationCheck];
     [self setupFriendsTableViewMenu];
+    [self setupChat];
+    self.title = self.eventTitle;
+    self.inputToolbar.contentView.leftBarButtonItem = nil;
+}
+
+#pragma mark - Setup
+
+-(void)setupChat {
     self.senderDisplayName = [PFUser currentUser][@"name"];
     self.senderId = [PFUser currentUser][@"facebookId"];
     self.xmppManager = [XMPPManager sharedManager];
     self.chatManager = [ChatDataManager sharedManager];
     self.xmppManager.messageDelegate = self;
     self.xmppManager.chatOccupantDelegate = self;
-    self.title = self.eventTitle;
-    self.inputToolbar.contentView.leftBarButtonItem = nil;
 }
+
+-(void)checkIfNewRoom {
+    if (self.roomID != self.xmppManager.currentRoomId) {
+        [self.xmppManager.xmppRoom deactivate];
+        [self.xmppManager joinOrCreateRoom:self.roomID];
+    }
+}
+
+#pragma mark - View Controller Lifecycle
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -58,38 +63,52 @@
     }
 }
 
-
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self finishReceivingMessageAnimated:NO];
 }
 
+#pragma mark - IBActions
+
 - (IBAction)doneButtonPressed:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+- (IBAction)showFriends:(UIBarButtonItem *)sender {
+    if (!self.menuShown) {
+        [UIView animateWithDuration:.6 animations:^{
+            self.rightConstraint.offset(100.0);
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            [self.friendTV reloadData];
+            self.menuShown = YES;
+        }];
+    } else {
+        [UIView animateWithDuration:.6 animations:^{
+            self.rightConstraint.offset(0);
+            [self.view layoutIfNeeded];
+        } completion:^(BOOL finished) {
+            self.menuShown = NO;
+        }];
+    }
 }
 
+#pragma mark - Sending Message
+
 - (void)didPressSendButton:(UIButton *)button withMessageText:(NSString *)text senderId:(NSString *)senderId senderDisplayName:(NSString *)senderDisplayName date:(NSDate *)date {
-    
     BBMessage *message =[[BBMessage alloc] initWithText:text];
     [self.xmppManager sendMessage:message];
     [self finishSendingMessageAnimated:YES];
-    
 }
 
 #pragma mark - JSQMessages CollectionView DataSource
 
-- (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id<JSQMessageData>)collectionView:(JSQMessagesCollectionView *)collectionView messageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     return [self.chatManager.messages objectAtIndex:indexPath.item];
 }
 
-- (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id<JSQMessageBubbleImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView messageBubbleImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
     BBMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     
     UIColor *messageBubbleColor = [self getMessageContentColor:message];
@@ -102,7 +121,7 @@
     return [bubbleFactory incomingMessagesBubbleImageWithColor:messageBubbleColor];
 }
 
--(UIColor*)getMessageContentColor:(BBMessage*)message{
+- (UIColor*)getMessageContentColor:(BBMessage*)message {
     float score = [[SKPolygraph sharedInstance] analyseSentiment:message.text];
     UIColor *color;
     if (score > 0){
@@ -117,8 +136,7 @@
     return color;
 }
 
-- (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath
-{
+- (id<JSQMessageAvatarImageDataSource>)collectionView:(JSQMessagesCollectionView *)collectionView avatarImageDataForItemAtIndexPath:(NSIndexPath *)indexPath {
  
     JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     
@@ -129,8 +147,7 @@
     
 }
 
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.item % 3 == 0) {
         JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
@@ -140,8 +157,7 @@
     return nil;
 }
 
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     JSQMessage *message = [self.chatManager.messages objectAtIndex:indexPath.item];
     
     if ([message.senderId isEqualToString:self.senderId]) {
@@ -162,8 +178,7 @@
     return attributedName;
 }
 
-- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+- (NSAttributedString *)collectionView:(JSQMessagesCollectionView *)collectionView attributedTextForCellBottomLabelAtIndexPath:(NSIndexPath *)indexPath {
     return nil;
 }
 
@@ -198,8 +213,7 @@
 }
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForCellTopLabelAtIndexPath:(NSIndexPath *)indexPath {
     
     if (indexPath.item % 3 == 0) {
         return kJSQMessagesCollectionViewCellLabelHeightDefault;
@@ -210,11 +224,8 @@
 
 
 - (CGFloat)collectionView:(JSQMessagesCollectionView *)collectionView
-                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath
-{
-    /**
-     *  iOS7-style sender name labels
-     */
+                   layout:(JSQMessagesCollectionViewFlowLayout *)collectionViewLayout heightForMessageBubbleTopLabelAtIndexPath:(NSIndexPath *)indexPath {
+   
     JSQMessage *currentMessage = [self.chatManager.messages objectAtIndex:indexPath.item];
     if ([[currentMessage senderId] isEqualToString:self.senderId]) {
         return 0.0f;
@@ -226,22 +237,37 @@
             return 0.0f;
         }
     }
-    
     return kJSQMessagesCollectionViewCellLabelHeightDefault;
 }
+
+#pragma mark - XMPP Protocol Methods
 
 - (void)newMessageReceived:(BBMessage *)messageContent {
     [self.chatManager.messages addObject:messageContent];
     [self finishReceivingMessageAnimated:YES];
 }
 
--(void)grabCurrentUserAvatar {
+- (void)currentUserConnectedToChatroom {
+    NSLog(@"You have successfully connected to chat room: %@",self.roomID);
+    [self grabAvatarsForUsersInChat];
+    [self.chatManager.messages removeAllObjects];
+    [self.collectionView reloadData];
+}
+
+- (void)newUserJoinedChatroom {
+    NSLog(@"New user joined the chat room");
+    [self grabAvatarsForUsersInChat];
+}
+
+#pragma mark - Facebook Profile Pictures
+
+- (void)grabCurrentUserAvatar {
     [self.chatManager fetchUserProfilePictureWithFaceBookId:[PFUser currentUser][@"facebookId"] Completion:^(UIImage *profileImage) {
         [self setAvatarImage:profileImage User:[PFUser currentUser][@"facebookId"]];
     }];
 }
 
--(void)grabAvatarsForUsersInChat {
+- (void)grabAvatarsForUsersInChat {
     NSArray *currentOccupants =  [(XMPPRoomMemoryStorage *)self.xmppManager.xmppRoom.xmppRoomStorage occupants];
     
     for (XMPPRoomOccupantMemoryStorageObject *occupant in currentOccupants) {
@@ -261,19 +287,14 @@
     }
 }
 
--(void)setAvatarImage:(UIImage *)image User:(NSString *)user {
+- (void)setAvatarImage:(UIImage *)image User:(NSString *)user {
     JSQMessagesAvatarImage *avatarImage = [JSQMessagesAvatarImageFactory
                                            avatarImageWithImage:image
                                            diameter:kJSQMessagesCollectionViewAvatarSizeDefault];
     self.chatManager.avatars[user] = avatarImage;
 }
 
--(void)currentUserConnectedToChatroom {
-    NSLog(@"You have successfully connected to chat room: %@",self.roomID);
-    [self grabAvatarsForUsersInChat];
-    [self.chatManager.messages removeAllObjects];
-    [self.collectionView reloadData];
-}
+#pragma mark - Sending Push Notifications
 
 - (void) sendPushNotificationToEventFriends:(NSArray *)eventUsers {
 
@@ -303,12 +324,8 @@
     }
 }
 
--(void)newUserJoinedChatroom {
-    NSLog(@"New user joined the chat room");
-    [self grabAvatarsForUsersInChat];
-}
 
--(void)userCurrentLocationCheck {
+- (void)userCurrentLocationCheck {
     CLLocationDistance distance = [self.currentUserLocation distanceFromLocation:self.eventLocation];
     if (distance >= 50000.0) {
         [self currentUserOutsideOfBubble];
@@ -317,7 +334,7 @@
     }
 }
 
--(void)currentUserOutsideOfBubble {
+- (void)currentUserOutsideOfBubble {
     if (![[PFUser currentUser][@"eventID"] isEqualToString:@""]) {
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"eventID"] = @"";
@@ -325,7 +342,7 @@
     }
 }
 
--(void)currentUserInsideOfBubble {
+- (void)currentUserInsideOfBubble {
     if (self.roomID != [PFUser currentUser][@"eventID"]) {
         PFUser *currentUser = [PFUser currentUser];
         currentUser[@"eventID"] = self.roomID;
@@ -348,14 +365,7 @@
     }
 }
 
--(void)checkIfNewRoom {
-    if (self.roomID != self.xmppManager.currentRoomId) {
-        [self.xmppManager.xmppRoom deactivate];
-        [self.xmppManager joinOrCreateRoom:self.roomID];
-    }
-}
-
-#pragma mark - Friends At Event
+#pragma mark - Friends Tableview Menu
 
 - (void)setupFriendsTableViewMenu {
     self.friendsAtEvent = [[NSMutableArray alloc]init];
@@ -417,26 +427,6 @@
     cell.friendImageView.clipsToBounds = YES;
     
     return cell;
-}
-
-- (IBAction)showFriends:(UIBarButtonItem *)sender {
-    if (!self.menuShown) {
-        [UIView animateWithDuration:.6 animations:^{
-            self.rightConstraint.offset(100.0);
-            [self.view layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            [self.friendTV reloadData];
-            self.menuShown = YES;
-        }];
-    } else {
-        [UIView animateWithDuration:.6 animations:^{
-            self.rightConstraint.offset(0);
-            [self.view layoutIfNeeded];
-        } completion:^(BOOL finished) {
-            self.menuShown = NO;
-        }];
-    }
-    
 }
 
 

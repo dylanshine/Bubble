@@ -1,14 +1,6 @@
-//
-//  SubscribedEvent.m
-//  
-//
-//  Created by Lukas Thoms on 8/12/15.
-//
-//
 
 #import "SubscribedEvent.h"
 #import "EventObject.h"
-
 
 @implementation SubscribedEvent
 

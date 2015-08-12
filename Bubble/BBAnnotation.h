@@ -1,21 +1,11 @@
-//
-//  BBAnnotation.h
-//  Bubble
-//
-//  Created by Jordan Guggenheim on 7/28/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
+#import "EventObject.h"
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import "EventObject.h"
 
 @interface BBAnnotation : MKPointAnnotation
+@property (strong, nonatomic) EventObject *event;
+@property (strong, nonatomic) NSString *eventImageName;
 
-@property (nonatomic, strong) EventObject *event;
-@property (nonatomic, strong) NSString *eventImageName;
-
--(NSString*)getEventImageName:(EventObject*)eventName;
-
+- (NSString*)getEventImageName:(EventObject*)eventName;
 @end
 
