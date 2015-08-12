@@ -59,7 +59,7 @@
 
 -(void)drawRect:(CGRect)rect
 {
-
+    
 }
 
 -(void)initLayer
@@ -70,12 +70,13 @@
     
     CAEmitterLayer *emitterLayer = (CAEmitterLayer *)self.layer;
     emitterLayer.name = @"emitterLayer";
-    CGPoint emitterPosition = CGPointMake(CGRectGetWidth(self.frame) * .75, CGRectGetHeight(self.frame) * .5);
-//    if([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPhone) emitterPosition.y = 10.0;
+
+    CGPoint emitterPosition = CGPointMake(CGRectGetWidth(self.frame)/2 + 50, CGRectGetHeight(self.frame)-50);
     emitterLayer.emitterPosition = emitterPosition;
     emitterLayer.emitterZPosition = 0;
     
-    emitterLayer.emitterSize = CGSizeMake(CGRectGetWidth(self.frame) / 8.0, MAX(CGRectGetHeight(self.frame) / 30.0, 1.0));
+    emitterLayer.emitterSize = CGSizeMake(CGRectGetWidth(self.frame)*1.25,CGRectGetHeight(self.frame)*.2);
+
     emitterLayer.emitterDepth = 0.00;
     
     emitterLayer.emitterShape = kCAEmitterLayerRectangle;
@@ -97,7 +98,8 @@
     emitterCell.minificationFilterBias = 0.00;
     
     emitterCell.scale = CGRectGetWidth(self.frame) / 1000.0;
-    emitterCell.scaleRange = emitterCell.scale * 0.75;
+
+    emitterCell.scaleRange = emitterCell.scale ;
     emitterCell.scaleSpeed = -0.03;
     
     emitterCell.color = [[UIColor whiteColor] CGColor] ;
@@ -109,15 +111,15 @@
     emitterCell.redSpeed = .01;
     emitterCell.greenSpeed = .2;
     emitterCell.blueSpeed = .3;
-    emitterCell.alphaSpeed = -0.30;
+    emitterCell.alphaSpeed = -0.2;
     
-    emitterCell.lifetime = 8.00;
-    emitterCell.lifetimeRange = 0.50;
-    emitterCell.birthRate = 1.5;
+    emitterCell.lifetime = 50.00;
+    emitterCell.lifetimeRange = 1;
+    emitterCell.birthRate = 5;
     emitterCell.velocity = 4.00;
     emitterCell.velocityRange = 1.00;
     emitterCell.xAcceleration = 0.00;
-    emitterCell.yAcceleration = -30.00;
+    emitterCell.yAcceleration = -40.00;
     emitterCell.zAcceleration = 0.00;
     
     emitterCell.spin = 6.109;

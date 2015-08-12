@@ -12,6 +12,7 @@
 		175E54DE1B6BDADF002A7CAA /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54DD1B6BDADF002A7CAA /* LoginViewController.m */; };
 		175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */; };
 		1760C08B1B73F5620013C287 /* BubbleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1760C08A1B73F5620013C287 /* BubbleAnimationView.m */; };
+		1760C1091B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 1760C1081B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m */; };
 		1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650691B697CAD00A68FF9 /* EventDetailsViewController.m */; };
 		178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
@@ -63,6 +64,8 @@
 		175E54E01B6BFEB6002A7CAA /* FacebookLoginManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookLoginManager.m; sourceTree = "<group>"; };
 		1760C0891B73F5620013C287 /* BubbleAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BubbleAnimationView.h; sourceTree = "<group>"; };
 		1760C08A1B73F5620013C287 /* BubbleAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BubbleAnimationView.m; sourceTree = "<group>"; };
+		1760C1071B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+AutoresizeFontMultiLine.h"; sourceTree = "<group>"; };
+		1760C1081B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+AutoresizeFontMultiLine.m"; sourceTree = "<group>"; };
 		178650681B697CAD00A68FF9 /* EventDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventDetailsViewController.h; sourceTree = "<group>"; };
 		178650691B697CAD00A68FF9 /* EventDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EventDetailsViewController.m; sourceTree = "<group>"; };
 		178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBScrollViewPassThrough.h; sourceTree = "<group>"; };
@@ -234,6 +237,8 @@
 				1722EE471B7101280058ED13 /* BBScrollViewNotifying.h */,
 				801114081B725FD5005FF955 /* BBSearchViewPassThrough.h */,
 				801114091B725FD5005FF955 /* BBSearchViewPassThrough.m */,
+				1760C1071B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.h */,
+				1760C1081B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m */,
 			);
 			name = "Extensions & Overrides";
 			sourceTree = "<group>";
@@ -361,7 +366,7 @@
 				TargetAttributes = {
 					8087EE171B66D28B009258E5 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SN6947879T;
+						DevelopmentTeam = 9RXLE5FXUN;
 					};
 				};
 			};
@@ -451,6 +456,7 @@
 				FC688F071B7A3820003B46A9 /* CoreDataStack.m in Sources */,
 				175E54E11B6BFEB6002A7CAA /* FacebookLoginManager.m in Sources */,
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
+				1760C1091B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
 				8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */,

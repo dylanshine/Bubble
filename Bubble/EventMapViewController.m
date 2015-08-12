@@ -24,6 +24,7 @@
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
 #import "ILTranslucentView.h"
+#import <Parse.h>
 #import "CoreDataStack.h"
 #import "SubscribedEvent.h"
 #import "BBDropDownItem.h"
@@ -40,6 +41,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchBarXConstraint;
 @property (weak, nonatomic) IBOutlet BBSearchViewPassThrough *searchContainer;
 @property (weak, nonatomic) IBOutlet UIButton *chatBubbleButton;
+@property (weak, nonatomic) IBOutlet UILabel *numberParticipantsLabel;
 @property (weak, nonatomic) IBOutlet UIButton *dateSelectorButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *dateSelectorConstraint;
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
@@ -249,7 +251,9 @@
         self.selectedAnnotation = annotation;
         self.eventDetailsVC.event = annotation.event;
         self.eventImage.image = annotation.event.eventImage;
-        NSLog(@"Annotation Date: %@, Current Date: %@", annotation.event.date.description, [NSDate date].description);
+
+        [self fetchChatParticipantCount];
+        
         if (![annotation.event isToday]) {
             [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark.png"] forState:UIControlStateNormal];
         } else {
@@ -441,14 +445,14 @@
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 70;
+        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
         self.scrollViewMiniViewPosition = self.view.frame.size.height - 80;
     } else if (self.view.frame.size.width == 375){
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 80;
+        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
     } else {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 85;
+        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
     }
     
     self.scrollView.scrollEnabled = NO;
@@ -628,7 +632,7 @@
 - (void) mapSetup {
 
     MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:2500];
-    mapCamera.pitch = 80;
+//    mapCamera.pitch = 80;
     mapCamera.heading = 28.25;
     [self.mapView setCamera:mapCamera animated:NO];
 }
@@ -690,6 +694,21 @@
     [super didReceiveMemoryWarning];
 }
 
+- (void) fetchChatParticipantCount {
+    
+    if (self.selectedAnnotation.event.eventID) {
+        PFQuery *query = [PFUser query];
+        [query whereKey:@"eventID" equalTo:self.selectedAnnotation.event.eventID];
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (!error) {
+                self.numberParticipantsLabel.text = [NSString stringWithFormat:@"%lu participants",(unsigned long)objects.count];
+            } else {
+                NSLog(@"Error fetching users in event");
+            }
+        }];
+    }
+}
+
 -(void)createSubscriptionToEvent:(EventObject *)event {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SubscribedEvent"
                                                          inManagedObjectContext:[self.coreDataStack managedObjectContext]];
@@ -734,6 +753,5 @@
     }
     
 }
-
 
 @end

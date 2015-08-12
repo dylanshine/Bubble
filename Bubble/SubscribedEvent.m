@@ -50,9 +50,7 @@
     if ([event.eventImage isKindOfClass:[UIImage class]]) {
         self.eventImage = UIImagePNGRepresentation(event.eventImage);
     }
-    if ([event.eventPrice isKindOfClass:[NSNumber class]]) {
-        self.eventPrice = event.eventPrice;
-    }
+
     self.latitude = @(event.coordinate.latitude);
     self.longitude = @(event.coordinate.longitude);
     self.date = event.date;
