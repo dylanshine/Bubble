@@ -110,6 +110,27 @@
     [self adjustFontForDeviceSize];
 }
 
+
+- (IBAction)getDirectionsTapped:(id)sender {
+
+    if ([self googleMapsInstalled]) {
+         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"comgooglemaps://?saddr=%f,%f&daddr=%f,%f&directionsmode=driving",
+                                                                          self.currentLocation.latitude,
+                                                                          self.currentLocation.longitude,
+                                                                          self.event.eventLocation.coordinate.latitude,
+                                                                          self.event.eventLocation.coordinate.longitude]]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://maps.apple.com/?saddr=%f,%f&daddr=%f,%f",
+                                                                         self.currentLocation.latitude,
+                                                                         self.currentLocation.longitude,
+                                                                         self.event.eventLocation.coordinate.latitude,
+                                                                         self.event.eventLocation.coordinate.longitude]]];
+    }
+    
+    
+}
+
+
 - (IBAction)getTicketsTapped:(id)sender {
 
     if (![self.event.eventType isEqualToString:@"meetup"] && [self seatGeekInstalled]) {
