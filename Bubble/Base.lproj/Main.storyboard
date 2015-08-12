@@ -327,6 +327,9 @@
                                 <state key="normal" image="Get-Directions">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="getDirectionsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="J1g-eb-SAy"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get directions" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvV-fm-P5g" userLabel="Get Directions">
                                 <rect key="frame" x="215" y="221" width="78" height="16"/>

@@ -177,6 +177,8 @@
         
         if (status == INTULocationStatusSuccess) {
             strongSelf.currentLocation = currentLocation;
+            strongSelf.eventDetailsVC.currentLocation = currentLocation.coordinate;
+            
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
                 
@@ -375,6 +377,7 @@
         self.scrollView.scrollEnabled = YES;
         self.selectedAnnotation = annotation;
         self.eventDetailsVC.event = annotation.event;
+        self.eventDetailsVC.currentLocation = self.currentLocation.coordinate;
         self.eventImage.image = annotation.event.eventImage;
         
         [self fetchChatParticipantCount];
