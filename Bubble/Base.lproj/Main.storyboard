@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="cni-Eh-A46">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
@@ -178,6 +178,19 @@
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rkk-4f-xfG">
+                                        <rect key="frame" x="8" y="-19" width="38" height="38"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="38" id="1Ec-CZ-Xda"/>
+                                            <constraint firstAttribute="width" constant="38" id="x74-Uv-hl8"/>
+                                        </constraints>
+                                        <state key="normal" title="Button" image="bookmark">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="chatBubbleBookmarkTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WEY-Hr-5A1"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="Y4C-VX-sVI" secondAttribute="trailing" id="3Go-mA-S1c"/>
@@ -186,8 +199,11 @@
                                     <constraint firstItem="kHV-DV-5nP" firstAttribute="centerX" secondItem="S3G-Yy-LaT" secondAttribute="centerX" id="Bx8-Tu-4Ws"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="bottom" secondItem="Y4C-VX-sVI" secondAttribute="top" constant="400" id="Dio-Bj-3Mt"/>
                                     <constraint firstItem="kHV-DV-5nP" firstAttribute="top" secondItem="S3G-Yy-LaT" secondAttribute="bottom" constant="4" id="FgJ-Su-laB"/>
+                                    <constraint firstItem="S3G-Yy-LaT" firstAttribute="leading" secondItem="Rkk-4f-xfG" secondAttribute="trailing" constant="-90" id="Knj-BS-BXk"/>
                                     <constraint firstItem="S3G-Yy-LaT" firstAttribute="trailing" secondItem="TCK-NK-859" secondAttribute="trailing" constant="-12" id="Wyc-oU-5Mm"/>
                                     <constraint firstItem="mZE-da-erF" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="ZCn-YJ-Zqk"/>
+                                    <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="Rkk-4f-xfG" secondAttribute="bottom" constant="-19" id="a1A-0q-8HI"/>
+                                    <constraint firstItem="Rkk-4f-xfG" firstAttribute="top" secondItem="S3G-Yy-LaT" secondAttribute="bottom" constant="20" id="bTu-Sk-b65"/>
                                     <constraint firstItem="S3G-Yy-LaT" firstAttribute="centerY" secondItem="Y4C-VX-sVI" secondAttribute="top" id="cBK-t0-WJT"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="top" secondItem="TCK-NK-859" secondAttribute="top" id="cIS-UJ-a9f"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="leading" secondItem="TCK-NK-859" secondAttribute="leading" id="cW5-ld-lKL"/>
@@ -195,6 +211,12 @@
                                     <constraint firstItem="mZE-da-erF" firstAttribute="width" secondItem="TCK-NK-859" secondAttribute="width" multiplier="1.1" id="o3N-ve-mMQ"/>
                                     <constraint firstItem="Y4C-VX-sVI" firstAttribute="centerX" secondItem="TCK-NK-859" secondAttribute="centerX" id="rk6-AT-yaB"/>
                                 </constraints>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="bTu-Sk-b65"/>
+                                        <exclude reference="Knj-BS-BXk"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="5QO-qA-ugj" appends="YES" id="jk8-HV-uPn"/>
                                 </connections>
@@ -214,11 +236,13 @@
                             <constraint firstItem="Axx-4m-T16" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="sZY-If-kAE"/>
                             <constraint firstAttribute="centerX" secondItem="tmA-WS-L5t" secondAttribute="centerX" id="tpF-Su-68N"/>
                             <constraint firstAttribute="centerX" secondItem="Axx-4m-T16" secondAttribute="centerX" id="yCz-go-oen"/>
+                            <constraint firstItem="Axx-4m-T16" firstAttribute="leading" secondItem="Rkk-4f-xfG" secondAttribute="trailing" constant="-46" id="zgK-fo-BUs"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="PQa-4J-qEK"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina47"/>
                     <connections>
+                        <outlet property="chatBubbleBookmarkButton" destination="Rkk-4f-xfG" id="zhb-YE-bhY"/>
                         <outlet property="chatBubbleButton" destination="S3G-Yy-LaT" id="pN4-bk-DYc"/>
                         <outlet property="datePicker" destination="iOA-yj-xAX" id="fOd-g1-lQb"/>
                         <outlet property="datePickerCenterConstraint" destination="tMF-kD-cIb" id="TBc-Np-lkU"/>
@@ -503,6 +527,7 @@ Low: $70</string>
         <image name="Get-Directions" width="855" height="699"/>
         <image name="Ticket-Black" width="753" height="584"/>
         <image name="Venue-Header" width="2192" height="144"/>
+        <image name="bookmark" width="269" height="269"/>
         <image name="bookmark-filled" width="266" height="265"/>
     </resources>
 </document>

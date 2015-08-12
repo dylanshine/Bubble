@@ -54,6 +54,8 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
 @property (strong, nonatomic) IGLDropDownMenu *menu;
+@property (nonatomic, getter=isMenuOpen) BOOL menuOpen;
+@property (weak, nonatomic) IBOutlet UIButton *chatBubbleBookmarkButton;
 
 @property (nonatomic, strong) EventDetailsViewController *eventDetailsVC;
 @property (nonatomic, strong) NSArray *eventsArray;
@@ -105,11 +107,20 @@
     UIPanGestureRecognizer *panRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(didDragMap:)];
     [panRecognizer setDelegate:self];
     [self.mapView addGestureRecognizer:panRecognizer];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(eventDetailChanged)
+                                                 name:@"EventChanged"
+                                               object:nil];
 }
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -354,8 +365,8 @@
         
         UINavigationController *destination = [segue destinationViewController];
         BBChatViewController *chatVC = destination.viewControllers.firstObject;
-        chatVC.eventTitle = self.selectedAnnotation.event.eventTitle;
-        chatVC.roomID = self.selectedAnnotation.event.eventID;
+        chatVC.eventTitle = self.eventDetailsVC.event.eventTitle;
+        chatVC.roomID = self.eventDetailsVC.event.eventID;
         if (![chatVC.roomID isEqualToString:self.xmppManager.currentRoomId]) {
             [self.chatManager.messages removeAllObjects];
         }
@@ -530,10 +541,10 @@
 - (IBAction)dateSelectorTapped:(id)sender {
     
     if ([self.dateSelectorButton.titleLabel.text isEqual:@"Set Date"]) {
-        [SVProgressHUD show];
         
         if (![self.date isEqual:self.datePicker.date]) {
             self.date = self.datePicker.date;
+            [SVProgressHUD show];
             [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
         }
         [self setDateSelectorTitle];
@@ -589,18 +600,18 @@
 -(void) menuSetup {
     self.menu = [[IGLDropDownMenu alloc] init];
     [self fetchSubscribedEvents];
-    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
-    self.menu.menuText = @"Dismiss";
+    [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
+    self.menu.menuText = @"  Dismiss";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
     self.menu.gutterY = 5;
-    self.menu.paddingLeft = 15;
     self.menu.slidingInOffset = 0;
     self.menu.delegate = self;
     [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
     //    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
+    self.menuOpen = NO;
     
 }
 
@@ -653,15 +664,11 @@
 }
 
 - (IBAction)menuButtonTapped:(id)sender {
-    
-    [UIView animateWithDuration:.6 animations:^{
-        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
-        self.datePickerXConstraint.constant = -400;
-        self.searchBarXConstraint.constant = -400;
-        [self.view layoutIfNeeded];
-    }];
-    self.menu.expanding = YES;
-    //    [self.menu toggleView];
+    if (self.isMenuOpen) {
+        [self dismissMenu];
+    } else {
+        [self openMenu];
+    }
 }
 
 - (void)dropDownMenu:(IGLDropDownMenu *)dropDownMenu selectedItemAtIndex:(NSInteger)index {
@@ -669,7 +676,7 @@
     [self dismissMenu];
     BBDropDownItem *item = dropDownMenu.dropDownItems[index];
     self.eventDetailsVC.event = [[EventObject alloc] initWithSubscribedEvent:item.event];
-    [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+    [self eventDetailChanged];
     if (self.chatBubbleButton.alpha == 0) {
         [UIView animateWithDuration:.5
                          animations:^{
@@ -681,12 +688,25 @@
 
 -(void) dismissMenu {
     [UIView animateWithDuration:.6 animations:^{
-        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-200, self.menuButton.frame.origin.y, 200, self.searchBar.frame.size.height)];
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 200, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = 0;
-        self.searchBarXConstraint.constant = -20;
+//        self.searchBarXConstraint.constant = -20;
         [self.view layoutIfNeeded];
     }];
-    self.menu.menuText = @"Dismiss";
+    self.menu.menuText = @"  Dismiss";
+    self.menuOpen = NO;
+}
+
+-(void) openMenu {
+    [UIView animateWithDuration:.6 animations:^{
+        [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
+        self.datePickerXConstraint.constant = -400;
+        //        self.searchBarXConstraint.constant = -400;
+        [self.view layoutIfNeeded];
+    }];
+    
+    self.menu.expanding = YES;
+    self.menuOpen = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -723,14 +743,11 @@
     self.menu.dropDownItems = [menuItems copy];
     [self.menu reloadView];
     NSError *error = nil;
+    event.subscribed = YES;
+    [self eventDetailChanged];
     if (![subEvent.managedObjectContext save:&error]) {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
-    }
-    if ([self.eventDetailsVC.event isToday]) {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
-    } else {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
     }
 }
 
@@ -746,12 +763,47 @@
             NSMutableArray *items = [self.menu.dropDownItems mutableCopy];
             [items removeObject:item];
             self.menu.dropDownItems = [items copy];
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
             [self.menu reloadView];
         }
         
     }
+    event.subscribed = NO;
+    [self eventDetailChanged];
     
 }
+
+- (IBAction)chatBubbleBookmarkTapped:(id)sender {
+    if (self.eventDetailsVC.event.subscribed) {
+        [self removeSubscriptionToEvent:self.eventDetailsVC.event];
+        [self eventDetailChanged];
+    } else {
+        [self createSubscriptionToEvent:self.eventDetailsVC.event];
+        [self eventDetailChanged];
+    }
+    
+}
+
+-(void)eventDetailChanged {
+    NSLog(@"Event changed.");
+    EventObject *event = self.eventDetailsVC.event;
+    if ([event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        self.chatBubbleBookmarkButton.hidden = NO;
+        if (event.subscribed) {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+    } else {
+        self.chatBubbleBookmarkButton.hidden = YES;
+        if (event.subscribed) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
 
 @end
