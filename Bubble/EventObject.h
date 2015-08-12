@@ -1,49 +1,37 @@
-//
-//  EventObject.h
-//  Bubble
-//
-//  Created by Val Osipenko on 7/29/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
+#import "SubscribedEvent.h"
+#import <AFNetworking/AFNetworking.h>
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
-#import <AFNetworking/AFNetworking.h>
-#import "SubscribedEvent.h"
 
 @interface EventObject : NSObject
 
-@property (nonatomic, strong) NSString *eventID;
-@property (nonatomic, strong) NSString *eventTitle;
-@property (nonatomic, strong) NSString *eventType;
-@property (nonatomic, strong) NSString *eventTime;
-@property (nonatomic, strong) NSDate *date;
-@property (nonatomic, strong) NSString *venueName;
-@property (nonatomic, strong) NSMutableArray *eventPerformers;
-@property (nonatomic, strong) NSString *addressStreet;
-@property (nonatomic, strong) NSString *addressCity;
-@property (nonatomic, strong) NSString *addressState;
-@property (nonatomic, strong) NSNumber *addressZip;
-@property (nonatomic, strong) NSString *ticketURL;
-@property (nonatomic, strong) NSString *ticketsAvailable;
-@property (nonatomic, strong) NSString *ticketPriceAvg;
-@property (nonatomic, strong) NSString *ticketPriceHigh;
-@property (nonatomic, strong) NSString *ticketPriceLow;
-@property (nonatomic, strong) NSNumber *eventScore;
-@property (nonatomic, strong) NSNumber *venueScore;
-@property (nonatomic, strong) NSString *eventImageURL;
-@property (nonatomic, strong) UIImage *eventImage;
+@property (strong, nonatomic) NSString *eventID;
+@property (strong, nonatomic) NSString *eventTitle;
+@property (strong, nonatomic) NSString *eventType;
+@property (strong, nonatomic) NSString *eventTime;
+@property (strong, nonatomic) NSDate *date;
+@property (strong, nonatomic) NSString *venueName;
+@property (strong, nonatomic) NSMutableArray *eventPerformers;
+@property (strong, nonatomic) NSString *addressStreet;
+@property (strong, nonatomic) NSString *addressCity;
+@property (strong, nonatomic) NSString *addressState;
+@property (strong, nonatomic) NSNumber *addressZip;
+@property (strong, nonatomic) NSString *ticketURL;
+@property (strong, nonatomic) NSString *ticketsAvailable;
+@property (strong, nonatomic) NSString *ticketPriceAvg;
+@property (strong, nonatomic) NSString *ticketPriceHigh;
+@property (strong, nonatomic) NSString *ticketPriceLow;
+@property (strong, nonatomic) NSNumber *eventScore;
+@property (strong, nonatomic) NSNumber *venueScore;
+@property (strong, nonatomic) NSString *eventImageURL;
+@property (strong, nonatomic) UIImage *eventImage;
+@property (assign, nonatomic) CLLocationCoordinate2D coordinate;
+@property (strong, nonatomic) CLLocation *eventLocation;
+@property (assign, nonatomic) BOOL subscribed;
 
-@property (nonatomic, assign) CLLocationCoordinate2D coordinate;
-@property (nonatomic, strong) CLLocation *eventLocation;
-@property (nonatomic) BOOL subscribed;
-
-- (instancetype) initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
-- (instancetype) initWithMeetupDictionary:(NSDictionary *)jsonDict;
-- (instancetype) initWithSubscribedEvent: (SubscribedEvent *)event;
-
-- (void) fetchEventImage;
-
-- (BOOL) isToday;
-
+- (instancetype)initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
+- (instancetype)initWithMeetupDictionary:(NSDictionary *)jsonDict;
+- (instancetype)initWithSubscribedEvent: (SubscribedEvent *)event;
+- (void)fetchEventImage;
+- (BOOL)isToday;
 @end

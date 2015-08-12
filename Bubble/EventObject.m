@@ -1,23 +1,12 @@
-//
-//  EventObject.m
-//  Bubble
-//
-//  Created by Val Osipenko on 7/29/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "EventObject.h"
 
 @interface EventObject()
-
-@property (nonatomic, strong) NSDictionary *eventDictionary;
-
+@property (strong, nonatomic) NSDictionary *eventDictionary;
 @end
 
 @implementation EventObject
 
-
-- (instancetype)initWithSeatgeekDictionary:(NSDictionary *)jsonDict{
+- (instancetype)initWithSeatgeekDictionary:(NSDictionary *)jsonDict {
     
     self = [super init];
 
@@ -34,7 +23,6 @@
     NSString *eventType = jsonDict[@"type"];
     
     NSString *eventTime = jsonDict[@"datetime_local"];
-//    eventTime = [eventTime substringWithRange:NSMakeRange(11, eventTime.length-11)];
     NSString *date = [eventTime substringToIndex:10];
     NSString *time = [eventTime substringFromIndex:11];
     NSString *dateTime = [NSString stringWithFormat:@"%@ %@", date, time];
@@ -130,7 +118,7 @@
     return self;
 }
 
-- (instancetype)initWithMeetupDictionary:(NSDictionary *)jsonDict{
+- (instancetype)initWithMeetupDictionary:(NSDictionary *)jsonDict {
     
     self = [super init];
     
@@ -159,8 +147,8 @@
     UIImage *eventImage = [UIImage imageNamed:@"MeetupCover"];
     
     NSString *ticketPrice = @"Ticket Price: Free";
-    NSString *rsvpYes = @"No Attendees";
-    NSString *rsvpMaybe = @"No Attendees";
+//    NSString *rsvpYes = @"No Attendees";
+//    NSString *rsvpMaybe = @"No Attendees";
 
     if (jsonDict[@"fee"][@"amount"] != nil) {
         CGFloat floatPrice = ((NSNumber *)jsonDict[@"fee"][@"amount"]).floatValue;
@@ -227,7 +215,6 @@
         _addressZip = event.addressZip;
         _ticketURL = event.ticketURL;
         _eventScore = event.eventScore;
-//        _eventLocation = event.eventLocation;
         _eventImage = [UIImage imageWithData:event.eventImage];
         _subscribed = YES;
         
@@ -235,7 +222,7 @@
     return self;
 }
 
-- (void) fetchEventImage {
+- (void)fetchEventImage {
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
@@ -247,12 +234,11 @@
              self.eventImage = responseObject;             
          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
              NSLog(@"%@",error.description);
-         }];
+    }];
 }
 
 
-
-- (BOOL) isToday {
+- (BOOL)isToday {
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"yyyy-MM-dd"];
     if ([[formatter stringFromDate:self.date] isEqual:[formatter stringFromDate:[NSDate date]]]) {

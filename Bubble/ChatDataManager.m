@@ -1,11 +1,3 @@
-//
-//  ChatDataManager.m
-//  Bubble
-//
-//  Created by Dylan Shine on 8/6/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "ChatDataManager.h"
 #import <AFNetworking.h>
 
@@ -17,7 +9,6 @@
     dispatch_once(&onceToken, ^{
         _sharedManager = [[self alloc] init];
     });
-    
     return _sharedManager;
 }
 
@@ -49,7 +40,7 @@
                  
                  NSLog(@"Error: %@", error);
                  
-             }];
+        }];
     }
 }
 

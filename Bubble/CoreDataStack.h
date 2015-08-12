@@ -1,11 +1,3 @@
-//
-//  CoreDataStack.h
-//  Bubble
-//
-//  Created by Dylan Shine on 8/11/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
@@ -15,9 +7,7 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
++ (instancetype) sharedStack;
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
-
-+(instancetype) sharedStack;
-
 @end

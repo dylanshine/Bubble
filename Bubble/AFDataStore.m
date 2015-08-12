@@ -1,11 +1,3 @@
-//
-//  AFDataStore.m
-//  Bubble
-//
-//  Created by Val Osipenko on 7/29/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "AFDataStore.h"
 #import <AFNetworking.h>
 #import "EventObject.h"
@@ -20,8 +12,7 @@
 @implementation AFDataStore
 
 - (instancetype)init{
-    self = [super init];
-    if(self){
+    if (self = [super init]){
         _eventsArray = [[NSMutableArray alloc]init];
     }
     return self;
@@ -32,15 +23,14 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         _sharedData = [[self alloc] init];
-        _sharedData.eventsArray = [[NSMutableArray alloc] init];
     });
     
     return _sharedData;
 }
 
--(void)getAllEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date{
+- (void)getAllEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date{
     
-    self.eventsArray = [@[] mutableCopy];
+    [self.eventsArray removeAllObjects];
     
     NSOperationQueue *operationQueue = [[NSOperationQueue alloc] init];
     operationQueue.maxConcurrentOperationCount = 1;
@@ -65,7 +55,7 @@
     
 }
 
--(AFHTTPRequestOperation *)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date {
+- (AFHTTPRequestOperation *)getSeatgeekEventsWithLocation:(CLLocation *)currentLocation date:(NSDate *)date {
     NSDateComponents *nextDaySetter = [[NSDateComponents alloc] init];
     nextDaySetter.day = 1;
     NSDate *nextDay = [date dateByAddingTimeInterval:60*60*24];
@@ -167,7 +157,6 @@
 
     }
     [self.delegate dataStore:self didLoadEvents:self.filteredEventsArray];
-
 }
 
 

@@ -1,14 +1,5 @@
-//
-//  FacebookLoginManager.m
-//  Bubble
-//
-//  Created by Jordan Guggenheim on 7/31/15.
-//  Copyright (c) 2015 Bubble. All rights reserved.
-//
-
 #import "FacebookLoginManager.h"
 #import <Parse.h>
-
 
 @implementation FacebookLoginManager
 
@@ -18,12 +9,11 @@
     dispatch_once(&onceToken, ^{
         _sharedManager = [[self alloc] init];
     });
-    
     return _sharedManager;
 }
 
 
-- (void) facebookLoginRequestWithCompletion:(void (^)(PFUser *currentUser))block  {
+- (void)facebookLoginRequestWithCompletion:(void (^)(PFUser *currentUser))block  {
     NSArray *permissions = @[ @"email", @"user_likes", @"public_profile", @"user_friends" ];
     
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissions block:^(PFUser *user, NSError *error) {
@@ -53,7 +43,6 @@
             }];
 
             [connection start];
-            
         }
     }];
 }
