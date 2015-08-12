@@ -2,7 +2,7 @@
 //  SubscribedEvent.h
 //  
 //
-//  Created by Lukas Thoms on 8/11/15.
+//  Created by Lukas Thoms on 8/12/15.
 //
 //
 
@@ -17,9 +17,9 @@
 @property (nonatomic, retain) NSString * addressState;
 @property (nonatomic, retain) NSString * addressStreet;
 @property (nonatomic, retain) NSNumber * addressZip;
+@property (nonatomic, retain) NSDate * date;
 @property (nonatomic, retain) NSString * eventID;
 @property (nonatomic, retain) NSData * eventImage;
-@property (nonatomic, retain) NSNumber * eventPrice;
 @property (nonatomic, retain) NSNumber * eventScore;
 @property (nonatomic, retain) NSString * eventTime;
 @property (nonatomic, retain) NSString * eventTitle;
@@ -29,7 +29,10 @@
 @property (nonatomic, retain) NSString * ticketURL;
 @property (nonatomic, retain) NSString * venueName;
 @property (nonatomic, retain) NSNumber * venueScore;
-@property (nonatomic, retain) NSDate * date;
+@property (nonatomic, retain) NSString * ticketsAvailable;
+@property (nonatomic, retain) NSString * ticketPriceAvg;
+@property (nonatomic, retain) NSString * ticketPriceHigh;
+@property (nonatomic, retain) NSString * ticketPriceLow;
 
 -(void)setPropertiesWithEvent:(EventObject *)event;
 

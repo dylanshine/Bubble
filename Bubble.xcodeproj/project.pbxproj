@@ -22,7 +22,6 @@
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
 		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
-		807F8FD91B7A7DBD002FAC7C /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 807F8FD81B7A7DBD002FAC7C /* SubscribedEvent.m */; };
 		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
@@ -30,6 +29,7 @@
 		8087EE271B66D28C009258E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE251B66D28C009258E5 /* Main.storyboard */; };
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
+		809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
 		CC8E678B1B7543D100B1838F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8E678A1B7543D100B1838F /* WebViewController.m */; };
 		CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */; };
@@ -83,8 +83,6 @@
 		802273851B6A805A00C62E50 /* BBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessage.m; sourceTree = "<group>"; };
 		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
 		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
-		807F8FD71B7A7DBD002FAC7C /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
-		807F8FD81B7A7DBD002FAC7C /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 		80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+EnableReturnKey.h"; sourceTree = "<group>"; };
 		80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+EnableReturnKey.m"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -99,6 +97,8 @@
 		8087EE2B1B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8087EE361B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
+		8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
+		8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -221,8 +221,8 @@
 				FC688EDF1B79271A003B46A9 /* Friend.m */,
 				FC688F0E1B7A68DB003B46A9 /* BBDropDownItem.h */,
 				FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */,
-				807F8FD71B7A7DBD002FAC7C /* SubscribedEvent.h */,
-				807F8FD81B7A7DBD002FAC7C /* SubscribedEvent.m */,
+				8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */,
+				8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -458,6 +458,7 @@
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				1760C1091B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
+				809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */,
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
 				8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
@@ -469,7 +470,6 @@
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
 				FC688F0A1B7A614F003B46A9 /* Bubble.xcdatamodeld in Sources */,
 				FC5A230C1B70625300C5061E /* Constants.m in Sources */,
-				807F8FD91B7A7DBD002FAC7C /* SubscribedEvent.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

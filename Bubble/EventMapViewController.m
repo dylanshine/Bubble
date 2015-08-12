@@ -601,14 +601,13 @@
     self.menu = [[IGLDropDownMenu alloc] init];
     [self fetchSubscribedEvents];
     [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
-    self.menu.menuText = @"  Dismiss";
+    self.menu.menuText = @"  Bookmarked Events";
     self.menu.type = IGLDropDownMenuTypeSlidingInFromLeft;
     self.menu.useSpringAnimation = NO;
     self.menu.gutterY = 5;
     self.menu.slidingInOffset = 0;
     self.menu.delegate = self;
     [self.menu.menuButton addTarget:self action:@selector(dismissMenu) forControlEvents:UIControlEventTouchUpInside];
-    //    self.menu.menuIconImage = [UIImage imageNamed:@"menu.png"];
     [self.menu reloadView];
     [self.searchContainer addSubview:self.menu];
     self.menuOpen = NO;
@@ -643,7 +642,6 @@
 - (void) mapSetup {
 
     MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:2500];
-//    mapCamera.pitch = 80;
     mapCamera.heading = 28.25;
     [self.mapView setCamera:mapCamera animated:NO];
 }
@@ -690,10 +688,9 @@
     [UIView animateWithDuration:.6 animations:^{
         [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x-300, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 200, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = 0;
-//        self.searchBarXConstraint.constant = -20;
         [self.view layoutIfNeeded];
     }];
-    self.menu.menuText = @"  Dismiss";
+    self.menu.menuText = @"  Bookmarked Events";
     self.menuOpen = NO;
 }
 
@@ -701,7 +698,6 @@
     [UIView animateWithDuration:.6 animations:^{
         [self.menu setFrame:CGRectMake(self.searchContainer.frame.origin.x, self.menuButton.frame.origin.y + self.menuButton.frame.size.height + 10, 300, self.searchBar.frame.size.height)];
         self.datePickerXConstraint.constant = -400;
-        //        self.searchBarXConstraint.constant = -400;
         [self.view layoutIfNeeded];
     }];
     
@@ -784,7 +780,6 @@
 }
 
 -(void)eventDetailChanged {
-    NSLog(@"Event changed.");
     EventObject *event = self.eventDetailsVC.event;
     if ([event isToday]) {
         [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];

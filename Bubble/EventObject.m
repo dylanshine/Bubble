@@ -227,6 +227,10 @@
         _addressZip = event.addressZip;
         _ticketURL = event.ticketURL;
         _eventScore = event.eventScore;
+        _ticketPriceAvg = event.ticketPriceAvg;
+        _ticketPriceHigh = event.ticketPriceHigh;
+        _ticketPriceLow = event.ticketPriceLow;
+        _ticketsAvailable = event.ticketsAvailable;
 //        _eventLocation = event.eventLocation;
         _eventImage = [UIImage imageWithData:event.eventImage];
         _subscribed = YES;
