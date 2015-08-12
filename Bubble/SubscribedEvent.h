@@ -1,13 +1,5 @@
-//
-//  SubscribedEvent.h
-//  
-//
-//  Created by Lukas Thoms on 8/11/15.
-//
-//
-
-#import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import <Foundation/Foundation.h>
 
 @class EventObject;
 
