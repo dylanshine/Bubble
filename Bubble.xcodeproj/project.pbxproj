@@ -17,7 +17,6 @@
 		178650741B6ABB5500A68FF9 /* BBScrollViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 178650731B6ABB5500A68FF9 /* BBScrollViewPassThrough.m */; };
 		17A915F61B67BDD4000821E2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17A915F51B67BDD4000821E2 /* MapKit.framework */; };
 		17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 17A915FB1B67E568000821E2 /* BBAnnotation.m */; };
-		8006C6F21B7AA87400028175 /* bookmark-filled.png in Resources */ = {isa = PBXBuildFile; fileRef = 8006C6F11B7AA87400028175 /* bookmark-filled.png */; };
 		8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 801114091B725FD5005FF955 /* BBSearchViewPassThrough.m */; };
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
@@ -74,7 +73,6 @@
 		17A915FA1B67E568000821E2 /* BBAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBAnnotation.h; sourceTree = "<group>"; };
 		17A915FB1B67E568000821E2 /* BBAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBAnnotation.m; sourceTree = "<group>"; };
 		7122C18FA6D8C5E220F46E12 /* Pods-Bubble.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.debug.xcconfig"; sourceTree = "<group>"; };
-		8006C6F11B7AA87400028175 /* bookmark-filled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bookmark-filled.png"; sourceTree = "<group>"; };
 		801114081B725FD5005FF955 /* BBSearchViewPassThrough.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBSearchViewPassThrough.h; sourceTree = "<group>"; };
 		801114091B725FD5005FF955 /* BBSearchViewPassThrough.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBSearchViewPassThrough.m; sourceTree = "<group>"; };
 		802273811B6A784D00C62E50 /* BBChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBChatViewController.h; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 				8087EE251B66D28C009258E5 /* Main.storyboard */,
 				175E54DA1B6BBEC8002A7CAA /* Login.storyboard */,
 				8087EE281B66D28C009258E5 /* Images.xcassets */,
-				8006C6F11B7AA87400028175 /* bookmark-filled.png */,
 				8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */,
 				FC688ED81B79014D003B46A9 /* Views */,
 				8087EE1B1B66D28C009258E5 /* Supporting Files */,
@@ -398,7 +395,6 @@
 				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
 				8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */,
 				8087EE291B66D28C009258E5 /* Images.xcassets in Resources */,
-				8006C6F21B7AA87400028175 /* bookmark-filled.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
