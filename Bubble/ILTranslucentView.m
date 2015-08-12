@@ -1,11 +1,3 @@
-//
-//  ILTranslucentView.m
-//  ILTranslucentViewProject
-//
-//  Created by Ivo Leko on 10/11/13.
-//  Copyright (c) 2013 Ivo Leko. All rights reserved.
-//
-
 #import "ILTranslucentView.h"
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 
