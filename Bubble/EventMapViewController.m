@@ -26,7 +26,7 @@
 #import "ILTranslucentView.h"
 #import <Parse.h>
 #import "CoreDataStack.h"
-#import "SubscribedEvent.h"
+#import "SubscribedEvent+setPropertiesWithEvent.h"
 #import "BBDropDownItem.h"
 #import "MKMapView+ZoomLevel.h"
 
@@ -741,6 +741,32 @@
     }
 }
 
+-(void)eventDetailChanged {
+    EventObject *event = self.eventDetailsVC.event;
+    for (BBDropDownItem *item in self.menu.dropDownItems) {
+        if ([item.event.eventID isEqual:self.eventDetailsVC.event.eventID]) {
+            self.eventDetailsVC.event.subscribed = YES;
+        }
+    }
+    if ([event isToday]) {
+        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
+        self.chatBubbleBookmarkButton.hidden = NO;
+        if (event.subscribed) {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+    } else {
+        self.chatBubbleBookmarkButton.hidden = YES;
+        if (event.subscribed) {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
+        } else {
+            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
+        }
+        
+    }
+}
+
 
 #pragma mark - Core Data Event Subscription Methods
 
@@ -760,9 +786,21 @@
         NSLog(@"%@, %@", error, error.localizedDescription);
     } else {
         NSMutableArray *events = [[NSMutableArray alloc] init];
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyMMdd";
+        BOOL saveNeeded = NO;
         for (SubscribedEvent *event in result) {
-            BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
-            [events addObject:item];
+            if ([[formatter stringFromDate:event.date] integerValue] < [[formatter stringFromDate:[NSDate date]] integerValue]) {
+                [[self.coreDataStack managedObjectContext] deleteObject:event];
+                saveNeeded = YES;
+            } else {
+                BBDropDownItem *item = [[BBDropDownItem alloc] initWithEvent:event];
+                [events addObject:item];
+            }
+        }
+        if (saveNeeded) {
+            NSError *error = nil;
+            [[self.coreDataStack managedObjectContext] save:&error];
         }
         self.menu.dropDownItems = [events copy];
         [self.menu reloadView];
@@ -783,6 +821,9 @@
     [menuItems addObject:dropDownItem];
     self.menu.dropDownItems = [menuItems copy];
     [self.menu reloadView];
+    if (self.menuOpen) {
+        [self openMenu];
+    }
     NSError *error = nil;
     event.subscribed = YES;
     [self eventDetailChanged];
@@ -805,6 +846,9 @@
             [items removeObject:item];
             self.menu.dropDownItems = [items copy];
             [self.menu reloadView];
+            if (self.menuOpen) {
+                [self openMenu];
+            }
         }
     }
     event.subscribed = NO;
@@ -823,26 +867,7 @@
     
 }
 
--(void)eventDetailChanged {
-    EventObject *event = self.eventDetailsVC.event;
-    if ([event isToday]) {
-        [self.chatBubbleButton setImage:[UIImage imageNamed:@"Blue-Bubble"] forState:UIControlStateNormal];
-        self.chatBubbleBookmarkButton.hidden = NO;
-        if (event.subscribed) {
-            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
-        } else {
-            [self.chatBubbleBookmarkButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
-        }
-    } else {
-        self.chatBubbleBookmarkButton.hidden = YES;
-        if (event.subscribed) {
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark-filled"] forState:UIControlStateNormal];
-        } else {
-            [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
-        }
-        
-    }
-}
+
 
 
 @end

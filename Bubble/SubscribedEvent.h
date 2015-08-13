@@ -2,8 +2,6 @@
 #import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
 
-@class EventObject;
-
 @interface SubscribedEvent : NSManagedObject
 
 @property (nonatomic, retain) NSString * addressCity;
@@ -27,6 +25,5 @@
 @property (nonatomic, retain) NSString * ticketPriceHigh;
 @property (nonatomic, retain) NSString * ticketPriceLow;
 
--(void)setPropertiesWithEvent:(EventObject *)event;
 
 @end

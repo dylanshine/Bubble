@@ -29,6 +29,7 @@
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */; };
+		809820931B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
 		CC1E34C81B7BD85900C92F92 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1E34C71B7BD85900C92F92 /* MKMapView+ZoomLevel.m */; };
 		CC8E678B1B7543D100B1838F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8E678A1B7543D100B1838F /* WebViewController.m */; };
@@ -98,6 +99,8 @@
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
 		8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
 		8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
+		809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SubscribedEvent+setPropertiesWithEvent.h"; sourceTree = "<group>"; };
+		809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SubscribedEvent+setPropertiesWithEvent.m"; sourceTree = "<group>"; };
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -231,6 +234,8 @@
 		803185C81B7018B40046CF79 /* Extensions & Overrides */ = {
 			isa = PBXGroup;
 			children = (
+				809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */,
+				809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */,
 				80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */,
 				80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */,
 				178650721B6ABB5500A68FF9 /* BBScrollViewPassThrough.h */,
@@ -468,6 +473,7 @@
 				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				FC688EDD1B7901E2003B46A9 /* FriendCell.m in Sources */,
+				809820931B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m in Sources */,
 				FC688F101B7A68DB003B46A9 /* BBDropDownItem.m in Sources */,
 				17A915FC1B67E568000821E2 /* BBAnnotation.m in Sources */,
 				FC688F0A1B7A614F003B46A9 /* Bubble.xcdatamodeld in Sources */,
