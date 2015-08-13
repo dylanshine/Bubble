@@ -30,6 +30,7 @@
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
 		809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */; };
 		809820931B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */; };
+		809820981B7CF2B70020EDF5 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 809820971B7CF2B70020EDF5 /* refresh.png */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
 		CC1E34C81B7BD85900C92F92 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1E34C71B7BD85900C92F92 /* MKMapView+ZoomLevel.m */; };
 		CC8E678B1B7543D100B1838F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8E678A1B7543D100B1838F /* WebViewController.m */; };
@@ -101,6 +102,7 @@
 		8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 		809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SubscribedEvent+setPropertiesWithEvent.h"; sourceTree = "<group>"; };
 		809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SubscribedEvent+setPropertiesWithEvent.m"; sourceTree = "<group>"; };
+		809820971B7CF2B70020EDF5 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
 		80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 		95BD4CDBE3C4F9A40D0AD9A6 /* Pods-Bubble.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Bubble.release.xcconfig"; path = "Pods/Target Support Files/Pods-Bubble/Pods-Bubble.release.xcconfig"; sourceTree = "<group>"; };
 		C0D80382B0241D03474E1872 /* libPods-Bubble.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Bubble.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -282,6 +284,7 @@
 				8087EE251B66D28C009258E5 /* Main.storyboard */,
 				175E54DA1B6BBEC8002A7CAA /* Login.storyboard */,
 				8087EE281B66D28C009258E5 /* Images.xcassets */,
+				809820971B7CF2B70020EDF5 /* refresh.png */,
 				8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */,
 				FC688ED81B79014D003B46A9 /* Views */,
 				8087EE1B1B66D28C009258E5 /* Supporting Files */,
@@ -401,6 +404,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC688EDA1B790165003B46A9 /* FriendCell.xib in Resources */,
+				809820981B7CF2B70020EDF5 /* refresh.png in Resources */,
 				8087EE271B66D28C009258E5 /* Main.storyboard in Resources */,
 				175E54DB1B6BBEC8002A7CAA /* Login.storyboard in Resources */,
 				8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */,

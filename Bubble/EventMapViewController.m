@@ -47,6 +47,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *nextDayButton;
 @property (weak, nonatomic) IBOutlet UIButton *previousDayButton;
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *refreshButtonConstraint;
+@property (weak, nonatomic) IBOutlet UIButton *refreshButton;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerXConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerYConstraint;
@@ -181,7 +183,28 @@
         [self.mapView addAnnotation:annotation];
     }
     [SVProgressHUD dismiss];
+    [self hideRefreshButton];
 }
+
+- (IBAction)refreshButtonTapped:(id)sender {
+    [SVProgressHUD show];
+    [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
+}
+
+-(void)showRefreshButton {
+    [UIView animateWithDuration:.7 animations:^{
+        self.refreshButtonConstraint.constant = 8;
+        [self.view layoutIfNeeded];
+    }];
+}
+
+-(void)hideRefreshButton {
+    [UIView animateWithDuration:.7 animations:^{
+        self.refreshButtonConstraint.constant = -50;
+        [self.view layoutIfNeeded];
+    }];
+}
+
 
 #pragma mark - Prepare for segue
 
@@ -224,6 +247,11 @@
         [self.mapView deselectAnnotation:self.mapView.selectedAnnotations[0] animated:YES];
     }
     [self.dataStore searchEvents:searchBar.text withScope:searchBar.selectedScopeButtonIndex];
+    MKMapRect visibleRect = self.mapView.visibleMapRect;
+    NSSet *visibleAnnotations = [self.mapView annotationsInMapRect:visibleRect];
+    if (visibleAnnotations.count == 0 && [self.searchBar.text isEqualToString:@""]) {
+        [self showRefreshButton];
+    }
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
@@ -292,9 +320,8 @@
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
         MKMapRect visibleRect = self.mapView.visibleMapRect;
         NSSet *visibleAnnotations = [self.mapView annotationsInMapRect:visibleRect];
-        if (visibleAnnotations.count < 2) {
-            NSLog(@"Making Seatgeek Call");
-            [self.dataStore getAllEventsWithLocation:[self mapCenter] date:self.date];
+        if (visibleAnnotations.count == 0 && [self.searchBar.text isEqualToString:@""]) {
+            [self showRefreshButton];
         }
         
     }
@@ -918,10 +945,8 @@
 - (IBAction)chatBubbleBookmarkTapped:(id)sender {
     if (self.eventDetailsVC.event.subscribed) {
         [self removeSubscriptionToEvent:self.eventDetailsVC.event];
-        [self eventDetailChanged];
     } else {
         [self createSubscriptionToEvent:self.eventDetailsVC.event];
-        [self eventDetailChanged];
     }
     
 }
