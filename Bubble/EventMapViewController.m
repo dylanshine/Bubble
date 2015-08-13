@@ -284,8 +284,9 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-    [self showDetailedVCAndSearchBar];
+   
 }
+
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
@@ -300,11 +301,14 @@
 }
 -(void)didPinchMap:(UIGestureRecognizer*)gestureRecognizer{
     
-    [self hideDetailedVC];
-    [self hideSearchBar];
-    
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-        //        NSLog(@"%d", [self.mapView currentZoomLevel]);
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        [self hideDetailedVC];
+        [self hideSearchBar];
+        
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+
+        [self showDetailedVCAndSearchBar];
+        
         double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
         double sizeMultiplier;
         if (newAnnotationSize/2 > 13){
