@@ -26,7 +26,6 @@
     NSString *date = [eventTime substringToIndex:10];
     NSString *time = [eventTime substringFromIndex:11];
     NSString *dateTime = [NSString stringWithFormat:@"%@ %@", date, time];
-    NSLog(@"%@", dateTime);
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

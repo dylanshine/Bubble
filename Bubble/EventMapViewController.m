@@ -68,6 +68,7 @@
 @property (assign, nonatomic) CGFloat scrollViewStartingPosition;
 @property (assign, nonatomic) CGFloat scrollViewMiniViewPosition;
 @property (assign, nonatomic) CGFloat scrollViewDetailedPosition;
+@property (nonatomic, assign) BOOL annotationSelected;
 @end
 
 @implementation EventMapViewController
@@ -115,60 +116,6 @@
 
 -(void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
-    
-    if (velocity.y >= 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-        
-    } else if (velocity.y < 0) {
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-    }
-}
-
-
-- (void) toggleScrollViewLocation {
-    
-//    if (self.selectedAnnotation == nil) {
-//        return;
-//    }
-    
-    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-        
-    } else {
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.4 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
-                
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
-    }
 }
 
 #pragma mark - Location Manager & Events
@@ -267,6 +214,7 @@
     if (self.mapView.annotations.count > 1){
         [self moveMapToClosestAnnotation];
     }
+    [self.view endEditing:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
@@ -434,8 +382,12 @@
         }
     }
     [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
+    [self showDetailedVC];
 }
 
+- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    [self hideDetailedVC];
+}
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
     
@@ -677,16 +629,17 @@
 - (void)setupTray {
     self.scrollView.delegate = self;
     
+    self.scrollViewStartingPosition = self.view.frame.size.height + 50;
+    self.scrollViewMiniViewPosition = self.view.frame.size.height - 120;
+    
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
-        self.scrollViewMiniViewPosition = self.view.frame.size.height - 80;
+        
     } else if (self.view.frame.size.width == 375){
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
+        
     } else {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
-        self.scrollViewStartingPosition = self.view.frame.size.height - 120;
     }
     
     self.scrollView.scrollEnabled = NO;
@@ -702,6 +655,76 @@
     self.chatBubbleButton.alpha = 0;
 }
 
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
+    
+    if (velocity.y >= 0) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+        
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+    }
+}
+
+- (void) toggleScrollViewLocation {
+    
+    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+                
+                self.eventImageTopConstraint.constant = 0;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+        
+    } else {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.3 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
+                
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
+            }];
+        });
+    }
+}
+
+- (void) showDetailedVC {
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.25 animations:^{
+            [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
+            
+        }];
+    });
+}
+
+- (void) hideDetailedVC {
+    
+    if (self.scrollView.contentOffset.y != self.scrollViewStartingPosition * -1) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+            [UIView animateWithDuration:.25 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                
+            }];
+        });
+    }
+}
 
 - (void) fetchChatParticipantCount {
     
