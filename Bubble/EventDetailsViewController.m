@@ -32,7 +32,7 @@
     ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
     
     translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    translucentView.translucentStyle = UIBarStyleDefault;
     
     [self.view insertSubview:translucentView atIndex:0];
     
@@ -160,7 +160,7 @@
 }
 
 - (BOOL) googleMapsInstalled {
-    NSURL *url = [NSURL URLWithString:@"comgooglemaps://"];
+//    NSURL *url = [NSURL URLWithString:@"comgooglemaps://"];
 //    return [[UIApplication sharedApplication] canOpenURL:url];
     return NO;
 }

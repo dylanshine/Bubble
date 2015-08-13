@@ -85,7 +85,7 @@
     emitterCell.scaleRange = emitterCell.scale ;
     emitterCell.scaleSpeed = -0.03;
     
-    emitterCell.color = [[UIColor whiteColor] CGColor] ;
+    emitterCell.color = [[UIColor whiteColor] CGColor];
     emitterCell.redRange = .01;
     emitterCell.greenRange = 0.01;
     emitterCell.blueRange = .01;
@@ -94,15 +94,15 @@
     emitterCell.redSpeed = .01;
     emitterCell.greenSpeed = .2;
     emitterCell.blueSpeed = .3;
-    emitterCell.alphaSpeed = -0.2;
+    emitterCell.alphaSpeed = -0.1;
     
     emitterCell.lifetime = 50.00;
     emitterCell.lifetimeRange = 1;
-    emitterCell.birthRate = 5;
+    emitterCell.birthRate = 7;
     emitterCell.velocity = 4.00;
     emitterCell.velocityRange = 1.00;
     emitterCell.xAcceleration = 0.00;
-    emitterCell.yAcceleration = -40.00;
+    emitterCell.yAcceleration = -20.00;
     emitterCell.zAcceleration = 0.00;
     
     emitterCell.spin = 6.109;

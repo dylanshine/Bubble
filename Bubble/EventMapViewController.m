@@ -133,7 +133,7 @@
             
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
-                
+                [SVProgressHUD show];
                 [strongSelf.dataStore getAllEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
                 
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
@@ -165,7 +165,6 @@
 }
 
 - (void) plotEvents {
-    
     [self.mapView removeAnnotations:self.mapView.annotations];
     
     for (EventObject *event in self.eventsArray) {
@@ -302,12 +301,12 @@
 -(void)didPinchMap:(UIGestureRecognizer*)gestureRecognizer{
     
     if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
-        [self hideDetailedVC];
+        [self hideMiniVC];
         [self hideSearchBar];
         
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
 
-        [self showDetailedVCAndSearchBar];
+        [self showMiniVCAndSearchBar];
         
         double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
         double sizeMultiplier;
@@ -415,13 +414,12 @@
     }
     
     [self centerOnSelectedAnnotation];
-    [self showDetailedVCAndSearchBar];
+    [self showMiniVC];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
-    NSLog(@"Did Deselect");
     self.selectedAnnotation = nil;
-    [self hideDetailedVC];
+    [self hideMiniVC];
 }
 
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id<MKAnnotation>)annotation {
@@ -585,7 +583,7 @@
     ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
     
     translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    translucentView.translucentStyle = UIBarStyleDefault;
     
     [self.searchContainer insertSubview:translucentView atIndex:0];
     
@@ -665,8 +663,8 @@
 - (void)setupTray {
     self.scrollView.delegate = self;
     
-    self.scrollViewStartingPosition = self.view.frame.size.height + 50;
-    self.scrollViewMiniViewPosition = self.view.frame.size.height - 120;
+    self.scrollViewStartingPosition = -1 * (self.view.frame.size.height + 50);
+    self.scrollViewMiniViewPosition = -1 * (self.view.frame.size.height - 120);
     
     if (self.view.frame.size.width == 320) {
         self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
@@ -684,7 +682,7 @@
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.alwaysBounceVertical = YES;
     self.scrollView.alwaysBounceHorizontal = NO;
-    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition,0, 0, 0);
+    self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition * -1, 0, 0, 0);
     self.eventDetailsVC = self.childViewControllers[0];
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
     
@@ -694,76 +692,73 @@
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
     
     if (velocity.y >= 0) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
+        [self showDetailedVC];
         
     } else {
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
-                [scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
+        [self hideDetailedVC];
     }
 }
 
 - (void) toggleScrollViewLocation {
     
     if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
-                
-                self.eventImageTopConstraint.constant = 0;
-                [self.eventImage layoutIfNeeded];
-            }];
-        });
+        [self showDetailedVC];
         
     } else {
-        
+        [self hideDetailedVC];
+    }
+}
+
+- (void) showMiniVCAndSearchBar {
+    
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        [self showMiniVC];
+        [self showSearchBar];
+    });
+}
+
+- (void) showMiniVC {
+    
+    if (self.scrollView.contentOffset.y != self.scrollViewMiniViewPosition && self.selectedAnnotation != nil) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-            [UIView animateWithDuration:.3 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
-                
-                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
-                [self.eventImage layoutIfNeeded];
+            [UIView animateWithDuration:.25 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition) animated:NO];
             }];
         });
     }
 }
 
-// These are called from mapView RegionWillChangeAnimated
-
-- (void) showDetailedVCAndSearchBar {
+- (void) hideMiniVC {
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-        
-        [self showSearchBar];
-        
-        if (self.selectedAnnotation != nil) {
+    if (self.scrollView.contentOffset.y == self.scrollViewMiniViewPosition) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.25 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition) animated:NO];
             }];
-        }
+        });
+    }
+}
+
+- (void) showDetailedVC {
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
+        [UIView animateWithDuration:.3 animations:^{
+            [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+            
+            self.eventImageTopConstraint.constant = 0;
+            [self.eventImage layoutIfNeeded];
+        }];
     });
-    
 }
 
 - (void) hideDetailedVC {
     
-    if (self.scrollView.contentOffset.y != self.scrollViewStartingPosition * -1) {
+    if (self.scrollView.contentOffset.y != self.scrollViewMiniViewPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.25 animations:^{
-                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition * -1) animated:NO];
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition) animated:NO];
                 
+                self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
+                [self.eventImage layoutIfNeeded];
             }];
         });
     }
@@ -771,18 +766,22 @@
 
 - (void) showSearchBar {
     
-    [UIView animateWithDuration:.25 animations:^{
-        self.searchViewContainerYConstraint.constant = 0;
-        [self.searchContainer layoutIfNeeded];
-    }];
+    if (self.searchViewContainerYConstraint.constant != 0) {
+        [UIView animateWithDuration:.25 animations:^{
+            self.searchViewContainerYConstraint.constant = 0;
+            [self.searchContainer layoutIfNeeded];
+        }];
+    }
 }
 
 - (void) hideSearchBar {
     
-    [UIView animateWithDuration:.25 animations:^{
-        self.searchViewContainerYConstraint.constant = -100;
-        [self.searchContainer layoutIfNeeded];
-    }];
+    if (self.searchViewContainerYConstraint.constant != -100) {
+        [UIView animateWithDuration:.25 animations:^{
+            self.searchViewContainerYConstraint.constant = -100;
+            [self.searchContainer layoutIfNeeded];
+        }];
+    }
 }
 
 - (void) fetchChatParticipantCount {
