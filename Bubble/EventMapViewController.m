@@ -71,7 +71,6 @@
 @property (assign, nonatomic) CGFloat scrollViewStartingPosition;
 @property (assign, nonatomic) CGFloat scrollViewMiniViewPosition;
 @property (assign, nonatomic) CGFloat scrollViewDetailedPosition;
-@property (nonatomic, assign) BOOL annotationSelected;
 @end
 
 @implementation EventMapViewController
@@ -135,7 +134,7 @@
             
             if (!strongSelf.loaded) {
                 strongSelf.loaded = YES;
-                [SVProgressHUD show];
+                [SVProgressHUD showWithMaskType:SVProgressHUDMaskTypeClear];
                 [strongSelf.dataStore getAllEventsWithLocation:strongSelf.currentLocation date:[NSDate date]];
                 
                 [strongSelf.mapView setRegion:MKCoordinateRegionMake(strongSelf.currentLocation.coordinate, MKCoordinateSpanMake(.1, .1)) animated:NO];
@@ -307,10 +306,11 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-    // Just as a reminder that this exists
+
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+
     [self resizeAnnotation];
 }
 
@@ -331,42 +331,37 @@
         [self hideMiniVC];
         [self hideSearchBar];
         
+        // Prevents inadvertant selection of different annotation while pinching
+        self.mapView.userInteractionEnabled = NO;
+        
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
 
         [self showMiniVCAndSearchBar];
+        self.mapView.userInteractionEnabled = YES;
     }
 }
 
 - (void) resizeAnnotation {
-    double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
-    double sizeMultiplier;
-    if (newAnnotationSize/2 > 13){
-        newAnnotationSize = newAnnotationSize * 1.25;
-    }
-    else if(newAnnotationSize/2 < 13){
-        newAnnotationSize = newAnnotationSize * 0.7;
-    }
     
     for (id <MKAnnotation>annotation in self.mapView.annotations) {
         
         if ([annotation isKindOfClass:[MKUserLocation class]])
             continue;
-        if ([annotation isKindOfClass:[BBAnnotation class]])
-        {
-            BBAnnotation * annon = annotation;
-            if ([annon.eventScore doubleValue] > 100){
-                sizeMultiplier = 1.25;
+        if ([annotation isKindOfClass:[BBAnnotation class]]) {
+            double zoomLevel = [self.mapView currentZoomLevel];
+            
+            if (zoomLevel < 14) {
+                zoomLevel = 8;
             }
-            else if ([annon.eventScore doubleValue] < 1 && [annon.eventScore doubleValue] > 0.65){
-                sizeMultiplier = 1.25;
-            }
-            else{
-                sizeMultiplier = 1;
-            }
+            
+            // Max zoom is 18, zoom level above 14 will make annotation larger than default size
+            double scale = (zoomLevel / 14);
+            
             MKAnnotationView *pinView = [self.mapView viewForAnnotation:annotation];
-        
-            pinView.frame = CGRectMake(0,0,newAnnotationSize * sizeMultiplier,newAnnotationSize * sizeMultiplier);
-                [pinView layoutIfNeeded];
+            
+            [UIView animateWithDuration:.4 animations:^{
+                pinView.transform = CGAffineTransformMakeScale(scale, scale);
+            }];
         }
     }
 }
