@@ -311,7 +311,7 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-   
+    [self resizeAnnotation];
 }
 
 
@@ -334,35 +334,39 @@
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
 
         [self showMiniVCAndSearchBar];
+    }
+}
+
+- (void) resizeAnnotation {
+    double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
+    double sizeMultiplier;
+    if (newAnnotationSize/2 > 13){
+        newAnnotationSize = newAnnotationSize * 1.25;
+    }
+    else if(newAnnotationSize/2 < 13){
+        newAnnotationSize = newAnnotationSize * 0.7;
+    }
+    
+    for (id <MKAnnotation>annotation in self.mapView.annotations) {
         
-        double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
-        double sizeMultiplier;
-        if (newAnnotationSize/2 > 13){
-            newAnnotationSize = newAnnotationSize * 1.25;
-        }
-        else if(newAnnotationSize/2 < 13){
-            newAnnotationSize = newAnnotationSize * 0.7;
-        }
-        
-        for (id <MKAnnotation>annotation in self.mapView.annotations) {
-            
-            if ([annotation isKindOfClass:[MKUserLocation class]])
-                continue;
-            if ([annotation isKindOfClass:[BBAnnotation class]])
-            {
-                BBAnnotation * annon = annotation;
-                if ([annon.eventScore doubleValue] > 100){
-                    sizeMultiplier = 1.25;
-                }
-                else if ([annon.eventScore doubleValue] < 1 && [annon.eventScore doubleValue] > 0.65){
-                    sizeMultiplier = 1.25;
-                }
-                else{
-                    sizeMultiplier = 1;
-                }
-                MKAnnotationView *pinView = [self.mapView viewForAnnotation:annotation];
-                pinView.frame = CGRectMake(0,0,newAnnotationSize * sizeMultiplier,newAnnotationSize * sizeMultiplier);
+        if ([annotation isKindOfClass:[MKUserLocation class]])
+            continue;
+        if ([annotation isKindOfClass:[BBAnnotation class]])
+        {
+            BBAnnotation * annon = annotation;
+            if ([annon.eventScore doubleValue] > 100){
+                sizeMultiplier = 1.25;
             }
+            else if ([annon.eventScore doubleValue] < 1 && [annon.eventScore doubleValue] > 0.65){
+                sizeMultiplier = 1.25;
+            }
+            else{
+                sizeMultiplier = 1;
+            }
+            MKAnnotationView *pinView = [self.mapView viewForAnnotation:annotation];
+        
+            pinView.frame = CGRectMake(0,0,newAnnotationSize * sizeMultiplier,newAnnotationSize * sizeMultiplier);
+                [pinView layoutIfNeeded];
         }
     }
 }
@@ -438,10 +442,9 @@
                                  self.chatBubbleButton.alpha = 1;
                              }];
         }
+        [self centerOnSelectedAnnotation];
+        [self showMiniVC];
     }
-    
-    [self centerOnSelectedAnnotation];
-    [self showMiniVC];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
@@ -710,10 +713,10 @@
     self.scrollView.alwaysBounceVertical = YES;
     self.scrollView.alwaysBounceHorizontal = NO;
     self.scrollView.contentInset = UIEdgeInsetsMake(self.scrollViewStartingPosition * -1, 0, 0, 0);
-    self.eventDetailsVC = self.childViewControllers[0];
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
     
     self.chatBubbleButton.alpha = 0;
+    self.eventDetailsVC = self.childViewControllers[0];
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset{
@@ -746,7 +749,7 @@
 
 - (void) showMiniVC {
     
-    if (self.scrollView.contentOffset.y != self.scrollViewMiniViewPosition && self.selectedAnnotation != nil) {
+    if (self.selectedAnnotation != nil) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.25 animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition) animated:NO];
@@ -757,7 +760,7 @@
 
 - (void) hideMiniVC {
     
-    if (self.scrollView.contentOffset.y == self.scrollViewMiniViewPosition) {
+    if (self.scrollView.contentOffset.y != self.scrollViewStartingPosition) {
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.25 animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewStartingPosition) animated:NO];
