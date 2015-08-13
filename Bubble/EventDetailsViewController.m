@@ -161,7 +161,8 @@
 
 - (BOOL) googleMapsInstalled {
     NSURL *url = [NSURL URLWithString:@"comgooglemaps://"];
-    return [[UIApplication sharedApplication] canOpenURL:url];
+//    return [[UIApplication sharedApplication] canOpenURL:url];
+    return NO;
 }
 
 @end

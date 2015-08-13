@@ -175,7 +175,7 @@
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="kHV-DV-5nP" userLabel="# of Participants">
                                         <rect key="frame" x="318" y="49" width="0.0" height="0.0"/>
-                                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                        <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rkk-4f-xfG">
@@ -262,6 +262,7 @@
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
                         <outlet property="searchBarXConstraint" destination="8m3-XD-K1c" id="QIK-XO-mLj"/>
                         <outlet property="searchContainer" destination="tmA-WS-L5t" id="TLi-Dn-Gue"/>
+                        <outlet property="searchViewContainerYConstraint" destination="5Ab-hI-4To" id="mqZ-p2-IWx"/>
                         <segue destination="oRG-IA-6WU" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
                     </connections>
                 </viewController>
@@ -288,12 +289,12 @@
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="none" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="52e-vu-Pwx" userLabel="Event Title">
                                 <rect key="frame" x="16" y="8" width="208" height="88"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="30"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="wordWrap" minimumScaleFactor="1" translatesAutoresizingMaskIntoConstraints="NO" id="bji-Jk-eVs" userLabel="Start Time">
                                 <rect key="frame" x="18" y="96" width="0.0" height="0.0"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Venue-Header" translatesAutoresizingMaskIntoConstraints="NO" id="QRt-py-L2y">
@@ -303,19 +304,19 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue" lineBreakMode="wordWrap" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue">
-                                <rect key="frame" x="16" y="134" width="200" height="19"/>
+                                <rect key="frame" x="16" y="134" width="200" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="m6a-Op-pdm"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Madison Square Garden 285 6th Avenue New York, NY 10012" lineBreakMode="clip" numberOfLines="3" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="oyr-f8-fhw" userLabel="Venue Address">
-                                <rect key="frame" x="16" y="161" width="168" height="57"/>
+                                <rect key="frame" x="16" y="164" width="168" height="66"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="168" id="SdQ-g7-QjG"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BcD-t3-qJn" userLabel="Get Directions Button">
@@ -331,27 +332,27 @@
                                     <action selector="getDirectionsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="J1g-eb-SAy"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Get directions" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvV-fm-P5g" userLabel="Get Directions">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Get directions" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hvV-fm-P5g" userLabel="Get Directions">
                                 <rect key="frame" x="215" y="221" width="78" height="16"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tickets" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-M8-LeK" userLabel="Tickets">
-                                <rect key="frame" x="16" y="242" width="52" height="19"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="16"/>
+                                <rect key="frame" x="16" y="254" width="52.5" height="22"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="5" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="aa1-Kp-ACE" userLabel="Ticket Info">
-                                <rect key="frame" x="16" y="269" width="141" height="95"/>
+                                <rect key="frame" x="16" y="284" width="146" height="109.5"/>
                                 <string key="text">Tickets Available: 43
  Average: $120
 High: $290
 Low: $70</string>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MHF-6j-GIq" userLabel="Get tickets">
-                                <rect key="frame" x="204" y="265" width="100" height="78"/>
+                                <rect key="frame" x="204" y="280" width="100" height="78"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="MHF-6j-GIq" secondAttribute="height" multiplier="753:584" id="ld7-FU-LYw"/>
                                     <constraint firstAttribute="width" constant="100" id="twl-Px-N4F"/>
@@ -363,9 +364,9 @@ Low: $70</string>
                                     <action selector="getTicketsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="ioK-af-yzH"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Find Tickets" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8c-yp-a60" userLabel="Buy Tickets">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Find Tickets" textAlignment="center" lineBreakMode="wordWrap" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k8c-yp-a60" userLabel="Buy Tickets">
                                 <rect key="frame" x="220" y="347" width="68" height="16"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

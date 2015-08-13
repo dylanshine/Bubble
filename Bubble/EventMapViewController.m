@@ -49,6 +49,7 @@
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerXConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerYConstraint;
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
@@ -150,7 +151,7 @@
     self.eventsArray = eventsArray;
     if ([self.eventsArray isEqual:@[]]) {
         [self changeSearchBarWithColor:[UIColor redColor]];
-            }
+    }
     else{
         [self changeSearchBarWithColor:[UIColor grayColor]];
     }
@@ -261,9 +262,31 @@
     [self.mapView setCamera:mapCamera animated:NO];
 }
 
+- (void) centerOnSelectedAnnotation {
+    
+    if (self.mapView.camera.altitude < 2500) {
+        [self.mapView setCenterCoordinate:self.selectedAnnotation.coordinate animated:YES];
+        
+    } else {
+        MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.selectedAnnotation.coordinate fromEyeCoordinate:self.currentLocation.coordinate eyeAltitude:2500];
+        mapCamera.heading = 0;
+        mapCamera.pitch = 0;
+        [self.mapView setCamera:mapCamera animated:YES];
+    }
+}
+
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     return YES;
 }
+
+- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
+    // Just as a reminder that this exists
+}
+
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
+   
+}
+
 
 - (void)didDragMap:(UIGestureRecognizer*)gestureRecognizer {
     if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
@@ -277,8 +300,15 @@
     }
 }
 -(void)didPinchMap:(UIGestureRecognizer*)gestureRecognizer{
-    if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-//        NSLog(@"%d", [self.mapView currentZoomLevel]);
+    
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        [self hideDetailedVC];
+        [self hideSearchBar];
+        
+    } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
+
+        [self showDetailedVCAndSearchBar];
+        
         double newAnnotationSize = [self.mapView currentZoomLevel] * 2;
         double sizeMultiplier;
         if (newAnnotationSize/2 > 13){
@@ -355,11 +385,13 @@
         closestAnnotation.title = @"😱 No Events Found 😱";
     }
     [self.mapView selectAnnotation:closestAnnotation animated:YES];
-    [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.075, .075)) animated:YES];
+    [self.mapView setRegion:MKCoordinateRegionMake(closestAnnotation.coordinate, MKCoordinateSpanMake(.02, .02)) animated:YES];
 }
 
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
+    
     BBAnnotation *annotation = view.annotation;
+    
     if (![self.mapView.selectedAnnotations[0] isMemberOfClass:[MKUserLocation class]]) {
         self.scrollView.scrollEnabled = YES;
         self.selectedAnnotation = annotation;
@@ -381,11 +413,14 @@
                              }];
         }
     }
-    [self.mapView setCenterCoordinate:annotation.coordinate animated:YES];
-    [self showDetailedVC];
+    
+    [self centerOnSelectedAnnotation];
+    [self showDetailedVCAndSearchBar];
 }
 
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view {
+    NSLog(@"Did Deselect");
+    self.selectedAnnotation = nil;
     [self hideDetailedVC];
 }
 
@@ -552,10 +587,11 @@
     translucentView.translucentAlpha = 1;
     translucentView.translucentStyle = UIStatusBarStyleDefault;
     
-    [self.view insertSubview:translucentView aboveSubview:self.mapView];
+    [self.searchContainer insertSubview:translucentView atIndex:0];
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.left.equalTo(@0);
+        make.right.left.equalTo(@0);
+        make.top.equalTo(@0).offset(-20);
         make.height.equalTo(@65);
     }];
 }
@@ -704,14 +740,21 @@
     }
 }
 
-- (void) showDetailedVC {
+// These are called from mapView RegionWillChangeAnimated
+
+- (void) showDetailedVCAndSearchBar {
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
-        [UIView animateWithDuration:.25 animations:^{
-            [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
-            
-        }];
+        
+        [self showSearchBar];
+        
+        if (self.selectedAnnotation != nil) {
+            [UIView animateWithDuration:.25 animations:^{
+                [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition * -1) animated:NO];
+            }];
+        }
     });
+    
 }
 
 - (void) hideDetailedVC {
@@ -724,6 +767,22 @@
             }];
         });
     }
+}
+
+- (void) showSearchBar {
+    
+    [UIView animateWithDuration:.25 animations:^{
+        self.searchViewContainerYConstraint.constant = 0;
+        [self.searchContainer layoutIfNeeded];
+    }];
+}
+
+- (void) hideSearchBar {
+    
+    [UIView animateWithDuration:.25 animations:^{
+        self.searchViewContainerYConstraint.constant = -100;
+        [self.searchContainer layoutIfNeeded];
+    }];
 }
 
 - (void) fetchChatParticipantCount {
