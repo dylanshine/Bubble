@@ -262,6 +262,7 @@
                         <outlet property="searchBar" destination="5LK-mr-ibY" id="gRA-1u-b6F"/>
                         <outlet property="searchBarXConstraint" destination="8m3-XD-K1c" id="QIK-XO-mLj"/>
                         <outlet property="searchContainer" destination="tmA-WS-L5t" id="TLi-Dn-Gue"/>
+                        <outlet property="searchViewContainerYConstraint" destination="5Ab-hI-4To" id="mqZ-p2-IWx"/>
                         <segue destination="oRG-IA-6WU" kind="presentation" identifier="chatSegue" id="rH6-KZ-Q0E"/>
                     </connections>
                 </viewController>

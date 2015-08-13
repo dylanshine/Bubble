@@ -49,6 +49,9 @@
 @property (weak, nonatomic) IBOutlet UIDatePicker *datePicker;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerCenterConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *datePickerXConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *searchViewContainerYConstraint;
+
+
 @property (strong, nonatomic) UIView *pickerBackground;
 @property (strong, nonatomic) NSDate *date;
 @property (weak, nonatomic) IBOutlet UIButton *menuButton;
@@ -552,10 +555,11 @@
     translucentView.translucentAlpha = 1;
     translucentView.translucentStyle = UIStatusBarStyleDefault;
     
-    [self.view insertSubview:translucentView aboveSubview:self.mapView];
+    [self.searchContainer insertSubview:translucentView atIndex:0];
     
     [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.left.equalTo(@0);
+        make.right.left.equalTo(@0);
+        make.top.equalTo(@0).offset(-20);
         make.height.equalTo(@65);
     }];
 }
