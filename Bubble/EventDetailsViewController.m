@@ -44,17 +44,6 @@
 
 - (void)adjustFontForDeviceSize {
     
-    if (self.eventTitle.text.length > 20) {
-        self.eventTitle.numberOfLines = 2;
-        self.eventTitle.minimumScaleFactor = 0.8;
-        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
-        
-    } else {
-        self.eventTitle.numberOfLines = 1;
-        self.eventTitle.minimumScaleFactor = .7;
-        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
-    }
-    
     if (self.view.frame.size.width == 320) {
         [self.eventTitle adjustFontSizeToFitWithMaxSize:26];
         self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
@@ -107,6 +96,17 @@
     self.eventAddress.text = [NSString stringWithFormat:@"%@\n%@, %@ %@",self.event.addressStreet,self.event.addressCity,self.event.addressState,self.event.addressZip];
 
     self.eventTickets.text = [NSString stringWithFormat:@"%@\n\n%@\n%@\n%@",self.event.ticketsAvailable,self.event.ticketPriceAvg,self.event.ticketPriceHigh,self.event.ticketPriceLow];
+    
+    if (self.eventTitle.text.length > 20) {
+        self.eventTitle.numberOfLines = 2;
+        self.eventTitle.minimumScaleFactor = 0.8;
+        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
+        
+    } else {
+        self.eventTitle.numberOfLines = 1;
+        self.eventTitle.minimumScaleFactor = .7;
+        self.eventTitle.lineBreakMode = NSLineBreakByTruncatingTail;
+    }
     
     [self adjustFontForDeviceSize];
 }
