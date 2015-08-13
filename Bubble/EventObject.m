@@ -26,7 +26,6 @@
     NSString *date = [eventTime substringToIndex:10];
     NSString *time = [eventTime substringFromIndex:11];
     NSString *dateTime = [NSString stringWithFormat:@"%@ %@", date, time];
-    NSLog(@"%@", dateTime);
     
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
     [dateFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -76,7 +75,7 @@
         eventImageURL = @"https://placekitten.com/g/414/310";
     }
     
-    NSNumber *eventScore = jsonDict[@"score"];
+    NSNumber *eventScore = [self checkIfNull:jsonDict[@"score"]];
     NSNumber *venueScore = jsonDict[@"venue"][@"score"];
     
     NSMutableArray *eventPerformers = [[NSMutableArray alloc]init];;
@@ -160,7 +159,7 @@
         eventImageURL = @"https://placekitten.com/g/414/310";
     }
     
-    NSNumber *eventScore = jsonDict[@"yes_rsvp_count"];
+    NSNumber *eventScore = [self checkIfNull:jsonDict[@"yes_rsvp_count"]];
     
     NSMutableArray *eventPerformers = [[NSMutableArray alloc]init];;
     [eventPerformers addObject:jsonDict[@"group"][@"name"]];
@@ -250,6 +249,15 @@
         return YES;
     }
     return  NO;
+}
+
+- (NSNumber*)checkIfNull:(NSNumber*)number{
+    if ([number isKindOfClass:[NSNull class]]){
+        return @0;
+    }
+    else {
+        return number;
+    }
 }
 
 @end
