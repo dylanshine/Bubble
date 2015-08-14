@@ -8,10 +8,9 @@
 @interface EventDetailsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *eventTitle;
 @property (weak, nonatomic) IBOutlet UILabel *eventStartTime;
-@property (weak, nonatomic) IBOutlet UILabel *eventVenueName;
-@property (weak, nonatomic) IBOutlet UILabel *eventAddress;
-@property (weak, nonatomic) IBOutlet UILabel *eventTicketsTitle;
-@property (weak, nonatomic) IBOutlet UILabel *eventTickets;
+@property (weak, nonatomic) IBOutlet UILabel *eventVenueInfo;
+@property (weak, nonatomic) IBOutlet UILabel *eventTicketsOrAttendeesInfo;
+
 @end
 
 @implementation EventDetailsViewController
@@ -39,28 +38,22 @@
         
         [self.eventTitle adjustFontSizeToFitWithMaxSize:18];
         self.eventStartTime.font = [self.eventStartTime.font fontWithSize:12];
-        self.eventAddress.font = [self.eventAddress.font fontWithSize:12];
-        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTickets.font = [self.eventTickets.font fontWithSize:12];
+        self.eventVenueInfo.font = [self.eventVenueInfo.font fontWithSize:self.eventTitle.font.pointSize];
+        self.eventTicketsOrAttendeesInfo.font = [self.eventTicketsOrAttendeesInfo.font fontWithSize:12];
         
     } else if (self.view.frame.size.width == 375){
         
         [self.eventTitle adjustFontSizeToFitWithMaxSize:22];
         self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
-        self.eventAddress.font = [self.eventAddress.font fontWithSize:14];
-        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTickets.font = [self.eventTickets.font fontWithSize:14];
+        self.eventVenueInfo.font = [self.eventVenueInfo.font fontWithSize:self.eventTitle.font.pointSize];
+        self.eventTicketsOrAttendeesInfo.font = [self.eventTicketsOrAttendeesInfo.font fontWithSize:self.eventTitle.font.pointSize];
         
     } else {
         
         [self.eventTitle adjustFontSizeToFitWithMaxSize:26];
         self.eventStartTime.font = [self.eventStartTime.font fontWithSize:14];
-        self.eventAddress.font = [self.eventAddress.font fontWithSize:16];
-        self.eventVenueName.font = [self.eventVenueName.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTicketsTitle.font = [self.eventTicketsTitle.font fontWithSize:self.eventTitle.font.pointSize];
-        self.eventTickets.font = [self.eventTickets.font fontWithSize:16];
+//        self.eventVenueInfo.font = [self.eventVenueInfo.font fontWithSize:self.eventTitle.font.pointSize];
+        self.eventTicketsOrAttendeesInfo.font = [self.eventTicketsOrAttendeesInfo.font fontWithSize:self.eventTitle.font.pointSize];
     }
 }
 
@@ -75,11 +68,10 @@
     
     self.eventStartTime.text = [NSString stringWithFormat:@"Start time: %@",self.event.eventTime];
     
-    self.eventVenueName.text = self.event.venueName;
+    self.eventVenueInfo.numberOfLines = 3;
+    self.eventVenueInfo.attributedText = [self venueAttributedText];
     
-    self.eventAddress.text = [NSString stringWithFormat:@"%@\n%@, %@ %@",self.event.addressStreet,self.event.addressCity,self.event.addressState,self.event.addressZip];
-    
-    self.eventTickets.text = [NSString stringWithFormat:@"%@\n\n%@\n%@\n%@",self.event.ticketsAvailable,self.event.ticketPriceAvg,self.event.ticketPriceHigh,self.event.ticketPriceLow];
+//    self.eventTickets.text = [NSString stringWithFormat:@"%@\n\n%@\n%@\n%@",self.event.ticketsAvailable,self.event.ticketPriceAvg,self.event.ticketPriceHigh,self.event.ticketPriceLow];
     
     if (self.eventTitle.text.length > 20) {
         self.eventTitle.numberOfLines = 2;
@@ -95,6 +87,37 @@
     [self adjustFontSize];
 }
 
+
+- (NSAttributedString *) venueAttributedText {
+
+    UIFont *headerFont = self.eventTitle.font;
+    UIFont *bodyFont = [self.eventTitle.font fontWithSize:14];
+
+    
+    NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:headerFont forKey:NSFontAttributeName];
+    
+    NSMutableAttributedString *venueInfo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@\n%@, %@ %@",
+                                                                                              self.event.venueName,
+                                                                                              self.event.addressStreet,
+                                                                                              self.event.addressCity,
+                                                                                              self.event.addressState,
+                                                                                              self.event.addressZip]
+                                            
+                                                                                  attributes:attrsDictionary];
+    [venueInfo beginEditing];
+    
+    NSRange bodyRange = NSMakeRange(self.event.venueName.length, venueInfo.length - self.event.venueName.length);
+    
+    NSLog(@"%lu %lu",bodyRange.location,(unsigned long)bodyRange.length);
+    
+    [venueInfo addAttribute:NSFontAttributeName
+                      value:bodyFont
+                      range:bodyRange];
+    
+    [venueInfo endEditing];
+    
+    return [venueInfo copy];
+}
 
 - (IBAction)getDirectionsTapped:(id)sender {
     

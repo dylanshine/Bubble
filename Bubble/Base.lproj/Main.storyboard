@@ -58,7 +58,7 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Axx-4m-T16">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </mapView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tmA-WS-L5t" customClass="BBSearchViewPassThrough">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tmA-WS-L5t" customClass="BBSearchViewPassThrough">
                                 <rect key="frame" x="0.0" y="20" width="375" height="216"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N96-GO-Zc0">
@@ -170,7 +170,7 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
+                            <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TCK-NK-859" customClass="BBScrollViewPassThrough">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mZE-da-erF" userLabel="Event Image">
@@ -343,20 +343,12 @@
                                     <constraint firstAttribute="height" constant="30" id="R4d-rw-9Yb"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venue" lineBreakMode="wordWrap" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Venue" lineBreakMode="wordWrap" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ulE-cu-9zb" userLabel="Venue">
                                 <rect key="frame" x="16" y="130" width="47" height="22"/>
-                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
+                                <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="13"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Madison Square Garden 285 6th Avenue New York, NY 10012" lineBreakMode="clip" numberOfLines="3" minimumScaleFactor="0.80000000000000004" translatesAutoresizingMaskIntoConstraints="NO" id="oyr-f8-fhw" userLabel="Venue Address">
-                                <rect key="frame" x="16" y="160" width="168" height="66"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="168" id="SdQ-g7-QjG"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzE-DC-pxK" userLabel="getDirectionsButton">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yzE-DC-pxK" userLabel="getDirectionsButton">
                                 <rect key="frame" x="276" y="152" width="20" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yzE-DC-pxK" secondAttribute="height" multiplier="424:726" id="UxX-Se-Bgh"/>
@@ -369,27 +361,18 @@
                                     <action selector="getDirectionsTapped:" destination="1Bi-iS-RdZ" eventType="touchUpInside" id="P4l-cs-GTV"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Grey-Divider" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-Vq-4RM" userLabel="Middle Divider">
+                            <imageView userInteractionEnabled="NO" alpha="0.25" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="Grey-Divider" translatesAutoresizingMaskIntoConstraints="NO" id="Usi-Vq-4RM" userLabel="Middle Divider">
                                 <rect key="frame" x="0.0" y="226" width="320" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="3EW-WS-hhH"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tickets" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-M8-LeK" userLabel="Tickets">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Tickets" lineBreakMode="wordWrap" numberOfLines="2" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="IgD-M8-LeK" userLabel="Tickets">
                                 <rect key="frame" x="16" y="256" width="53" height="22"/>
                                 <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="16"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="5" minimumScaleFactor="0.20000000298023224" translatesAutoresizingMaskIntoConstraints="NO" id="aa1-Kp-ACE" userLabel="Ticket Info">
-                                <rect key="frame" x="16" y="286" width="146" height="110"/>
-                                <string key="text">Tickets Available: 43
- Average: $120
-High: $290
-Low: $70</string>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="16"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gu-Ki-OB0" userLabel="getTicketsButton">
+                            <button opaque="NO" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2gu-Ki-OB0" userLabel="getTicketsButton">
                                 <rect key="frame" x="276" y="324" width="20" height="35"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2gu-Ki-OB0" secondAttribute="height" multiplier="424:726" id="ZXP-kN-hem"/>
@@ -409,44 +392,36 @@ Low: $70</string>
                             <constraint firstItem="bji-Jk-eVs" firstAttribute="top" secondItem="52e-vu-Pwx" secondAttribute="bottom" id="2E1-a7-4vy"/>
                             <constraint firstItem="IgD-M8-LeK" firstAttribute="top" secondItem="Usi-Vq-4RM" secondAttribute="bottom" id="5GS-sW-vRq"/>
                             <constraint firstItem="2gu-Ki-OB0" firstAttribute="trailing" secondItem="bDp-pf-5OZ" secondAttribute="trailingMargin" constant="-8" id="5vT-AT-VTx"/>
-                            <constraint firstItem="Usi-Vq-4RM" firstAttribute="top" secondItem="oyr-f8-fhw" secondAttribute="bottom" id="6yv-Cj-JBL"/>
                             <constraint firstItem="Atr-XU-CUl" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" id="Akt-Sa-Wv2"/>
                             <constraint firstItem="QRt-py-L2y" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="DTi-t2-hEB"/>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="15" id="FSH-x2-3jn"/>
                             <constraint firstItem="yzE-DC-pxK" firstAttribute="top" secondItem="ulE-cu-9zb" secondAttribute="bottom" id="Fen-lc-zdO"/>
+                            <constraint firstItem="Usi-Vq-4RM" firstAttribute="top" secondItem="ulE-cu-9zb" secondAttribute="bottom" constant="74" id="FqU-sH-l1x"/>
                             <constraint firstItem="QRt-py-L2y" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" id="I38-kh-ymq"/>
                             <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerX" secondItem="bDp-pf-5OZ" secondAttribute="centerX" id="LXX-X5-ANp"/>
-                            <constraint firstItem="2gu-Ki-OB0" firstAttribute="centerY" secondItem="aa1-Kp-ACE" secondAttribute="centerY" id="Lsq-gv-tuY"/>
                             <constraint firstItem="Atr-XU-CUl" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leading" id="N8u-h1-RaC"/>
-                            <constraint firstItem="oyr-f8-fhw" firstAttribute="leading" secondItem="IgD-M8-LeK" secondAttribute="leading" id="QVQ-e6-Csq"/>
                             <constraint firstItem="bji-Jk-eVs" firstAttribute="leading" secondItem="52e-vu-Pwx" secondAttribute="leading" id="Vtj-wZ-rNu"/>
                             <constraint firstItem="QRt-py-L2y" firstAttribute="top" secondItem="X6j-qO-wKY" secondAttribute="bottom" constant="100" id="du1-7t-3NG"/>
                             <constraint firstAttribute="height" secondItem="Gp3-6h-8Go" secondAttribute="height" id="hIy-h1-tGL"/>
-                            <constraint firstItem="aa1-Kp-ACE" firstAttribute="top" secondItem="IgD-M8-LeK" secondAttribute="bottom" constant="8" id="hoS-hm-Cvc"/>
                             <constraint firstItem="Usi-Vq-4RM" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" id="imB-nt-wb9"/>
-                            <constraint firstItem="IgD-M8-LeK" firstAttribute="leading" secondItem="aa1-Kp-ACE" secondAttribute="leading" id="jRa-eR-Bqq"/>
                             <constraint firstItem="yzE-DC-pxK" firstAttribute="trailing" secondItem="bDp-pf-5OZ" secondAttribute="trailingMargin" constant="-8" id="k3s-fk-FEG"/>
                             <constraint firstAttribute="trailing" secondItem="Atr-XU-CUl" secondAttribute="trailing" id="kAD-cb-5T9"/>
                             <constraint firstItem="Gp3-6h-8Go" firstAttribute="centerY" secondItem="bDp-pf-5OZ" secondAttribute="centerY" id="mo3-4Y-fF1"/>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="ulE-cu-9zb" secondAttribute="leading" id="oCs-rf-9FV"/>
                             <constraint firstItem="LYP-2D-z7r" firstAttribute="top" secondItem="Atr-XU-CUl" secondAttribute="bottom" id="pC2-Z7-e2a"/>
                             <constraint firstItem="ulE-cu-9zb" firstAttribute="top" secondItem="QRt-py-L2y" secondAttribute="bottom" id="pUo-VO-q3P"/>
-                            <constraint firstItem="oyr-f8-fhw" firstAttribute="top" secondItem="ulE-cu-9zb" secondAttribute="bottom" constant="8" id="plP-Kn-db0"/>
                             <constraint firstAttribute="width" secondItem="Gp3-6h-8Go" secondAttribute="width" id="rxb-Rg-ZOQ"/>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="width" secondItem="bDp-pf-5OZ" secondAttribute="width" multiplier="0.7" id="wmu-96-p0y"/>
-                            <constraint firstItem="ulE-cu-9zb" firstAttribute="leading" secondItem="oyr-f8-fhw" secondAttribute="leading" id="xdD-31-cZg"/>
                             <constraint firstItem="52e-vu-Pwx" firstAttribute="leading" secondItem="bDp-pf-5OZ" secondAttribute="leadingMargin" id="y6q-TS-34l"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
-                        <outlet property="eventAddress" destination="oyr-f8-fhw" id="jW4-5g-DsP"/>
                         <outlet property="eventStartTime" destination="bji-Jk-eVs" id="Lv5-YQ-yPA"/>
-                        <outlet property="eventTickets" destination="aa1-Kp-ACE" id="0Tr-sm-TuI"/>
-                        <outlet property="eventTicketsTitle" destination="IgD-M8-LeK" id="sq7-sD-Xco"/>
+                        <outlet property="eventTicketsOrAttendeesInfo" destination="IgD-M8-LeK" id="H6t-WD-mK3"/>
                         <outlet property="eventTitle" destination="52e-vu-Pwx" id="dfi-0b-RxF"/>
-                        <outlet property="eventVenueName" destination="ulE-cu-9zb" id="E1f-8N-kfc"/>
+                        <outlet property="eventVenueInfo" destination="ulE-cu-9zb" id="FEd-Sm-MJg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6hd-w8-2QO" userLabel="First Responder" sceneMemberID="firstResponder"/>
