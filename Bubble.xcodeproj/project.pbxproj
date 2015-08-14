@@ -20,7 +20,6 @@
 		8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */ = {isa = PBXBuildFile; fileRef = 801114091B725FD5005FF955 /* BBSearchViewPassThrough.m */; };
 		802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273821B6A784D00C62E50 /* BBChatViewController.m */; };
 		802273861B6A805A00C62E50 /* BBMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273851B6A805A00C62E50 /* BBMessage.m */; };
-		802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 802273881B6AD81E00C62E50 /* ILTranslucentView.m */; };
 		80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */; };
 		8087EE1E1B66D28C009258E5 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE1D1B66D28C009258E5 /* main.m */; };
 		8087EE211B66D28C009258E5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8087EE201B66D28C009258E5 /* AppDelegate.m */; };
@@ -82,8 +81,6 @@
 		802273821B6A784D00C62E50 /* BBChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBChatViewController.m; sourceTree = "<group>"; };
 		802273841B6A805A00C62E50 /* BBMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBMessage.h; sourceTree = "<group>"; };
 		802273851B6A805A00C62E50 /* BBMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBMessage.m; sourceTree = "<group>"; };
-		802273871B6AD81E00C62E50 /* ILTranslucentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILTranslucentView.h; sourceTree = "<group>"; };
-		802273881B6AD81E00C62E50 /* ILTranslucentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ILTranslucentView.m; sourceTree = "<group>"; };
 		80839ADC1B697813008BBC7C /* UISearchBar+EnableReturnKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+EnableReturnKey.h"; sourceTree = "<group>"; };
 		80839ADD1B697813008BBC7C /* UISearchBar+EnableReturnKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+EnableReturnKey.m"; sourceTree = "<group>"; };
 		8087EE181B66D28B009258E5 /* Bubble.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Bubble.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -337,8 +334,6 @@
 				FC688EDC1B7901E2003B46A9 /* FriendCell.m */,
 				1760C0891B73F5620013C287 /* BubbleAnimationView.h */,
 				1760C08A1B73F5620013C287 /* BubbleAnimationView.m */,
-				802273871B6AD81E00C62E50 /* ILTranslucentView.h */,
-				802273881B6AD81E00C62E50 /* ILTranslucentView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -474,7 +469,6 @@
 				8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,
 				1760C08B1B73F5620013C287 /* BubbleAnimationView.m in Sources */,
-				802273891B6AD81E00C62E50 /* ILTranslucentView.m in Sources */,
 				CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */,
 				FC688EDD1B7901E2003B46A9 /* FriendCell.m in Sources */,
 				809820931B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m in Sources */,

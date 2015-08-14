@@ -1,5 +1,4 @@
 #import "EventDetailsViewController.h"
-#import "ILTranslucentView.h"
 #import "UILabel+AutoresizeFontMultiLine.h"
 #import "WebViewController.h"
 #import <Masonry/Masonry.h>
@@ -24,14 +23,11 @@
 
 - (void)makeTranslucentBackground {
     
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
+    UIVisualEffectView *view = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     
-    translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIBarStyleDefault;
+    [self.view insertSubview:view atIndex:0];
     
-    [self.view insertSubview:translucentView atIndex:0];
-    
-    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.left.equalTo(@0);
         make.top.equalTo(@0);
     }];
@@ -113,7 +109,7 @@
                                                                          self.currentLocation.latitude,
                                                                          self.currentLocation.longitude,
                                                                          self.event.eventLocation.coordinate.latitude,
-                                                                        self.event.eventLocation.coordinate.longitude]]];
+                                                                         self.event.eventLocation.coordinate.longitude]]];
     }
 }
 

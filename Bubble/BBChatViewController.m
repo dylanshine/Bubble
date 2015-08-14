@@ -3,7 +3,6 @@
 #import "ChatDataManager.h"
 #import "Friend.h"
 #import "FriendCell.h"
-#import "ILTranslucentView.h"
 #import "XMPPManager.h"
 #import <JSQMessages.h>
 #import <JSQMessagesBubbleImageFactory.h>
@@ -392,14 +391,11 @@
 
 - (void) setTranslucentBackground {
     
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] init];
+    UIVisualEffectView *view = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     
-    translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIStatusBarStyleDefault;
+    [self.view insertSubview:view belowSubview:self.friendTV];
     
-    [self.view insertSubview:translucentView belowSubview:self.friendTV];
-
-    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.size.equalTo(self.friendTV);
         make.top.and.left.equalTo(self.friendTV);
     }];

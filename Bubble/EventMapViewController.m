@@ -23,7 +23,6 @@
 #import <SVProgressHUD.h>
 #import <IGLDropDownMenu.h>
 #import "BBSearchViewPassThrough.h"
-#import "ILTranslucentView.h"
 #import <Parse.h>
 #import "CoreDataStack.h"
 #import "SubscribedEvent+setPropertiesWithEvent.h"
@@ -70,7 +69,6 @@
 @property (strong, nonatomic) BBAnnotation *selectedAnnotation;
 @property (assign, nonatomic) CGFloat scrollViewStartingPosition;
 @property (assign, nonatomic) CGFloat scrollViewMiniViewPosition;
-@property (assign, nonatomic) CGFloat scrollViewDetailedPosition;
 @end
 
 @implementation EventMapViewController
@@ -604,15 +602,12 @@
 }
 
 - (void) translucentHeaderSetup {
+        
+    UIVisualEffectView *view = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 50)];
+    [self.searchContainer insertSubview:view atIndex:0];
     
-    translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIBarStyleDefault;
-    
-    [self.searchContainer insertSubview:translucentView atIndex:0];
-    
-    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.left.equalTo(@0);
         make.top.equalTo(@0).offset(-20);
         make.height.equalTo(@65);
@@ -689,18 +684,8 @@
     self.scrollView.delegate = self;
     
     self.scrollViewStartingPosition = -1 * (self.view.frame.size.height + 50);
-    self.scrollViewMiniViewPosition = -1 * (self.view.frame.size.height - 120);
-    
-    if (self.view.frame.size.width == 320) {
-        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 62;
-        
-    } else if (self.view.frame.size.width == 375){
-        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height + 22;
-        
-    } else {
-        self.scrollViewDetailedPosition = -self.eventImage.frame.size.height - 8;
-    }
-    
+    self.scrollViewMiniViewPosition = -1 * (self.view.frame.size.height - 100);
+
     self.scrollView.scrollEnabled = NO;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -718,7 +703,6 @@
     
     if (velocity.y >= 0) {
         [self showDetailedVC];
-        
     } else {
         [self hideDetailedVC];
     }
@@ -726,9 +710,8 @@
 
 - (void) toggleScrollViewLocation {
     
-    if (self.scrollView.contentOffset.y != self.scrollViewDetailedPosition) {
+    if (self.scrollView.contentOffset.y != -self.eventImage.frame.size.height) {
         [self showDetailedVC];
-        
     } else {
         [self hideDetailedVC];
     }
@@ -767,7 +750,7 @@
 - (void) showDetailedVC {
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.3 animations:^{
-            [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewDetailedPosition) animated:NO];
+            [self.scrollView setContentOffset:CGPointMake(0, -self.eventImage.frame.size.height) animated:NO];
             
             self.eventImageTopConstraint.constant = 0;
             [self.eventImage layoutIfNeeded];
@@ -846,7 +829,6 @@
         } else {
             [self.chatBubbleButton setImage:[UIImage imageNamed:@"bookmark"] forState:UIControlStateNormal];
         }
-        
     }
 }
 
@@ -945,10 +927,6 @@
     } else {
         [self createSubscriptionToEvent:self.eventDetailsVC.event];
     }
-    
 }
-
-
-
 
 @end
