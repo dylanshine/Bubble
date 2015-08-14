@@ -1,5 +1,4 @@
 #import "FacebookLoginManager.h"
-#import "ILTranslucentView.h"
 #import "LoginViewController.h"
 #import <FBSDKLoginButton.h>
 #import <Masonry/Masonry.h>
@@ -37,15 +36,13 @@
 
 - (void) makeTranslucentBackground {
     
-    ILTranslucentView *translucentView = [[ILTranslucentView alloc] initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, self.view.frame.size.height)];
+    UIVisualEffectView *view = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     
-    translucentView.translucentAlpha = 1;
-    translucentView.translucentStyle = UIBarStyleBlack;
+    [self.view addSubview:view];
     
-    [self.view addSubview:translucentView];
-    
-    [translucentView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(@0);
+    [view mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.left.equalTo(@0);
+        make.top.equalTo(@0);
     }];
 }
 
