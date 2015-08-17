@@ -98,7 +98,7 @@
     
     emitterCell.lifetime = 50.00;
     emitterCell.lifetimeRange = 1;
-    emitterCell.birthRate = 4;
+    emitterCell.birthRate = 12;
     emitterCell.velocity = 4.00;
     emitterCell.velocityRange = 1.00;
     emitterCell.xAcceleration = 0.00;
