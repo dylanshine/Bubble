@@ -282,7 +282,7 @@
 
 - (void) mapSetup {
     MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:9500];
-
+    
     [self.mapView setCamera:mapCamera animated:NO];
 }
 
@@ -304,11 +304,11 @@
 }
 
 - (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated {
-
+    
 }
 
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated {
-
+    
     [self resizeAnnotation];
 }
 
@@ -333,7 +333,7 @@
         self.mapView.userInteractionEnabled = NO;
         
     } else if (gestureRecognizer.state == UIGestureRecognizerStateEnded){
-
+        
         [self showMiniVCAndSearchBar];
         self.mapView.userInteractionEnabled = YES;
     }
@@ -602,7 +602,7 @@
 }
 
 - (void) translucentHeaderSetup {
-        
+    
     UIVisualEffectView *view = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
     
     [self.searchContainer insertSubview:view atIndex:0];
@@ -685,7 +685,7 @@
     
     self.scrollViewStartingPosition = -1 * (self.view.frame.size.height + 50);
     self.scrollViewMiniViewPosition = -1 * (self.view.frame.size.height - 100);
-
+    
     self.scrollView.scrollEnabled = NO;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -710,7 +710,7 @@
 
 - (void) toggleScrollViewLocation {
     
-    if (self.scrollView.contentOffset.y != -self.eventImage.frame.size.height) {
+    if (self.scrollView.contentOffset.y < -400) {
         [self showDetailedVC];
     } else {
         [self hideDetailedVC];
