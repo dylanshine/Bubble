@@ -282,7 +282,7 @@
 
 - (void) mapSetup {
     MKMapCamera *mapCamera = [MKMapCamera cameraLookingAtCenterCoordinate:self.mapView.centerCoordinate fromEyeCoordinate:self.mapView.centerCoordinate eyeAltitude:9500];
-    mapCamera.heading = 28.25;
+
     [self.mapView setCamera:mapCamera animated:NO];
 }
 
@@ -751,7 +751,7 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
         [UIView animateWithDuration:.3 animations:^{
             [self.scrollView setContentOffset:CGPointMake(0, -self.eventImage.frame.size.height) animated:NO];
-            
+            self.mapView.userInteractionEnabled = NO;
             self.eventImageTopConstraint.constant = 0;
             [self.eventImage layoutIfNeeded];
         }];
@@ -764,7 +764,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:.25 animations:^{
                 [self.scrollView setContentOffset:CGPointMake(0, self.scrollViewMiniViewPosition) animated:NO];
-                
+                self.mapView.userInteractionEnabled = YES;
                 self.eventImageTopConstraint.constant = self.eventImage.frame.size.height + 500;
                 [self.eventImage layoutIfNeeded];
             }];
