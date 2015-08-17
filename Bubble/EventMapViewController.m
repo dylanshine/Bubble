@@ -348,12 +348,12 @@
         if ([annotation isKindOfClass:[BBAnnotation class]]) {
             double zoomLevel = [self.mapView currentZoomLevel];
             
-            if (zoomLevel < 14) {
+            if (zoomLevel < 13) {
                 zoomLevel = 8;
             }
             
             // Max zoom is 18, zoom level above 14 will make annotation larger than default size
-            double scale = (zoomLevel / 14);
+            double scale = (zoomLevel / 13);
             
             MKAnnotationView *pinView = [self.mapView viewForAnnotation:annotation];
             
@@ -466,20 +466,20 @@
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
         if ([eventAnnotation.eventScore doubleValue] > 100){
-            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier);
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier / .75);
         }
         else if ([eventAnnotation.eventScore doubleValue] < 1 && [eventAnnotation.eventScore doubleValue] > 0.65){
-            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier);
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier / .75);
         }
         else{
-            annotationView.frame = CGRectMake(0,0,mapZoomLevel, mapZoomLevel);
+            annotationView.frame = CGRectMake(0,0,mapZoomLevel, mapZoomLevel / .75);
         }
         
     } else {
         annotationView.annotation = annotation;
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
-        annotationView.frame = CGRectMake(0,0,30,30);
+
     }
     
     return annotationView;
