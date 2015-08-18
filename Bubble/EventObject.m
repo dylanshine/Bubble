@@ -139,7 +139,7 @@
     NSString *addressStreet = jsonDict[@"venue"][@"address_1"];
     NSString *addressCity = jsonDict[@"venue"][@"city"];
     NSString *addressState = jsonDict[@"venue"][@"state"];
-    NSNumber *addressZip = jsonDict[@"venue"][@"zip"];
+    NSString *addressZip = @"";// jsonDict[@"venue"][@"zip"];
     NSString *ticketURL = jsonDict[@"event_url"];
     NSString *eventImageURL = jsonDict[@"group"][@"urlname"];
    

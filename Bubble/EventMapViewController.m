@@ -455,16 +455,18 @@
         return nil;
     }
     double mapZoomLevel = [self.mapView currentZoomLevel] * 2;
-    double sizeMultiplier = 1.25;
+    double sizeMultiplier = 1.4;
     
     if (!annotationView) {
         
         annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:eventAnnotationReuseID];
         annotationView.canShowCallout = YES;
         annotationView.highlighted = YES;
-        
+
         BBAnnotation *eventAnnotation = annotation;
         annotationView.image = [UIImage imageNamed:[eventAnnotation getEventImageName:eventAnnotation.event]];
+        annotationView.contentMode = UIViewContentModeScaleAspectFit;
+        
         if ([eventAnnotation.eventScore doubleValue] > 100){
             annotationView.frame = CGRectMake(0,0,mapZoomLevel * sizeMultiplier, mapZoomLevel * sizeMultiplier);
         }
@@ -533,6 +535,7 @@
     self.date = [self.date dateByAddingTimeInterval:-(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getAllEventsWithLocation:self.currentLocation date:self.date];
+    [self resizeAnnotation];
     [self setDateSelectorTitle];
     
 }
@@ -541,6 +544,7 @@
     self.date = [self.date dateByAddingTimeInterval:(60*60*24)];
     [SVProgressHUD show];
     [self.dataStore getAllEventsWithLocation:self.currentLocation date:self.date];
+    [self resizeAnnotation];
     [self setDateSelectorTitle];
 }
 
@@ -696,6 +700,8 @@
     [self.scrollViewTapRecognizer addTarget:self action:@selector(toggleScrollViewLocation)];
     
     self.chatBubbleButton.alpha = 0;
+    self.chatBubbleButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    
     self.eventDetailsVC = self.childViewControllers[0];
 }
 
