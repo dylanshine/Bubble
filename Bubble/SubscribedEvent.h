@@ -1,6 +1,14 @@
+//
+//  SubscribedEvent.h
+//  
+//
+//  Created by Val Osipenko on 8/17/15.
+//
+//
 
-#import <CoreData/CoreData.h>
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+
 
 @interface SubscribedEvent : NSManagedObject
 
@@ -17,13 +25,14 @@
 @property (nonatomic, retain) NSString * eventType;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
-@property (nonatomic, retain) NSString * ticketURL;
-@property (nonatomic, retain) NSString * venueName;
-@property (nonatomic, retain) NSNumber * venueScore;
-@property (nonatomic, retain) NSString * ticketsAvailable;
 @property (nonatomic, retain) NSString * ticketPriceAvg;
 @property (nonatomic, retain) NSString * ticketPriceHigh;
 @property (nonatomic, retain) NSString * ticketPriceLow;
-
+@property (nonatomic, retain) NSString * ticketsAvailable;
+@property (nonatomic, retain) NSString * ticketURL;
+@property (nonatomic, retain) NSString * venueName;
+@property (nonatomic, retain) NSNumber * venueScore;
+@property (nonatomic, retain) NSString * rsvpYes;
+@property (nonatomic, retain) NSString * rsvpMaybe;
 
 @end

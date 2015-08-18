@@ -95,6 +95,7 @@
                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
                     
                     [self createMeetupEventObjects:responseObject];
+                    NSLog(@"%@",responseObject);
                     // Implemented delegate to account for pagination if needed
                     [self.delegate dataStore:self didLoadEvents:self.eventsArray];
                     
