@@ -43,6 +43,12 @@
     if ([event.ticketsAvailable isKindOfClass:[NSString class]]) {
         self.ticketsAvailable = event.ticketsAvailable;
     }
+    if ([event.rsvpMaybe isKindOfClass:[NSString class]]) {
+        self.rsvpMaybe = event.rsvpMaybe;
+    }
+    if ([event.rsvpYes isKindOfClass:[NSString class]]) {
+        self.rsvpYes = event.rsvpYes;
+    }
     
     
     self.latitude = @(event.coordinate.latitude);

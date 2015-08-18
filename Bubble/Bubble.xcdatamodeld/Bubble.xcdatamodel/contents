@@ -14,6 +14,8 @@
         <attribute name="eventType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
+        <attribute name="rsvpMaybe" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="rsvpYes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ticketPriceAvg" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ticketPriceHigh" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="ticketPriceLow" optional="YES" attributeType="String" syncable="YES"/>
@@ -23,6 +25,6 @@
         <attribute name="venueScore" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
     </entity>
     <elements>
-        <element name="SubscribedEvent" positionX="-63" positionY="-18" width="128" height="345"/>
+        <element name="SubscribedEvent" positionX="-63" positionY="-18" width="128" height="375"/>
     </elements>
 </model>

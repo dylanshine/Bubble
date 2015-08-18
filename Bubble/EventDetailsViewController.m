@@ -114,25 +114,44 @@
     }
     
     NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:headerFont forKey:NSFontAttributeName];
+    if([self.event.eventType isEqualToString:@"meetup"]){
+        NSMutableAttributedString *ticketInfo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Attendees\n%@\n%@\n%@",
+                                                                                                   self.event.rsvpYes,
+                                                                                                   self.event.rsvpMaybe,
+                                                                                                   self.event.ticketPriceAvg]
+                                                 
+                                                                                       attributes:attrsDictionary];
+        [ticketInfo beginEditing];
+        
+        NSRange bodyRange = NSMakeRange(9, ticketInfo.length - 9);
+        
+        [ticketInfo addAttribute:NSFontAttributeName
+                           value:bodyFont
+                           range:bodyRange];
+        
+        [ticketInfo endEditing];
+        return [ticketInfo copy];
+    }else{
+        NSMutableAttributedString *ticketInfo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Tickets\n%@\n%@\n%@\n%@",
+                                                                                                   self.event.ticketsAvailable,
+                                                                                                   self.event.ticketPriceAvg,
+                                                                                                   self.event.ticketPriceHigh,
+                                                                                                   self.event.ticketPriceLow]
+                                                 
+                                                                                       attributes:attrsDictionary];
+        [ticketInfo beginEditing];
+        
+        NSRange bodyRange = NSMakeRange(7, ticketInfo.length - 7);
+        
+        [ticketInfo addAttribute:NSFontAttributeName
+                           value:bodyFont
+                           range:bodyRange];
+        
+        [ticketInfo endEditing];
+        return [ticketInfo copy];
+    }
     
-    NSMutableAttributedString *ticketInfo = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"Tickets\n%@\n%@\n%@\n%@",
-                                                                                               self.event.ticketsAvailable,
-                                                                                               self.event.ticketPriceAvg,
-                                                                                               self.event.ticketPriceHigh,
-                                                                                               self.event.ticketPriceLow]
-                                             
-                                                                                   attributes:attrsDictionary];
-    [ticketInfo beginEditing];
     
-    NSRange bodyRange = NSMakeRange(7, ticketInfo.length - 7);
-    
-    [ticketInfo addAttribute:NSFontAttributeName
-                       value:bodyFont
-                       range:bodyRange];
-    
-    [ticketInfo endEditing];
-    
-    return [ticketInfo copy];
 }
 
 - (IBAction)getDirectionsTapped:(id)sender {

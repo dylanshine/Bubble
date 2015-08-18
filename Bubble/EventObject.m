@@ -112,6 +112,8 @@
         _venueScore = venueScore;
         _eventLocation = eventLocation;
         _subscribed = NO;
+        _rsvpYes = @"";
+        _rsvpMaybe = @"";
     }
     
     return self;
@@ -145,13 +147,13 @@
    
     UIImage *eventImage = [UIImage imageNamed:@"MeetupCover"];
     
-    NSString *ticketPrice = @"Ticket Price: Free";
-//    NSString *rsvpYes = @"No Attendees";
-//    NSString *rsvpMaybe = @"No Attendees";
+    NSString *ticketPriceAvg = @"Admission: Free";
+    NSString *rsvpYes = [NSString stringWithFormat:@"RSVP Yes: %@",jsonDict[@"yes_rsvp_count"]];
+    NSString *rsvpMaybe = [NSString stringWithFormat:@"RSVP Maybe: %@",jsonDict[@"maybe_rsvp_count"]];
 
     if (jsonDict[@"fee"][@"amount"] != nil) {
         CGFloat floatPrice = ((NSNumber *)jsonDict[@"fee"][@"amount"]).floatValue;
-        ticketPrice = [NSString stringWithFormat:@"$%.f",floatPrice];
+        ticketPriceAvg = [NSString stringWithFormat:@"$%.f",floatPrice];
     }
     
     // Set placeholder image.  Make dynamic for event types
@@ -186,7 +188,7 @@
         _addressZip = addressZip;
         _ticketURL = ticketURL;
         _ticketsAvailable = @"";
-        _ticketPriceAvg = @"";
+        _ticketPriceAvg = ticketPriceAvg;
         _ticketPriceHigh = @"";
         _ticketPriceLow = @"";
         _eventImageURL = eventImageURL;
@@ -194,6 +196,8 @@
         _eventLocation = eventLocation;
         _eventImage = eventImage;
         _subscribed = NO;
+        _rsvpYes = rsvpYes;
+        _rsvpMaybe = rsvpMaybe;
     }
     return self;
 }
@@ -221,6 +225,8 @@
 //        _eventLocation = event.eventLocation;
         _eventImage = [UIImage imageWithData:event.eventImage];
         _subscribed = YES;
+        _rsvpMaybe = event.rsvpMaybe;
+        _rsvpYes = event.rsvpYes;
         
     }
     return self;

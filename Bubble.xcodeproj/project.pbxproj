@@ -28,12 +28,12 @@
 		8087EE271B66D28C009258E5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE251B66D28C009258E5 /* Main.storyboard */; };
 		8087EE291B66D28C009258E5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE281B66D28C009258E5 /* Images.xcassets */; };
 		8087EE2C1B66D28C009258E5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8087EE2A1B66D28C009258E5 /* LaunchScreen.xib */; };
-		809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */; };
 		809820931B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = 809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */; };
 		809820981B7CF2B70020EDF5 /* refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 809820971B7CF2B70020EDF5 /* refresh.png */; };
 		80B152DD1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 80B152DC1B67FBDD00E31C52 /* ParseFacebookUtilsV4.framework */; };
 		CC1E34C81B7BD85900C92F92 /* MKMapView+ZoomLevel.m in Sources */ = {isa = PBXBuildFile; fileRef = CC1E34C71B7BD85900C92F92 /* MKMapView+ZoomLevel.m */; };
 		CC8E678B1B7543D100B1838F /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CC8E678A1B7543D100B1838F /* WebViewController.m */; };
+		CCBC0D011B82C49200567268 /* SubscribedEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = CCBC0D001B82C49200567268 /* SubscribedEvent.m */; };
 		CCDD860C1B69122A00E6B6B0 /* AFDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */; };
 		CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */ = {isa = PBXBuildFile; fileRef = CCDD860E1B69125400E6B6B0 /* EventObject.m */; };
 		EF7ABCF22C37E8A4743BE59A /* libPods-Bubble.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C0D80382B0241D03474E1872 /* libPods-Bubble.a */; };
@@ -98,8 +98,6 @@
 		8087EE2B1B66D28C009258E5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		8087EE361B66D28C009258E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8087EE371B66D28C009258E5 /* BubbleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleTests.m; sourceTree = "<group>"; };
-		8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
-		8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 		809820911B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SubscribedEvent+setPropertiesWithEvent.h"; sourceTree = "<group>"; };
 		809820921B7BDDB00020EDF5 /* SubscribedEvent+setPropertiesWithEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SubscribedEvent+setPropertiesWithEvent.m"; sourceTree = "<group>"; };
 		809820971B7CF2B70020EDF5 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
@@ -110,6 +108,8 @@
 		CC1E34C71B7BD85900C92F92 /* MKMapView+ZoomLevel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKMapView+ZoomLevel.m"; sourceTree = "<group>"; };
 		CC8E67891B7543D100B1838F /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
 		CC8E678A1B7543D100B1838F /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		CCBC0CFF1B82C49200567268 /* SubscribedEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubscribedEvent.h; sourceTree = "<group>"; };
+		CCBC0D001B82C49200567268 /* SubscribedEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubscribedEvent.m; sourceTree = "<group>"; };
 		CCDD860A1B69122A00E6B6B0 /* AFDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFDataStore.h; sourceTree = "<group>"; };
 		CCDD860B1B69122A00E6B6B0 /* AFDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFDataStore.m; sourceTree = "<group>"; };
 		CCDD860D1B69125400E6B6B0 /* EventObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventObject.h; sourceTree = "<group>"; };
@@ -225,10 +225,10 @@
 				802273851B6A805A00C62E50 /* BBMessage.m */,
 				FC688EDE1B79271A003B46A9 /* Friend.h */,
 				FC688EDF1B79271A003B46A9 /* Friend.m */,
+				CCBC0CFF1B82C49200567268 /* SubscribedEvent.h */,
+				CCBC0D001B82C49200567268 /* SubscribedEvent.m */,
 				FC688F0E1B7A68DB003B46A9 /* BBDropDownItem.h */,
 				FC688F0F1B7A68DB003B46A9 /* BBDropDownItem.m */,
-				8098208E1B7BD1660020EDF5 /* SubscribedEvent.h */,
-				8098208F1B7BD1660020EDF5 /* SubscribedEvent.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -454,6 +454,7 @@
 			files = (
 				802273831B6A784D00C62E50 /* BBChatViewController.m in Sources */,
 				CC8E678B1B7543D100B1838F /* WebViewController.m in Sources */,
+				CCBC0D011B82C49200567268 /* SubscribedEvent.m in Sources */,
 				802273861B6A805A00C62E50 /* BBMessage.m in Sources */,
 				CCDD860F1B69125400E6B6B0 /* EventObject.m in Sources */,
 				8087EE241B66D28C009258E5 /* EventMapViewController.m in Sources */,
@@ -470,7 +471,6 @@
 				80839ADE1B697813008BBC7C /* UISearchBar+EnableReturnKey.m in Sources */,
 				1760C1091B794DE70013C287 /* UILabel+AutoresizeFontMultiLine.m in Sources */,
 				175E54D91B6BB9B7002A7CAA /* ApplicationViewController.m in Sources */,
-				809820901B7BD1660020EDF5 /* SubscribedEvent.m in Sources */,
 				FC5BFCBE1B6A6A2300E1294A /* XMPPManager.m in Sources */,
 				8011140A1B725FD5005FF955 /* BBSearchViewPassThrough.m in Sources */,
 				1786506A1B697CAD00A68FF9 /* EventDetailsViewController.m in Sources */,

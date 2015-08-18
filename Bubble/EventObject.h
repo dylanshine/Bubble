@@ -28,6 +28,8 @@
 @property (assign, nonatomic) CLLocationCoordinate2D coordinate;
 @property (strong, nonatomic) CLLocation *eventLocation;
 @property (assign, nonatomic) BOOL subscribed;
+@property (strong, nonatomic) NSString *rsvpYes;
+@property (strong, nonatomic) NSString *rsvpMaybe;
 
 - (instancetype)initWithSeatgeekDictionary:(NSDictionary *)jsonDict;
 - (instancetype)initWithMeetupDictionary:(NSDictionary *)jsonDict;

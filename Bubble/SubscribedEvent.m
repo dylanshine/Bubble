@@ -1,6 +1,13 @@
+//
+//  SubscribedEvent.m
+//  
+//
+//  Created by Val Osipenko on 8/17/15.
+//
+//
 
 #import "SubscribedEvent.h"
-#import "EventObject.h"
+
 
 @implementation SubscribedEvent
 
@@ -17,14 +24,14 @@
 @dynamic eventType;
 @dynamic latitude;
 @dynamic longitude;
-@dynamic ticketURL;
-@dynamic venueName;
-@dynamic venueScore;
-@dynamic ticketsAvailable;
 @dynamic ticketPriceAvg;
 @dynamic ticketPriceHigh;
 @dynamic ticketPriceLow;
-
-
+@dynamic ticketsAvailable;
+@dynamic ticketURL;
+@dynamic venueName;
+@dynamic venueScore;
+@dynamic rsvpYes;
+@dynamic rsvpMaybe;
 
 @end
